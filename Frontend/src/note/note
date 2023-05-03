@@ -1,0 +1,1 @@
+1、store是为了解决页签currentName的问题;router里的index.js要引用路由守卫，main.j里也要引用。安装vuex还出现版本冲突问题，需要下载更低的版本
