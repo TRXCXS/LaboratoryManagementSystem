@@ -60,11 +60,7 @@ const routes = [
     name: 'entryScanner',
     component: () => import(/* webpackChunkName: "about" */ '../views/EntryScanner.vue')
   },
-  {
-    path: '/test',
-    name: 'Test',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Test.vue')
-  },
+
   {
     path: '/chooseScanner',
     name: 'chooseScanner',
