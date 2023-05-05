@@ -12,7 +12,7 @@
                 <el-form-item prop="confirmPassword">
                     <el-input placeholder="请确认密码" size="medium" style="margin: 5px 0" prefix-icon="el-icon-lock" show-password v-model="user.confirmPassword"></el-input>
                 </el-form-item>
-                <el-form-item style="margin: 5px 0; text-align: right">
+                <el-form-item style="margin: 5px 0; text-align: center">
                     <el-button type="primary" size="small"  autocomplete="off" @click="reg">注册</el-button>
                     <el-button type="warning" size="small"  autocomplete="off" @click="$router.push('/login')">返回登录</el-button>
                 </el-form-item>
@@ -23,7 +23,7 @@
 
 <script>
 export default {
-    name: "Login",
+    name: "Register",
     data() {
         return {
             user: {},
@@ -43,6 +43,14 @@ export default {
             },
         }
     },
+    // 绑定监听事件
+    mounted () {
+        window.addEventListener('keydown', this.keyDown)
+    },
+    // 销毁事件
+    destroyed () {
+        window.removeEventListener('keydown', this.keyDown, false)
+    },
     methods: {
         reg() {
             this.$refs['userForm'].validate((valid) => {
@@ -55,12 +63,19 @@ export default {
                         console.log(res)
                         this.flag = 1
                         this.$message.success("注册成功")
+                        this.$router.push('/login')
                     }).catch(error=>{
                         console.log(error)
                         this.$message.error("用户名已存在")
                     })
                 }
             });
+        },
+        keyDown(e) {
+            // 回车则执行登录方法 enter键的ASCII是13
+            if (e.keyCode === 13) {
+                this.reg() // 需要执行的方法方法
+            }
         }
     }
 }

@@ -8,41 +8,47 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Management',
+    name: 'Manager',
     redirect:"/login",
-    component: () => import(/* webpackChunkName: "about" */ '../views/Management/Manage.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Manage.vue'),
     children:[
-      {path: '/Management/section', name: '区域管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Section.vue'),},
-      {path: '/Management/credit', name: '信用管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Credit.vue')},
-      {path: '/Management/manager', name: '管理员管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Manager.vue')},
-      {path: '/Management/user', name: '用户管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/User.vue')},
-      {path: '/Management/reservation', name: '预约管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Reservation.vue')},
-      {path: '/Management/home', name: '主页', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Home.vue')},
-      {path: '/Management/report', name: '举报处理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Report.vue')},
-      {path: '/Management/appeal', name: '申诉处理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Appeal.vue')},
-      {path: '/Management/section/desk', name: '桌子管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Desk.vue')},
-      {path: '/Management/section/desk/seat', name: '椅子管理', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Seat.vue')},
-      // {path: '/Management/credit/check/:id', name: '信用分明细', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Check_credit.vue')}
-      {path: '/Management/credit/check', name: '信用分明细', component: () => import(/* webpackChunkName: "about" */ '../views/Management/Check_credit.vue')},
-      {path: '/Management/person', name: '个人中心', component: () => import(/* webpackChunkName: "about" */ '../views/Person.vue')}
+      {path: '/Manager/semester', name: '学期管理', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Semester.vue'),},
+      {path: '/Manager/classScheduling', name: '实验排课', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/ClassScheduling.vue')},
+      {path: '/Manager/tester', name: '实验员管理', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Tester.vue')},
+      {path: '/Manager/student', name: '学生管理', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Student.vue')},
+      {path: '/Manager/teacher', name: '教师管理', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Teacher.vue')},
+      {path: '/Manager/home', name: '主页', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Home.vue')},
+      {path: '/Manager/scrutinize', name: '实验室借用审批', component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Scrutinize.vue')},
+      {path: '/Manager/person', name: '个人中心', component: () => import(/* webpackChunkName: "about" */ '../views/Person.vue')}
     ]
   },
   {
     path: '/',
-    name: 'Reservation',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/Reserve.vue'),
+    name: 'Student',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Student/Reserve.vue'),
     children:[
-      {path: '/Reservation/home', name: '主页', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/Home.vue')},
-      {path: '/Reservation/MyAppointment', name: '我的预约', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/CheckMyAppointment.vue')},
-      {path: '/Reservation/CreditRecord', name: '信用记录', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/CreditRecord.vue')},
-      {path: '/Reservation/SelectSection', name: '选择区域', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/SelectSection.vue')},
-      {path: '/Reservation/SelectDesk', name: '选择桌子', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/SelectDesk.vue')},
-      {path: '/Reservation/SelectSeat', name: '选择椅子', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/SelectSeat.vue')},
-      {path: '/Reservation/MyAppeal', name: '我的申诉', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/CheckMyAppeal.vue')},
-      {path: '/Reservation/MyReport', name: '我的举报', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/CheckMyReport.vue')},
-      {path: '/Reservation/Report', name: '举报', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/Report.vue')},
-      {path: '/Reservation/Appeal', name: '申诉', component: () => import(/* webpackChunkName: "about" */ '../views/Reservation/Appeal.vue')},
-      {path: '/Reservation/Person', name: '个人中心', component: () => import(/* webpackChunkName: "about" */ '../views/Person.vue')},
+      {path: '/Student/home', name: '主页', component: () => import(/* webpackChunkName: "about" */ '@/views/Student/Home.vue')},
+      {path: '/Student/Application', name: '借用申请', component: () => import(/* webpackChunkName: "about" */ '@/views/Student/Application.vue')},
+      {path: '/Student/Person', name: '个人中心', component: () => import(/* webpackChunkName: "about" */ '../views/Person.vue')},
+    ]
+  },
+  {
+    path: '/',
+    name: 'Teacher',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Teach.vue'),
+    children:[
+      {path: '/Teacher/home', name: '主页', component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Home.vue')},
+      {path: '/Teacher/Application', name: '申请登记', component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Application.vue')},
+      {path: '/Teacher/Warranty', name: '设备报修', component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Warranty.vue')},
+    ]
+  },
+  {
+    path: '/',
+    name: 'Tester',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Test.vue'),
+    children:[
+      {path: '/Tester/home', name: '主页', component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Home.vue')},
+      {path: '/Tester/maintenance', name: '设备维修', component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Maintenance.vue')},
     ]
   },
   {
@@ -56,19 +62,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue')
   },
   {
-    path: '/entryScanner',
-    name: 'entryScanner',
-    component: () => import(/* webpackChunkName: "about" */ '../views/EntryScanner.vue')
-  },
-
-  {
-    path: '/chooseScanner',
-    name: 'chooseScanner',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ChooseScanner.vue')
-  },  {
-    path: '/exitScanner',
-    name: 'exitScanner',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ExitScanner.vue')
+    path: '/timetable',
+    name: 'Timetable',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SchoolTimetable.vue')
   },
 ]
 
