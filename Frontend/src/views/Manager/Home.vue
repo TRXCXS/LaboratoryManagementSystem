@@ -298,7 +298,4 @@ export default {
     .el-carousel__item div {
         margin-top: -100px;
     }
-    div{
-
-    }
 </style>
