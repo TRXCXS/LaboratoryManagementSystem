@@ -31,32 +31,32 @@
                     label="机房"
                 ></el-table-column>
                 <el-table-column
-                    prop="week1_2"
+                    prop="section1_2"
                     align="center"
                     label="1-2"
                 ></el-table-column>
                 <el-table-column
-                    prop="week3_5"
+                    prop="section3_5"
                     align="center"
                     label="3-5"
                 ></el-table-column>
                 <el-table-column
-                    prop="week6_7"
+                    prop="section6_7"
                     align="center"
                     label="6-7"
                 ></el-table-column>
                 <el-table-column
-                    prop="week8_9"
+                    prop="section8_9"
                     align="center"
                     label="8-9"
                 ></el-table-column>
                 <el-table-column
-                    prop="week10_12"
+                    prop="section10_12"
                     align="center"
                     label="10-12"
                 ></el-table-column>
                 <el-table-column
-                    prop="week13_15"
+                    prop="section13_15"
                     align="center"
                     label="13-15"
                 ></el-table-column>
@@ -86,159 +86,159 @@ export default {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "732",
-                    week1_2: " ",
-                    week3_5: "课程：汇编语言，教师：张三，班级：21级软件工程，周次：5-12",
-                    week6_7: "",
-                    week8_9: "",
-                    week10_12: "",
-                    week13_15: "",
+                    section1_2: " ",
+                    section3_5: "课程：汇编语言，教师：张三，班级：21级软件工程，周次：5-12",
+                    section6_7: "",
+                    section8_9: "",
+                    section10_12: "",
+                    section13_15: "",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "734",
-                    week1_2: "  ",
-                    week3_5: "  ",
-                    week6_7: "  ",
-                    week8_9: "  ",
-                    week10_12: "  ",
-                    week13_15: "  ",
+                    section1_2: "  ",
+                    section3_5: "  ",
+                    section6_7: "  ",
+                    section8_9: "  ",
+                    section10_12: "  ",
+                    section13_15: "  ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "736",
-                    week1_2: "   ",
-                    week3_5: "   ",
-                    week6_7: "   ",
-                    week8_9: "   ",
-                    week10_12: "   ",
-                    week13_15: "   ",
+                    section1_2: "   ",
+                    section3_5: "   ",
+                    section6_7: "   ",
+                    section8_9: "   ",
+                    section10_12: "   ",
+                    section13_15: "   ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "738",
-                    week1_2: "    ",
-                    week3_5: "    ",
-                    week6_7: "    ",
-                    week8_9: "    ",
-                    week10_12: "    ",
-                    week13_15: "    ",
+                    section1_2: "    ",
+                    section3_5: "    ",
+                    section6_7: "    ",
+                    section8_9: "    ",
+                    section10_12: "    ",
+                    section13_15: "    ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "735",
-                    week1_2: "     ",
-                    week3_5: "     ",
-                    week6_7: "     ",
-                    week8_9: "     ",
-                    week10_12: "     ",
-                    week13_15: "     ",
+                    section1_2: "     ",
+                    section3_5: "     ",
+                    section6_7: "     ",
+                    section8_9: "     ",
+                    section10_12: "     ",
+                    section13_15: "     ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "532",
-                    week1_2: "      ",
-                    week3_5: "      ",
-                    week6_7: "      ",
-                    week8_9: "      ",
-                    week10_12: "      ",
-                    week13_15: "      ",
+                    section1_2: "      ",
+                    section3_5: "      ",
+                    section6_7: "      ",
+                    section8_9: "      ",
+                    section10_12: "      ",
+                    section13_15: "      ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "536",
-                    week1_2: "       ",
-                    week3_5: "       ",
-                    week6_7: "       ",
-                    week8_9: "       ",
-                    week10_12: "       ",
-                    week13_15: "       ",
+                    section1_2: "       ",
+                    section3_5: "       ",
+                    section6_7: "       ",
+                    section8_9: "       ",
+                    section10_12: "       ",
+                    section13_15: "       ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "537",
-                    week1_2: "        ",
-                    week3_5: "        ",
-                    week6_7: "        ",
-                    week8_9: "        ",
-                    week10_12: "        ",
-                    week13_15: "        ",
+                    section1_2: "        ",
+                    section3_5: "        ",
+                    section6_7: "        ",
+                    section8_9: "        ",
+                    section10_12: "        ",
+                    section13_15: "        ",
                 },
                 {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: "535",
-                    week1_2: "         ",
-                    week3_5: "         ",
-                    week6_7: "         ",
-                    week8_9: "         ",
-                    week10_12: "         ",
-                    week13_15: "         ",
+                    section1_2: "         ",
+                    section3_5: "         ",
+                    section6_7: "         ",
+                    section8_9: "         ",
+                    section10_12: "         ",
+                    section13_15: "         ",
                 },
                 {
                     day: "星期一",
                     room: "计算机系统实验室",
                     room_num: "704-708",
-                    week1_2: "          ",
-                    week3_5: "          ",
-                    week6_7: "          ",
-                    week8_9: "          ",
-                    week10_12: "          ",
-                    week13_15: "          ",
+                    section1_2: "          ",
+                    section3_5: "          ",
+                    section6_7: "          ",
+                    section8_9: "          ",
+                    section10_12: "          ",
+                    section13_15: "          ",
                 },
                 {
                     day: "星期一",
                     room: "计算机硬件实验室",
                     room_num: "703-707",
-                    week1_2: "           ",
-                    week3_5: "           ",
-                    week6_7: "           ",
-                    week8_9: "           ",
-                    week10_12: "           ",
-                    week13_15: "           ",
+                    section1_2: "           ",
+                    section3_5: "           ",
+                    section6_7: "           ",
+                    section8_9: "           ",
+                    section10_12: "           ",
+                    section13_15: "           ",
                 },
                 {
                     day: "星期一",
                     room: "计算机系统实验室",
                     room_num: "801、803",
-                    week1_2: "            ",
-                    week3_5: "            ",
-                    week6_7: "            ",
-                    week8_9: "            ",
-                    week10_12: "            ",
-                    week13_15: "            ",
+                    section1_2: "            ",
+                    section3_5: "            ",
+                    section6_7: "            ",
+                    section8_9: "            ",
+                    section10_12: "            ",
+                    section13_15: "            ",
                 },
                 {
                     day: "星期一",
                     room: "物联网实验室",
                     room_num: "806、808",
-                    week1_2: "             ",
-                    week3_5: "             ",
-                    week6_7: "             ",
-                    week8_9: "             ",
-                    week10_12: "             ",
-                    week13_15: "             ",
+                    section1_2: "             ",
+                    section3_5: "             ",
+                    section6_7: "             ",
+                    section8_9: "             ",
+                    section10_12: "             ",
+                    section13_15: "             ",
                 },
                 {
                     day: "星期一",
                     room: "计算机网络实验室",
                     room_num: "832、834",
-                    week1_2: "              ",
-                    week3_5: "              ",
-                    week6_7: "              ",
-                    week8_9: "              ",
-                    week10_12: "              ",
-                    week13_15: "              ",
+                    section1_2: "              ",
+                    section3_5: "              ",
+                    section6_7: "              ",
+                    section8_9: "              ",
+                    section10_12: "              ",
+                    section13_15: "              ",
                 },
             ],
             mergeObj: {}, // 用来记录需要合并行的下标
-            mergeArr: ['day', 'room', 'room_num', 'week1_2', 'week3_5','week6_7','week8_9','week10_12','week13_15'] // 表格中的列名
+            mergeArr: ['day', 'room', 'room_num', 'section1_2', 'section3_5','section6_7','section8_9','section10_12','section13_15'] // 表格中的列名
         }
     },
     created() {
