@@ -8,6 +8,10 @@ import global from './baseURL/Base.vue'
 import store from './store'
 import request from "@/utils/request";
 import $axios from "axios";
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+
+Vue.use(VXETable)
 
 Vue.config.productionTip = false
 
