@@ -8,7 +8,7 @@ const store = new Vuex.Store({
         currentPathName: ''
     },
     mutations: {
-        setPath (state) {
+        setPath(state) {
             state.currentPathName = localStorage.getItem("currentPathName")
         }
     }

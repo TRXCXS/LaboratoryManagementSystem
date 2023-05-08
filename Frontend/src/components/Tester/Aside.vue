@@ -1,16 +1,16 @@
 <template>
-    <el-menu :default-openeds="['1', '3']" style="min-height: 100%; overflow-x: hidden"
-             background-color="rgb(38, 91, 73)"
-             text-color="#fff"
+    <el-menu :collapse="isCollapse" :collapse-transition="false"
+             :default-openeds="['1', '3']"
              active-text-color="rgb(238, 207, 2)"
-             :collapse-transition="false"
-             :collapse="isCollapse"
-             router
+             background-color="rgb(38, 91, 73)"
              customClass="customClass"
+             router
+             style="min-height: 100%; overflow-x: hidden"
+             text-color="#fff"
     >
         <div style="height: 60px; line-height: 60px; text-align: center">
-            <img src="../../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px; right: 5px">
-            <b style="color: white" v-show="logoTextShow">计算机系实验室管理平台</b>
+            <img alt="" src="../../assets/logo.png" style="width: 20px; position: relative; top: 5px; right: 5px">
+            <b v-show="logoTextShow" style="color: white">计算机系实验室管理平台</b>
         </div>
         <el-menu-item index="/Tester/home">
             <template slot="title">

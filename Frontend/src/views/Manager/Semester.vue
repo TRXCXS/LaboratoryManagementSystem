@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="margin: 10px 0">
-            <el-button type="primary"  @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
+            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
             <el-select v-model="semester" placeholder="请选择学期" style="padding-left: 10px">
                 <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
                 <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
@@ -12,39 +12,39 @@
             </el-select>
         </div>
 
-        <el-table :data="tableData" border stripe :header-cell-class-name="headerBg">
-            <el-table-column prop="user_id" label="ID">
+        <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
+            <el-table-column label="ID" prop="user_id">
             </el-table-column>
-            <el-table-column prop="username" label="学期">
+            <el-table-column label="学期" prop="username">
             </el-table-column>
-            <el-table-column prop="role" label="角色">
+            <el-table-column label="角色" prop="role">
             </el-table-column>
-            <el-table-column prop="credit" label="信用分">
+            <el-table-column label="信用分" prop="credit">
             </el-table-column>
-<!--            <el-table-column label="操作" align="center">-->
-<!--                <template slot-scope="scope">-->
-<!--                    <el-popconfirm-->
-<!--                        title="是否确定重置密码？密码将被重置为“123456”"-->
-<!--                        @confirm="reset"-->
-<!--                    >-->
-<!--                        <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>-->
-<!--                    </el-popconfirm>-->
-<!--                    <el-button type="danger" @click="del(scope.row.user_id)" style="margin-left: 5px">删除 <i class="el-icon-remove-outline"></i></el-button>-->
-<!--                </template>-->
-<!--            </el-table-column>-->
+            <!--            <el-table-column label="操作" align="center">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    <el-popconfirm-->
+            <!--                        title="是否确定重置密码？密码将被重置为“123456”"-->
+            <!--                        @confirm="reset"-->
+            <!--                    >-->
+            <!--                        <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>-->
+            <!--                    </el-popconfirm>-->
+            <!--                    <el-button type="danger" @click="del(scope.row.user_id)" style="margin-left: 5px">删除 <i class="el-icon-remove-outline"></i></el-button>-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
         </el-table>
 
-        <el-dialog title="新增学期信息" :visible.sync="dialogFormVisible"  width="30%">
+        <el-dialog :visible.sync="dialogFormVisible" title="新增学期信息" width="30%">
             <el-form :label-width="formLabelWidth">
                 <el-form-item label="学期">
                     <el-input v-model="addSemester" autocomplete="off"></el-input>
                 </el-form-item>
-<!--                <el-form-item label="密码">-->
-<!--                    <el-input v-model="password" autocomplete="off"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="角色">-->
-<!--                    <el-input v-model="role" autocomplete="off"></el-input>-->
-<!--                </el-form-item>-->
+                <!--                <el-form-item label="密码">-->
+                <!--                    <el-input v-model="password" autocomplete="off"></el-input>-->
+                <!--                </el-form-item>-->
+                <!--                <el-form-item label="角色">-->
+                <!--                    <el-input v-model="role" autocomplete="off"></el-input>-->
+                <!--                </el-form-item>-->
 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -67,8 +67,8 @@ export default {
             isCollapse: false,
             sideWidth: 200,
             logoTextShow: true,
-            semester:"",
-            addSemester:"",
+            semester: "",
+            addSemester: "",
 
             formLabelWidth: '80px',
             username: "",
@@ -83,25 +83,25 @@ export default {
     created() {
         this.load()
     },
-    methods:{
-        load(){
-            this.request.get("/user/users").then(res=>{
+    methods: {
+        load() {
+            this.request.get("/user/users").then(res => {
                 console.log(res)
                 this.tableData = res
             })
         },
-        resetDialog(){
-            this.username =""
-            this.password =""
-            this.role=""
+        resetDialog() {
+            this.username = ""
+            this.password = ""
+            this.role = ""
             this.load()
         },
-        cancelAdd(){
+        cancelAdd() {
             this.dialogFormVisible = false;
             this.resetDialog()
         },
-        save(){
-            this.request.post("/user/users?username="+this.username+"&password="+this.password+"&role="+this.role).then(res =>{
+        save() {
+            this.request.post("/user/users?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false
@@ -112,18 +112,18 @@ export default {
                 }
             })
         },
-        handleAdd(){
+        handleAdd() {
             this.dialogFormVisible = true;
             this.form = {}
         },
-        del(id){
+        del(id) {
             console.log(id)
             this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/user/users/"+id).then(res=>{
+                this.request.delete("/user/users/" + id).then(res => {
                     if (res) {
                         this.$message({
                             type: 'success',
@@ -142,7 +142,7 @@ export default {
             });
         },
 
-        reset(){
+        reset() {
             this.$message.success("已重置")
         }
     }
