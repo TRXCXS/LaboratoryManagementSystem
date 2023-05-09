@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Instructor extends User {
+    private Integer instructorID; // 外键，指向User
     private String name;
     private String title;
 }

@@ -20,14 +20,22 @@ public class InstructorRequest {
     private Integer instructorRequestID;
     private Timestamp requestTime;
     private LabType labType;
+
+    // 以下6项为”想要“申请的时间段和学生班级、人数
     private Integer startWeek;
     private Integer endWeek;
     private Weekday weekday;
     private Slot slot;
-    private String course;
+    // studentClass为班级的描述，有可能是”20计算机1-4班“
     private String studentClass;
     private Integer studentCount;
+
+    private String course;
     private InstructorRequestStatus status;
     private Timestamp adminProcessTime;
     private String adminMessage;
+
+    // 外键约束属性
+    private Integer instructorID; // 发起申请的教师
+    private Integer semesterID; // 想要的学期，默认当前学期
 }

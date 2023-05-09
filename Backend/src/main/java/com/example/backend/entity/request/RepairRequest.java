@@ -17,10 +17,14 @@ import java.sql.Timestamp;
 public class RepairRequest {
     @TableId(type = IdType.AUTO)
     private Integer repairRequestID;
-    private Timestamp requestTime;
+    private Timestamp requestTime;  // 工单产生时间
     private String requestDescription;
     private RepairRequestStatus status;
     private Timestamp repairStartTime;
     private Timestamp repairEndTime;
     private String technicianMessage;
+
+    // 外键约束属性
+    private Integer instructorID; // 发起保修的教师
+    private Integer labID; // 待维修设备所在实验室
 }
