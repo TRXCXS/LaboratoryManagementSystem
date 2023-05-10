@@ -1,15 +1,15 @@
 <template>
-    <el-menu :collapse="isCollapse" :collapse-transition="false"
-             :default-openeds="['1', '3']"
-             active-text-color="rgb(238, 207, 2)"
+    <el-menu :default-openeds="['1', '3']" style="min-height: 100%; overflow-x: hidden"
              background-color="rgb(38, 91, 73)"
-             router
-             style="min-height: 100%; overflow-x: hidden"
              text-color="#fff"
+             active-text-color="rgb(238, 207, 2)"
+             :collapse-transition="false"
+             :collapse="isCollapse"
+             router
     >
         <div style="height: 60px; line-height: 60px; text-align: center">
-            <img alt="" src="../../assets/logo.png" style="width: 20px; position: relative; top: 5px; right: 5px">
-            <b v-show="logoTextShow" style="color: white">计算机系实验室管理平台</b>
+            <img src="../../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px; right: 5px">
+            <b style="color: white" v-show="logoTextShow">计算机实验室管理平台</b>
         </div>
         <el-menu-item index="/Manager/home">
             <template slot="title">
@@ -28,7 +28,7 @@
                 <i class="el-icon-user"></i>
                 <span slot="title">用户管理</span>
             </template>
-            <el-menu-item :disabled="dialogFormVisible" index="/Manager/tester">
+            <el-menu-item index="/Manager/tester" :disabled="dialogFormVisible" >
                 <i class="el-icon-s-custom"></i>
                 <span slot="title">实验员管理</span>
             </el-menu-item>
@@ -59,16 +59,16 @@
 <script>
 export default {
     name: "Aside",
-    data() {
-        return {
+    data(){
+        return{
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-            dialogFormVisible: false,
+            dialogFormVisible:false,
         }
     },
     created() {
         // console.log(this.user.role)
         // console.log(this.user.role === "ROLE_SUPER_ADMIN")
-        if (this.user.role === "ROLE_ADMIN") {
+        if (this.user.role === "ROLE_ADMIN"){
             this.dialogFormVisible = true
         }
     },

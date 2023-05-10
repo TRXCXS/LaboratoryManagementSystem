@@ -2,15 +2,15 @@
     <el-container style="min-height: 100vh">
 
         <el-aside :width="sideWidth + 'px'" style="box-shadow: 2px 0 6px rgb(0 21 41 / 35%);">
-            <Aside :isCollapse="isCollapse" :logoTextShow="logoTextShow"/>
+            <Aside :isCollapse="isCollapse" :logoTextShow="logoTextShow" />
         </el-aside>
 
         <el-container>
             <el-header style="border-bottom: 1px solid #ccc;">
-                <Header :collapse="collapse" :collapseBtnClass="collapseBtnClass"/>
+                <Header :collapseBtnClass="collapseBtnClass" :collapse="collapse" />
             </el-header>
             <el-main>
-                <router-view/>
+                <router-view />
             </el-main>
 
         </el-container>
@@ -27,7 +27,7 @@ export default {
     data() {
 
         return {
-            tableData: [],
+            tableData:[],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -58,6 +58,6 @@ export default {
 
 <style>
 .headerBg {
-    background: #eee !important;
+    background: #eee!important;
 }
 </style>

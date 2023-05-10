@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { get } from 'lodash'
 const request = axios.create({
     baseURL: 'http://localhost:8080',
     timeout: 5000
@@ -9,15 +9,15 @@ const request = axios.create({
 // 可以自请求发送前对请求做一些处理
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
-    if (config.url === '/auth/login' || config.url === 'auth/register') {
+    if(config.url==='/auth/login'||config.url ==='auth/register'){
         return config
     }
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
     let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
     if (user) {
-        config.headers.Authorization = "Bearer " + user.access_token
+        config.headers.Authorization = "Bearer "+user.access_token
         config.headers['token'] = user.access_token;  // 设置请求头
-        console.log(config.headers.Authorization)
+        console.log( config.headers.Authorization)
     }
     return config
 }, error => {

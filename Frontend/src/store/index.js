@@ -5,10 +5,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        currentPathName: ''
+        currentPathName: '',
+        semester:''
     },
     mutations: {
-        setPath(state) {
+        setPath (state) {
             state.currentPathName = localStorage.getItem("currentPathName")
         }
     }
