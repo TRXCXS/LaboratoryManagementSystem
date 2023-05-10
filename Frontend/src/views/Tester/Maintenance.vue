@@ -1,40 +1,43 @@
 <template>
     <div>
-<!--        <div style="margin: 10px 0">-->
-<!--            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>-->
-<!--        </div>-->
+        <!--        <div style="margin: 10px 0">-->
+        <!--            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>-->
+        <!--        </div>-->
 
-        <el-table :data="tableData" border stripe :header-cell-class-name="headerBg">
-            <el-table-column prop="time" label="报修日期">
+        <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
+            <el-table-column label="报修日期" prop="time">
             </el-table-column>
-            <el-table-column prop="lab_num" label="实验室编号">
+            <el-table-column label="实验室编号" prop="lab_num">
             </el-table-column>
-            <el-table-column prop="description" label="故障描述">
+            <el-table-column label="故障描述" prop="description">
             </el-table-column>
-            <el-table-column prop="admin_scrutinized" label="状态" width="100px">
+            <el-table-column label="状态" prop="admin_scrutinized" width="100px">
 
                 <el-popover>
-                    <el-tag :type="this.handledState==='已维修' ? 'success' : 'info'" slot="reference" >{{handledState}}</el-tag>
+                    <el-tag slot="reference" :type="this.handledState==='已维修' ? 'success' : 'info'">
+                        {{ handledState }}
+                    </el-tag>
                 </el-popover>
 
             </el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
                     <el-popconfirm
-                        title="是否确定？报修状态将被置为“维修中”"
-                        @confirm="reset"
+                            title="是否确定？报修状态将被置为“维修中”"
+                            @confirm="reset"
                     >
                         <el-button slot="reference" type="warning">维修中 <i class="el-icon-setting"></i></el-button>
                     </el-popconfirm>
-                    <el-button type="success" @click="handleMaintenance" style="margin-left: 5px">维修完成 <i class="el-icon-circle-check"></i></el-button>
+                    <el-button style="margin-left: 5px" type="success" @click="handleMaintenance">维修完成 <i
+                            class="el-icon-circle-check"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
 
-        <el-dialog title="确认维修" :visible.sync="dialogFormVisible"  width="30%">
+        <el-dialog :visible.sync="dialogFormVisible" title="确认维修" width="30%">
             <el-form :label-width="formLabelWidth">
                 <el-form-item label="维修情况说明">
-                    <el-input type="textarea" v-model="description" autocomplete="off"></el-input>
+                    <el-input v-model="description" autocomplete="off" type="textarea"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -50,9 +53,9 @@ export default {
     name: "Tester",
     data() {
         const item = {
-            time:"2023-4-10",
-            lab_num:"532",
-            description:"投影仪坏了",
+            time: "2023-4-10",
+            lab_num: "532",
+            description: "投影仪坏了",
         };
         return {
             // tableData: [],
@@ -62,11 +65,11 @@ export default {
             sideWidth: 200,
             logoTextShow: true,
             headerBg: 'headerBg',
-            handledState:"",
+            handledState: "",
 
-            teacher_name:"",
-            lab_num:"",
-            description:"",
+            teacher_name: "",
+            lab_num: "",
+            description: "",
 
 
             formLabelWidth: '80px',
@@ -80,20 +83,20 @@ export default {
     created() {
         this.load()
     },
-    methods:{
-        load(){
-            this.request.get("/user/admins").then(res=>{
+    methods: {
+        load() {
+            this.request.get("/user/admins").then(res => {
                 console.log(res)
                 this.tableData = res
             })
         },
-        resetDialog(){
-            this.username =""
-            this.password =""
-            this.role=""
+        resetDialog() {
+            this.username = ""
+            this.password = ""
+            this.role = ""
             this.load()
         },
-        save(){
+        save() {
             // this.request.post("/user/admins?username="+this.username+"&password="+this.password+"&role="+this.role).then(res =>{
             //     if (res) {
             //         this.$message.success("添加成功")
@@ -105,14 +108,14 @@ export default {
             //     }
             // })
         },
-        del(id){
+        del(id) {
             console.log(id)
             this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/user/admins/"+id).then(res=>{
+                this.request.delete("/user/admins/" + id).then(res => {
                     if (res) {
                         this.$message({
                             type: 'success',
@@ -130,11 +133,11 @@ export default {
                 });
             });
         },
-        handleMaintenance(){
+        handleMaintenance() {
             this.dialogFormVisible = true;
-            this.description=""
+            this.description = ""
         },
-        reset(){
+        reset() {
             this.$message.success("已设置")
         }
     }

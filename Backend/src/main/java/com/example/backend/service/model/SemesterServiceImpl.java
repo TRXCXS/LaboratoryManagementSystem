@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SemesterServiceImpl implements SemesterService{
+public class SemesterServiceImpl implements SemesterService {
     @Override
     public List<Semester> getAllSemesters() {
         return null;

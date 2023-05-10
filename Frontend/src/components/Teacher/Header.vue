@@ -1,6 +1,6 @@
 <template>
     <div style="line-height: 60px; display: flex; justify-content: space-between;">
-        <div >
+        <div>
             <span :class="collapseBtnClass" style="cursor: pointer; font-size: 18px" @click="collapse"></span>
 
             <el-breadcrumb separator="/" style="display: inline-block; margin-left: 10px">
@@ -9,17 +9,17 @@
             </el-breadcrumb>
         </div>
 
-<!--        <el-image-->
-<!--            style="width: 300px; height: 50px;margin-top: 5px; "-->
-<!--            :src="url"-->
-<!--        ></el-image>-->
+        <!--        <el-image-->
+        <!--            style="width: 300px; height: 50px;margin-top: 5px; "-->
+        <!--            :src="url"-->
+        <!--        ></el-image>-->
         <div>
             <h1>教师端</h1>
         </div>
 
         <el-dropdown style="width: 70px; cursor: pointer">
             <span>{{ user.username }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
-            <el-dropdown-menu  style="width: 100px; text-align: center">
+            <el-dropdown-menu style="width: 100px; text-align: center">
                 <el-dropdown-item style="font-size: 14px; padding: 5px 0">
                     <span style="text-decoration: none" @click="personCenter">个人中心</span>
                 </el-dropdown-item>
@@ -40,13 +40,13 @@ export default {
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
         }
     },
-    methods:{
+    methods: {
         logout() {
             this.$router.push("/login")
             localStorage.removeItem("user")
             this.$message.success("退出成功")
         },
-        personCenter(){
+        personCenter() {
             this.$router.push("/Management/Person")
         }
     },
@@ -56,7 +56,7 @@ export default {
         // user: Object
     },
     computed: {
-        currentPathName () {
+        currentPathName() {
             return this.$store.state.currentPathName;　　//需要监听的数据
         }
     }

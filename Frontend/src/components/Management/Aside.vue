@@ -1,15 +1,15 @@
 <template>
-    <el-menu :default-openeds="['1', '3']" style="min-height: 100%; overflow-x: hidden"
-             background-color="rgb(38, 91, 73)"
-             text-color="#fff"
+    <el-menu :collapse="isCollapse" :collapse-transition="false"
+             :default-openeds="['1', '3']"
              active-text-color="rgb(238, 207, 2)"
-             :collapse-transition="false"
-             :collapse="isCollapse"
+             background-color="rgb(38, 91, 73)"
              router
+             style="min-height: 100%; overflow-x: hidden"
+             text-color="#fff"
     >
         <div style="height: 60px; line-height: 60px; text-align: center">
-            <img src="../../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px; right: 5px">
-            <b style="color: white" v-show="logoTextShow">计算机实验室管理平台</b>
+            <img alt="" src="../../assets/logo.png" style="width: 20px; position: relative; top: 5px; right: 5px">
+            <b v-show="logoTextShow" style="color: white">计算机实验室管理平台</b>
         </div>
         <el-menu-item index="/Management/home">
             <template slot="title">
@@ -19,7 +19,7 @@
         </el-menu-item>
 
 
-        <el-submenu index="2" :disabled="ManagerPortVisible" >
+        <el-submenu :disabled="ManagerPortVisible" index="2">
             <template slot="title">
                 <i class="el-icon-user-solid"></i>
                 <span slot="title">管理员端</span>
@@ -35,7 +35,7 @@
                     <i class="el-icon-user"></i>
                     <span slot="title">用户管理</span>
                 </template>
-                <el-menu-item index="/Management/tester" >
+                <el-menu-item index="/Management/tester">
                     <i class="el-icon-s-custom"></i>
                     <span slot="title">实验员管理</span>
                 </el-menu-item>
@@ -63,7 +63,7 @@
         </el-submenu>
 
 
-        <el-submenu index="5" :disabled="TeacherPortVisible">
+        <el-submenu :disabled="TeacherPortVisible" index="5">
             <template slot="title">
                 <i class="el-icon-user-solid"></i>
                 <span slot="title">教师端</span>
@@ -82,7 +82,7 @@
             </el-menu-item>
         </el-submenu>
 
-        <el-submenu index="6" :disabled="TesterPortVisible" >
+        <el-submenu :disabled="TesterPortVisible" index="6">
             <template slot="title">
                 <i class="el-icon-user-solid"></i>
                 <span slot="title">实验员端</span>
@@ -101,16 +101,16 @@
 <script>
 export default {
     name: "Aside",
-    data(){
-        return{
+    data() {
+        return {
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-            ManagerPortVisible:false,
-            TeacherPortVisible:false,
-            TesterPortVisible:false,
+            ManagerPortVisible: false,
+            TeacherPortVisible: false,
+            TesterPortVisible: false,
         }
     },
     created() {
-        if (this.user.role === "ROLE_ADMIN"){
+        if (this.user.role === "ROLE_ADMIN") {
             this.dialogFormVisible = true
         }
     },
