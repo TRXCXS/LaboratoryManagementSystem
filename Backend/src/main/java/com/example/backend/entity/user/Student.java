@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student extends User {
+public class Student  {
     private Integer studentID; // 外键，指向User
     private String name;
     private String major;

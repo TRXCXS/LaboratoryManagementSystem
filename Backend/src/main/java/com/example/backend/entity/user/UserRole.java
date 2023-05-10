@@ -1,5 +1,7 @@
 package com.example.backend.entity.user;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.example.backend.utils.enumClasses.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +17,8 @@ public class UserRole {
      * 无需自动递增
      * userID是外键，指向User
      */
+    @TableId(type = IdType.AUTO)
+    private Integer UserRoleID;
     private Integer userID;
     private Role role;
 }

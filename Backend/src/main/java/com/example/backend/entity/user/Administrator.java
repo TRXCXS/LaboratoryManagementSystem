@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Administrator extends User {
+public class Administrator  {
     private Integer adminID; // 外键，指向User
     private String name;
 }
