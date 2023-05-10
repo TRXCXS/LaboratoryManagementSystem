@@ -4,42 +4,38 @@
             <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
         </div>
 
-        <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="申请时间" prop="app_time">
+        <el-table :data="tableData" border stripe :header-cell-class-name="headerBg">
+            <el-table-column prop="app_time" label="申请时间" >
             </el-table-column>
-            <el-table-column label="申请学期" prop="app_semester">
+            <el-table-column prop="app_semester" label="申请学期" >
             </el-table-column>
-            <el-table-column label="申请周次" prop="app_week" width="100px">
+            <el-table-column prop="app_week" label="申请周次"  width="100px">
             </el-table-column>
-            <el-table-column label="申请节次" prop="app_section" width="100px">
+            <el-table-column prop="app_section" label="申请节次" width="100px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="app_labNum" width="150px">
+            <el-table-column prop="app_labNum" label="申请实验室编号" width="150px">
             </el-table-column>
-            <el-table-column label="申请原因" prop="app_reason" width="150px">
+            <el-table-column prop="app_reason" label="申请原因" width="150px">
             </el-table-column>
-            <el-table-column label="状态" prop="admin_scrutinized" width="100px">
+            <el-table-column prop="admin_scrutinized" label="状态" width="100px">
 
                 <el-popover>
-                    <el-tag slot="reference" :type="this.handledState==='已处理' ? 'success' : 'info'">
-                        {{ handledState }}
-                    </el-tag>
+                    <el-tag :type="this.handledState==='已处理' ? 'success' : 'info'" slot="reference" >{{handledState}}</el-tag>
                 </el-popover>
 
             </el-table-column>
-            <el-table-column align="center" label="操作" width="250px">
+            <el-table-column label="操作"  align="center" width="250px">
                 <template slot-scope="scope">
-                    <el-button type="warning" @click="handleUpdate(scope.row.desk_id)">修改 <i class="el-icon-edit"></i>
-                    </el-button>
-                    <el-button type="primary" @click="confirm_finishUsing(scope.row.appeal_id)">确认使用完毕 <i
-                            class="el-icon-remove-outline"></i></el-button>
+                    <el-button type="warning"  @click="handleUpdate(scope.row.desk_id)"  >修改 <i class="el-icon-edit"></i></el-button>
+                    <el-button type="primary" @click="confirm_finishUsing(scope.row.appeal_id)">确认使用完毕 <i class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
 
-        <el-dialog :visible.sync="dialogFormVisible" title="填写借用信息" width="32%">
+        <el-dialog title="填写借用信息" :visible.sync="dialogFormVisible"  width="32%">
             <el-form :label-width="formLabelWidth">
                 <el-form-item label="申请学期">
-                    <!--                    <el-input v-model="form.app_semester" autocomplete="off"></el-input>-->
+<!--                    <el-input v-model="form.app_semester" autocomplete="off"></el-input>-->
                     <el-select v-model="form.app_semester" placeholder="请选择学期">
                         <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
                         <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
@@ -50,12 +46,11 @@
                     <el-input v-model="form.app_name" autocomplete="off" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="申请周次">
-                    <!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
-                    <el-input-number v-model="form.app_week" :max="20" :min="1" label="选择周次"
-                                     @change="handleChange"></el-input-number>
+<!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
+                    <el-input-number v-model="form.app_week" @change="handleChange" label="选择周次" :min="1" :max="20"></el-input-number>
                 </el-form-item>
                 <el-form-item label="申请节次">
-                    <!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
+<!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
                     <el-select v-model="form.app_section" placeholder="请选择节次">
                         <el-option label="1-2" value="2022-2023-1"></el-option>
                         <el-option label="3-5" value="2022-2023-1"></el-option>
@@ -69,7 +64,7 @@
                     <el-input v-model="form.app_labNum" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="申请原因">
-                    <el-input v-model="form.app_reason" autocomplete="off" type="textarea"></el-input>
+                    <el-input type="textarea"  v-model="form.app_reason" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -78,7 +73,7 @@
             </div>
         </el-dialog>
 
-        <el-dialog :visible.sync="dialogFormVisible1" title="修改申请信息" width="32%">
+        <el-dialog title="修改申请信息" :visible.sync="dialogFormVisible1"  width="32%">
             <el-form :label-width="formLabelWidth">
                 <el-form-item label="申请学期">
                     <!--                    <el-input v-model="form.app_semester" autocomplete="off"></el-input>-->
@@ -93,8 +88,7 @@
                 </el-form-item>
                 <el-form-item label="申请周次">
                     <!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
-                    <el-input-number v-model="form.app_week" :max="20" :min="1" label="选择周次"
-                                     @change="handleChange"></el-input-number>
+                    <el-input-number v-model="form.app_week" @change="handleChange" label="选择周次" :min="1" :max="20"></el-input-number>
                 </el-form-item>
                 <el-form-item label="申请节次">
                     <!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
@@ -111,7 +105,7 @@
                     <el-input v-model="form.app_labNum" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="申请原因">
-                    <el-input v-model="form.app_reason" autocomplete="off" type="textarea"></el-input>
+                    <el-input type="textarea" v-model="form.app_reason" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -128,12 +122,12 @@ export default {
     name: "MyAppeal",
     data() {
         const item = {
-            app_time: "2023-4-10-15:20:20",
-            app_semester: "2022-2023-2",
-            app_week: "12",
-            app_section: "5-6",
-            app_labNum: "532",
-            admin_scrutinized: "已处理",
+            app_time:"2023-4-10-15:20:20",
+            app_semester:"2022-2023-2",
+            app_week:"12",
+            app_section:"5-6",
+            app_labNum:"532",
+            admin_scrutinized:"已处理",
             app_reason: '上海市普陀区金沙江路 1518 弄水水水水水水水水水水水水水'
         };
         return {
@@ -144,12 +138,12 @@ export default {
             sideWidth: 200,
             logoTextShow: true,
             headerBg: 'headerBg',
-            handledState: "",
+            handledState:"",
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
 
-            form: {
-                app_time: "",
-                app_reason: "",
+            form:{
+                app_time:"",
+                app_reason:"",
                 app_semester: "",
                 app_name: "",
                 app_week: "",
@@ -172,20 +166,20 @@ export default {
         this.load()
         this.form.app_name = this.user.username
     },
-    methods: {
-        load() {
-            this.request.get("/appeal/" + this.user.user_id).then(res => {
+    methods:{
+        load(){
+            this.request.get("/appeal/"+this.user.user_id).then(res=>{
                 console.log(res)
-                for (let i = 0; i < res.length; i++) {
+                for(let i = 0;i<res.length;i++){
                     let origin_appeal_time = res[i].appeal_time
                     let date1 = new Date(origin_appeal_time);
-                    let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
+                    let time1=date1.getFullYear() + '-' + ((date1.getMonth() + 1)<10?"0"+(date1.getMonth() + 1):(date1.getMonth() + 1) )+ '-' + (date1.getDate()<10?"0"+date1.getDate():date1.getDate() )+ ' ' + (date1.getHours()<10?"0"+date1.getHours():date1.getHours() )+ ':' + (date1.getMinutes()<10?"0"+date1.getMinutes():date1.getMinutes() )+ ':' + (date1.getSeconds()<10?"0"+date1.getSeconds():date1.getSeconds());
                     res[i].appeal_time = time1
 
-                    if (res[i].admin_scrutinized) {
+                    if (res[i].admin_scrutinized){
                         this.handledState = "通过"
                         this.tagForm = "success"
-                    } else {
+                    }else {
                         this.handledState = "未审核"
                         this.tagForm = "info"
                     }
@@ -194,13 +188,13 @@ export default {
             })
             console.log(this.user.user_id)
         },
-        confirm_finishUsing(app_id) {
+        confirm_finishUsing(app_id){
             this.$confirm('确定使用完毕?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/appeal/cancel/" + app_id).then(res => {
+                this.request.delete("/appeal/cancel/"+app_id).then(res=>{
                     if (res) {
                         this.$message({
                             type: 'success',
@@ -218,12 +212,12 @@ export default {
                 });
             });
         },
-        handleAdd() {
+        handleAdd(){
             this.form.app_name = this.user.username
             this.dialogFormVisible = true;
             // this.form = {}
         },
-        save() {
+        save(){
             // this.request.post("/section/?name="+this.form.sec_name+"&length="+this.form.sec_length+"&width="+this.form.sec_width+"&library="+this.form.library+"&floor="+this.form.floor).then(res =>{
             //     if (res) {
             //         this.$message.success("添加区域成功")
@@ -235,7 +229,7 @@ export default {
             //     }
             // })
         },
-        save1() {
+        save1(){
             // let temp = "/desk/?deskId="+this.desk_id+"&axis1="+this.axis1+"&axis2="+this.axis2+"&capacity="+this.capacity+"&power="+this.power+"&sectionId="+this.$route.query.id
             // console.log(temp)
             // this.request.put(temp).then(res =>{
@@ -249,14 +243,14 @@ export default {
             //     }
             // })
         },
-        handleChange(value) {
+        handleChange(value){
             console.log(value)
         },
-        closeDialog() {
+        closeDialog(){
             this.dialogFormVisible = false;
-            this.form = {}
+            this.form={}
         },
-        handleUpdate(id) {
+        handleUpdate(id){
             // let sec_id = this.$route.query.id
             // this.request.get("/desk/"+sec_id).then(res=>{
             //     console.log(res)
@@ -280,6 +274,20 @@ export default {
 <style scoped>
 
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!--<template>-->
@@ -414,6 +422,7 @@ export default {
 <!--            sideWidth: 200,-->
 <!--            logoTextShow: true,-->
 <!--            headerBg: 'headerBg',-->
+
 
 
 <!--            receivedData:null,-->

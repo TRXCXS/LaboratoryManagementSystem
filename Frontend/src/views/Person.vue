@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card>
-            <el-descriptions :column="3" :size="size" border class="margin-top" title="个人中心">
+            <el-descriptions class="margin-top" title="个人中心" :column="3" :size="size" border>
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-user"></i>
@@ -38,13 +38,13 @@
 <script>
 export default {
     name: "Person",
-    data() {
-        return {
+    data(){
+        return{
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-            user_id: "",
-            user_name: "",
-            role: "",
-            credit: ""
+            user_id:"",
+            user_name:"",
+            role:"",
+            credit:""
 
         }
     },

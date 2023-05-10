@@ -12,16 +12,10 @@
             <img src="../../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px; right: 5px">
             <b style="color: white" v-show="logoTextShow">计算机实验室管理平台</b>
         </div>
-        <el-menu-item index="/Tester/home">
+        <el-menu-item index="/TimeTable/home">
             <template slot="title">
                 <i class="el-icon-house"></i>
                 <span slot="title">主页</span>
-            </template>
-        </el-menu-item>
-        <el-menu-item index="/Tester/maintenance">
-            <template slot="title">
-                <i class="el-icon-attract"></i>
-                <span slot="title">设备维修</span>
             </template>
         </el-menu-item>
     </el-menu>

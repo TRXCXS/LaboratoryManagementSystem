@@ -2,24 +2,19 @@
     <div class="wrapper">
         <div style="margin: 100px auto; background-color: rgba(225,255,225,0.76); width: 350px; height: 400px; padding: 20px; border-radius: 10px">
             <div style="margin: 20px 0; text-align: center; font-size: 24px"><b>注 册</b></div>
-            <el-form ref="userForm" :model="user" :rules="rules">
+            <el-form :model="user" :rules="rules" ref="userForm">
                 <el-form-item prop="username">
-                    <el-input v-model="user.username" placeholder="请输入账号" prefix-icon="el-icon-user" size="medium"
-                              style="margin: 5px 0"></el-input>
+                    <el-input placeholder="请输入账号" size="medium" style="margin: 5px 0" prefix-icon="el-icon-user" v-model="user.username"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input v-model="user.password" placeholder="请输入密码" prefix-icon="el-icon-lock" show-password
-                              size="medium" style="margin: 5px 0"></el-input>
+                    <el-input placeholder="请输入密码" size="medium" style="margin: 5px 0" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
                 </el-form-item>
                 <el-form-item prop="confirmPassword">
-                    <el-input v-model="user.confirmPassword" placeholder="请确认密码" prefix-icon="el-icon-lock"
-                              show-password
-                              size="medium" style="margin: 5px 0"></el-input>
+                    <el-input placeholder="请确认密码" size="medium" style="margin: 5px 0" prefix-icon="el-icon-lock" show-password v-model="user.confirmPassword"></el-input>
                 </el-form-item>
                 <el-form-item style="margin: 5px 0; text-align: center">
-                    <el-button autocomplete="off" size="small" type="primary" @click="reg">注册</el-button>
-                    <el-button autocomplete="off" size="small" type="warning" @click="$router.push('/login')">返回登录
-                    </el-button>
+                    <el-button type="primary" size="small"  autocomplete="off" @click="reg">注册</el-button>
+                    <el-button type="warning" size="small"  autocomplete="off" @click="$router.push('/login')">返回登录</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -34,26 +29,26 @@ export default {
             user: {},
             rules: {
                 username: [
-                    {required: true, message: '请输入用户名', trigger: 'blur'},
-                    {min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur'}
+                    { required: true, message: '请输入用户名', trigger: 'blur' },
+                    { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
                 ],
                 password: [
-                    {required: true, message: '请输入密码', trigger: 'blur'},
-                    {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
+                    { required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                 ],
                 confirmPassword: [
-                    {required: true, message: '请输入密码', trigger: 'blur'},
-                    {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
+                    { required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                 ],
             },
         }
     },
     // 绑定监听事件
-    mounted() {
+    mounted () {
         window.addEventListener('keydown', this.keyDown)
     },
     // 销毁事件
-    destroyed() {
+    destroyed () {
         window.removeEventListener('keydown', this.keyDown, false)
     },
     methods: {
@@ -69,7 +64,7 @@ export default {
                         this.flag = 1
                         this.$message.success("注册成功")
                         this.$router.push('/login')
-                    }).catch(error => {
+                    }).catch(error=>{
                         console.log(error)
                         this.$message.error("用户名已存在")
                     })

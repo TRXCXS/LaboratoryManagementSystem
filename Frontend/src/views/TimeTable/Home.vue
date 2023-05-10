@@ -1,13 +1,10 @@
 <template>
     <div class="block">
+        <el-card style="margin-bottom: 10px">
+            <el-button type="primary"  @click="$router.push('/login')">返回登录</el-button>
+        </el-card>
         <span class="demonstration"></span>
-<!--        <el-carousel height="300px" >-->
-<!--            <el-carousel-item v-for="item in urlList" :key="item">-->
-<!--                <div>-->
-<!--                    <el-image :src="item" :preview-src-list="urlList" style="width: 100%;"></el-image>-->
-<!--                </div>-->
-<!--            </el-carousel-item>-->
-<!--        </el-carousel>-->
+
         <el-table
             :data="tableData"
             class="no-header-only"
@@ -71,9 +68,6 @@ export default {
     name: "Home",
     data(){
         return{
-            urlList:["http://lib.scau.edu.cn/_upload/tpl/05/47/1351/template1351/img/slider/slider_bg08.jpg",
-                    "http://lib.scau.edu.cn/_upload/tpl/05/47/1351/template1351/img/slider/slider_bg03.jpg"],
-
             // section的空格不能删！！用来区分每个单元格，全是一样的话他会自动合并
             tableData: [
                 {

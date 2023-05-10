@@ -4,17 +4,13 @@
             <span :class="collapseBtnClass" style="cursor: pointer; font-size: 18px" @click="collapse"></span>
 
             <el-breadcrumb separator="/" style="display: inline-block; margin-left: 10px">
-                <el-breadcrumb-item :to="'/Teacher/home'">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="'/TimeTable/home'">首页</el-breadcrumb-item>
                 <el-breadcrumb-item>{{ currentPathName }}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
 
-<!--        <el-image-->
-<!--            style="width: 300px; height: 50px;margin-top: 5px; "-->
-<!--            :src="url"-->
-<!--        ></el-image>-->
         <div>
-            <h1>教师端</h1>
+            <h1>游客端</h1>
         </div>
 
         <el-dropdown style="width: 70px; cursor: pointer">

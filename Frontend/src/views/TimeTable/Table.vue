@@ -19,11 +19,11 @@
 
 <script>
 
-import Aside from "@/components/Tester/Aside.vue";
-import Header from "@/components/Tester/Header.vue";
+import Aside from "@/components/TimeTable/Aside.vue";
+import Header from "@/components/TimeTable/Header.vue";
 
 export default {
-    name: 'Reserve',
+    name: 'Table',
     data() {
 
         return {
