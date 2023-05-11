@@ -18,7 +18,7 @@ public class UserRole {
      * userID是外键，指向User
      */
     @TableId(type = IdType.AUTO)
-    private Integer UserRoleID;
+    private Integer userRoleID;
     private Integer userID;
     private Role role;
 }
