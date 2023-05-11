@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +18,6 @@ public class Semester {
     private Integer firstHalfYear;
     private Integer secondHalfYear;
     private Season season;
-    private Date startDate;
+    private Timestamp startDate;
     private Integer weekCount;
 }

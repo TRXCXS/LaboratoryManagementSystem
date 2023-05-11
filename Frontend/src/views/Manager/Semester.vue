@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="margin: 10px 0">
-            <el-button type="primary"  @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
+            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
             <el-select v-model="chooseSemester" placeholder="请选择学期" style="padding-left: 10px" @change="change">
                 <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
                 <el-option label="2022-2023-2" value="2022-2023-2"></el-option>
@@ -12,27 +12,27 @@
             </el-select>
         </div>
 
-        <el-table :data="tableData" border stripe :header-cell-class-name="headerBg">
-            <el-table-column prop="semesterID" label="学期ID">
+        <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
+            <el-table-column label="学期ID" prop="semesterID">
             </el-table-column>
-            <el-table-column prop="firstHalfYear" label="学期第一学年">
+            <el-table-column label="学期第一学年" prop="firstHalfYear">
             </el-table-column>
-            <el-table-column prop="secondHalfYear" label="学期第二学年">
+            <el-table-column label="学期第二学年" prop="secondHalfYear">
             </el-table-column>
-            <el-table-column prop="season" label="季度">
+            <el-table-column label="季度" prop="season">
             </el-table-column>
-            <el-table-column prop="startDate" label="学期开始时间">
+            <el-table-column label="学期开始时间" prop="startDate">
             </el-table-column>
-            <el-table-column prop="weekCount" label="周数">
+            <el-table-column label="周数" prop="weekCount">
             </el-table-column>
         </el-table>
 
-        <el-dialog title="新增学期信息" :visible.sync="dialogFormVisible"  width="35%">
+        <el-dialog :visible.sync="dialogFormVisible" title="新增学期信息" width="35%">
             <el-form :label-width="formLabelWidth">
                 <el-form-item label="学期第一学年" label-width="100px">
                     <el-input v-model="addSemester.addFirstHalfYear" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="学期第二学年"  label-width="100px">
+                <el-form-item label="学期第二学年" label-width="100px">
                     <el-input v-model="addSemester.addSecondHalfYear" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="季度" label-width="100px">
@@ -63,12 +63,12 @@ export default {
     name: "Semester",
     data() {
         const item = {
-            semesterID:"1",
-            firstHalfYear:"2023",
-            secondHalfYear:"2024",
-            season:"1",
-            startDate:"2023-2-3",
-            weekCount:"18",
+            semesterID: "1",
+            firstHalfYear: "2023",
+            secondHalfYear: "2024",
+            season: "1",
+            startDate: "2023-2-3",
+            weekCount: "18",
         };
         return {
             // tableData: [],
@@ -78,23 +78,23 @@ export default {
             sideWidth: 200,
             logoTextShow: true,
 
-            chooseSemester:"",
+            chooseSemester: "",
 
-            addSemester:{
-                addFirstHalfYear:"",
-                addSecondHalfYear:"",
-                addSeason:"",
-                addStartDate:"",
-                addWeekCount:"",
+            addSemester: {
+                addFirstHalfYear: "",
+                addSecondHalfYear: "",
+                addSeason: "",
+                addStartDate: "",
+                addWeekCount: "",
             },
 
             // Semester:{
-                semesterID:"",
-                firstHalfYear:"",
-                secondHalfYear:"",
-                season:"",
-                startDate:"",
-                weekCount:"",
+            semesterID: "",
+            firstHalfYear: "",
+            secondHalfYear: "",
+            season: "",
+            startDate: "",
+            weekCount: "",
             // },
 
             formLabelWidth: '80px',
@@ -107,23 +107,23 @@ export default {
     created() {
         this.load()
     },
-    methods:{
-        load(){
-            this.request.get("/user/users").then(res=>{
+    methods: {
+        load() {
+            this.request.get("/user/users").then(res => {
                 console.log(res)
                 this.tableData = res
             })
         },
-        resetDialog(){
+        resetDialog() {
             this.addSemester = {}
             this.load()
         },
-        cancelAdd(){
+        cancelAdd() {
             this.dialogFormVisible = false;
             this.resetDialog()
         },
-        save(){
-            this.request.post("/user/users?username="+this.username+"&password="+this.password+"&role="+this.role).then(res =>{
+        save() {
+            this.request.post("/user/users?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false
@@ -134,18 +134,18 @@ export default {
                 }
             })
         },
-        handleAdd(){
+        handleAdd() {
             this.dialogFormVisible = true;
             this.addSemester = {}
         },
-        del(id){
+        del(id) {
             console.log(id)
             this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/user/users/"+id).then(res=>{
+                this.request.delete("/user/users/" + id).then(res => {
                     if (res) {
                         this.$message({
                             type: 'success',
@@ -163,10 +163,10 @@ export default {
                 });
             });
         },
-        change(){
+        change() {
             this.$store.state.semester = this.chooseSemester
         },
-        reset(){
+        reset() {
             this.$message.success("已重置")
         }
     }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Laboratory {
     @TableId(type = IdType.AUTO)
     private Integer labID;
-    private Integer labNumber; // 实际房间号
+    private String labNumber; // 实际房间号
     private String name;
     private LabType labType;
     private Integer deviceCount;

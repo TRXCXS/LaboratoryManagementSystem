@@ -15,14 +15,14 @@ Vue.use(VXETable)
 
 Vue.config.productionTip = false
 
-Vue.prototype.request=request
-Vue.prototype.GLOBAL=global
+Vue.prototype.request = request
+Vue.prototype.GLOBAL = global
 $axios.default.baseURL = global.BASE_URL
 
-Vue.use(ElementUI, { size: "small" });
+Vue.use(ElementUI, {size: "small"});
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
