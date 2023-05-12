@@ -15,6 +15,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class CurrentSemester {
     @TableId(type = IdType.AUTO)
+    private Integer queryID;
+
     private Integer currentSemesterID;
 
     @TableField(exist = false)

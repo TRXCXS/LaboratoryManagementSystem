@@ -11,7 +11,7 @@
  Target Server Version : 80031 (8.0.31)
  File Encoding         : 65001
 
- Date: 12/05/2023 19:46:48
+ Date: 12/05/2023 20:26:33
 */
 
 SET NAMES utf8mb4;
@@ -22,8 +22,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `current_semester`;
 CREATE TABLE `current_semester`  (
-  `currentSemesterID` int NOT NULL,
-  PRIMARY KEY (`currentSemesterID`) USING BTREE
+  `queryID` int NOT NULL,
+  `currentSemesterID` int NULL DEFAULT NULL,
+  PRIMARY KEY (`queryID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

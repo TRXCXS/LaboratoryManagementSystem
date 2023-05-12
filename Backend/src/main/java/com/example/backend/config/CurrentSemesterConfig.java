@@ -3,6 +3,7 @@ package com.example.backend.config;
 import com.example.backend.entity.model.CurrentSemester;
 import com.example.backend.mapper.model.CurrentSemesterMapper;
 import com.example.backend.service.model.CurrentSemesterService;
+import com.example.backend.service.model.CurrentSemesterServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +15,17 @@ public class CurrentSemesterConfig {
 
     @Bean
     public CurrentSemester currentSemester() {
-        return null;
+        return currentSemesterMapper.selectById(1);
     }
 
     @Bean
     public CurrentSemesterService currentSemesterService() {
-        return null;
+        CurrentSemesterService css =
+                new CurrentSemesterServiceImpl(
+                currentSemester(),
+                currentSemesterMapper
+        );
+        // todo: do things before return
+        return css;
     }
 }
