@@ -54,9 +54,9 @@ class BackendApplicationTests {
     void testExists() {
         QueryWrapper<Semester> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("weekCount", 20);
-        System.out.println("是否存在weekCount为20的user?:"+semesterMapper.exists(queryWrapper));
+        System.out.println("是否存在weekCount为20的user?:" + semesterMapper.exists(queryWrapper));
 
         queryWrapper.eq("weekCount", 23);
-        System.out.println("是否存在weekCount为23的user?:"+semesterMapper.exists(queryWrapper));
+        System.out.println("是否存在weekCount为23的user?:" + semesterMapper.exists(queryWrapper));
     }
 }

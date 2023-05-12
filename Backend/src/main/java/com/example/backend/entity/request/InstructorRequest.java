@@ -29,8 +29,8 @@ public class InstructorRequest {
     // studentClass为班级的描述，有可能是”20计算机1-4班“
     private String studentClass;
     private Integer studentCount;
-
     private String course;
+
     private InstructorRequestStatus status;
     private Timestamp adminProcessTime;
     private String adminMessage;

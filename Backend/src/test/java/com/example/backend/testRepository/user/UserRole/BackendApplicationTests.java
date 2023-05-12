@@ -50,7 +50,7 @@ class BackendApplicationTests {
     void testDelete() {
         QueryWrapper<UserRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userID", 20202532);
-        queryWrapper.eq("role",Role.ROLE_TECHNICIAN);
+        queryWrapper.eq("role", Role.ROLE_TECHNICIAN);
         userRoleMapper.delete(queryWrapper);
     }
 }

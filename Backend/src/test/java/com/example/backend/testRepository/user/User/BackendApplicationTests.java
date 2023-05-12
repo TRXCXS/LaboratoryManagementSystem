@@ -3,7 +3,6 @@ package com.example.backend.testRepository.user.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.entity.user.User;
-import com.example.backend.entity.user.UserRole;
 import com.example.backend.mapper.user.UserMapper;
 import com.example.backend.utils.enumClasses.model.Role;
 import org.junit.jupiter.api.Test;
@@ -55,9 +54,9 @@ class BackendApplicationTests {
     void testExists() {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("loginID", 2021);
-        System.out.println("是否存在loginID为2021的user?:"+userMapper.exists(queryWrapper));
+        System.out.println("是否存在loginID为2021的user?:" + userMapper.exists(queryWrapper));
 
         queryWrapper.eq("loginID", 2022);
-        System.out.println("是否存在loginID为2022的user?:"+userMapper.exists(queryWrapper));
+        System.out.println("是否存在loginID为2022的user?:" + userMapper.exists(queryWrapper));
     }
 }

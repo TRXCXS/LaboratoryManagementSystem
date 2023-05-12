@@ -2,7 +2,6 @@ package com.example.backend.controller.request;
 
 import com.example.backend.controller.requestbody.InstructorRequestRequestBody;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
-import com.example.backend.entity.model.Semester;
 import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.service.request.InstructorRequestService;
 import lombok.RequiredArgsConstructor;

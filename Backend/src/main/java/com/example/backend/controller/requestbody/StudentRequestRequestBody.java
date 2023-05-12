@@ -1,16 +1,11 @@
 package com.example.backend.controller.requestbody;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
-import com.example.backend.utils.enumClasses.requestStatus.StudentRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor

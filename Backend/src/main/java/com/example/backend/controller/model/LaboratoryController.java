@@ -2,9 +2,7 @@ package com.example.backend.controller.model;
 
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.model.Laboratory;
-import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.service.model.LaboratoryService;
-import com.example.backend.utils.enumClasses.model.LabType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

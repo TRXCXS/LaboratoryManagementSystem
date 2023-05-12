@@ -1,9 +1,7 @@
 package com.example.backend.controller.arrangement;
 
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
-import com.example.backend.entity.arrangement.LongArrangement;
 import com.example.backend.entity.arrangement.ShortArrangement;
-import com.example.backend.service.arrangement.LongArrangementService;
 import com.example.backend.service.arrangement.ShortArrangementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

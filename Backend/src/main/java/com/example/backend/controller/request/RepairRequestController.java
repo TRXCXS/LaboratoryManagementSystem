@@ -4,7 +4,6 @@ import com.example.backend.controller.requestbody.RepairRequestRequestBody;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.request.RepairRequest;
 import com.example.backend.service.request.RepairRequestService;
-import com.mysql.cj.x.protobuf.MysqlxExpr;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

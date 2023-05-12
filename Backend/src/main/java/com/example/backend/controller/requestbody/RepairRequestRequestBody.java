@@ -1,12 +1,9 @@
 package com.example.backend.controller.requestbody;
 
-import com.example.backend.utils.enumClasses.requestStatus.RepairRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
