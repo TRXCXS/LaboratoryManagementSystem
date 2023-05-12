@@ -6,6 +6,11 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-/.idea
+
 /Backend/target
+
+### IntelliJ IDEA ###
 .idea
+*.iws
+*.iml
+*.ipr

@@ -8,4 +8,8 @@ import java.util.List;
 @Service
 public interface SemesterService {
     List<Semester> getAllSemesters();
+
+    void createNewSemester(Semester newSemester);
+
+    void setCurrentSemester(Integer semesterID);
 }
