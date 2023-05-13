@@ -1,12 +1,11 @@
 package com.example.backend.controller.model;
 
+import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.model.Semester;
 import com.example.backend.service.model.SemesterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +17,36 @@ public class SemesterController {
     private final SemesterService semesterService;
 
     @GetMapping("/all")
-    public List<Semester> getAllSemesters() {
-        return semesterService.getAllSemesters();
+    public GeneralFormattedResponseBody<List<Semester>>
+    getAllSemesters() {
+        return GeneralFormattedResponseBody.<List<Semester>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(semesterService.getAllSemesters())
+                .build();
     }
+
+    @PostMapping
+    public GeneralFormattedResponseBody<Object>
+    createNewSemester(@RequestBody Semester newSemester) {
+        semesterService.createNewSemester(newSemester);
+        return GeneralFormattedResponseBody.<Object>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
+
+
+    @PutMapping("/current")
+    public GeneralFormattedResponseBody<Object>
+    setCurrentSemester(@RequestBody Integer semesterID) {
+        semesterService.setCurrentSemester(semesterID);
+        return GeneralFormattedResponseBody.<Object>builder()
+                .status(HttpStatus.NO_CONTENT.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
+
 }

@@ -9,3 +9,5 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 设置取消下划线到驼峰命名的映射
+    map-underscore-to-camel-case: false

@@ -6,6 +6,12 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-/.idea
+
 /Backend/target
+
+### IntelliJ IDEA ###
 .idea
+*.iws
+*.ipr
+
+# 删去对.iml文件的忽略，使得重新拉取时不会出现模块无法识别的情况

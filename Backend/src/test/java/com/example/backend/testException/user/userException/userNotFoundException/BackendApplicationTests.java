@@ -1,6 +1,6 @@
 package com.example.backend.testException.user.userException.userNotFoundException;
 
-import com.example.backend.exception.user.userException.UserNotFoundException;
+import com.example.backend.exception.user.userException.UserNotExistException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,7 +18,7 @@ class BackendApplicationTests {
             System.out.println("找到了用户");
         } else {
             // 没有查找到则抛出异常，等待controller层的处理
-            throw new UserNotFoundException("用户未找到！");
+            throw new UserNotExistException("用户未找到！");
         }
     }
 

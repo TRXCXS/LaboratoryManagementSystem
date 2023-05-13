@@ -17,6 +17,7 @@ public class UserRole {
      * 无需自动递增
      * userID是外键，指向User
      */
+
     @TableId(type = IdType.AUTO)
     private Integer userRoleID;
     private Integer userID;
