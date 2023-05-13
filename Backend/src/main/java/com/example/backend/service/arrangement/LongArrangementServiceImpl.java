@@ -7,7 +7,7 @@ import com.example.backend.exception.arrangement.longArrangementException.LongAr
 import com.example.backend.exception.model.laboratoryException.LaboratoryDevicesNotEnoughException;
 import com.example.backend.exception.model.laboratoryException.LaboratoryHasBeenArrangedException;
 import com.example.backend.exception.model.laboratoryException.LaboratoryNotExistedException;
-import com.example.backend.exception.model.laboratoryException.StudentCountIllegalException;
+import com.example.backend.exception.user.studentException.StudentCountIllegalException;
 import com.example.backend.mapper.arrangement.LongArrangementMapper;
 import com.example.backend.mapper.model.LaboratoryMapper;
 import lombok.RequiredArgsConstructor;

@@ -3,9 +3,11 @@ package com.example.backend.service.model;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.entity.model.Laboratory;
 import com.example.backend.exception.enumException.LabTypeNotExistException;
-import com.example.backend.exception.model.laboratoryException.StudentCountIllegalException;
+import com.example.backend.exception.user.studentException.StudentCountIllegalException;
 import com.example.backend.mapper.model.LaboratoryMapper;
 import com.example.backend.utils.enumClasses.model.LabType;
+import com.example.backend.utils.enumClasses.model.Slot;
+import com.example.backend.utils.enumClasses.model.Weekday;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LaboratoryServiceImpl implements LaboratoryService {
     private final LaboratoryMapper laboratoryMapper;
+
+    @Override
+    public List<Laboratory> getLabsByTime(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, LabType labType) {
+        return null;
+    }
 
     @Override
     public List<Laboratory> getLabsByType(String labType) {
@@ -38,5 +45,15 @@ public class LaboratoryServiceImpl implements LaboratoryService {
         QueryWrapper<Laboratory> queryWrapper = new QueryWrapper<>();
         queryWrapper.ge("deviceCount", studentCount);
         return laboratoryMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Laboratory getLab(Integer week, Weekday weekday, Slot slot, Integer labID) {
+        return null;
+    }
+
+    @Override
+    public List<Laboratory> getLabs(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, LabType labType, Integer studentCount) {
+        return null;
     }
 }

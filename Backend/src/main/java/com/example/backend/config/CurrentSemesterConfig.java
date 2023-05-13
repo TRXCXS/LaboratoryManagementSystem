@@ -22,9 +22,9 @@ public class CurrentSemesterConfig {
     public CurrentSemesterService currentSemesterService() {
         CurrentSemesterService css =
                 new CurrentSemesterServiceImpl(
-                currentSemester(),
-                currentSemesterMapper
-        );
+                        currentSemester(),
+                        currentSemesterMapper
+                );
         // todo: do things before return
         return css;
     }

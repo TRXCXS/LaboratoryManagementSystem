@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CurrentSemesterServiceImpl implements CurrentSemesterService{
+public class CurrentSemesterServiceImpl implements CurrentSemesterService {
     private final CurrentSemester currentSemester;
     private final CurrentSemesterMapper currentSemesterMapper;
 }
