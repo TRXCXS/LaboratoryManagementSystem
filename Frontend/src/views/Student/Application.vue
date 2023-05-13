@@ -5,19 +5,19 @@
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="申请时间" prop="app_time">
+            <el-table-column label="申请时间" prop="requestTime">
             </el-table-column>
-            <el-table-column label="申请学期" prop="app_semester">
+            <el-table-column label="申请学期" prop="semesterID">
             </el-table-column>
-            <el-table-column label="申请周次" prop="app_week" width="100px">
+            <el-table-column label="申请周次" prop="week" width="100px">
             </el-table-column>
-            <el-table-column label="申请节次" prop="app_section" width="100px">
+            <el-table-column label="申请节次" prop="slot" width="100px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="app_labNum" width="150px">
+            <el-table-column label="申请实验室编号" prop="labID" width="150px">
             </el-table-column>
-            <el-table-column label="申请原因" prop="app_reason" width="150px">
+            <el-table-column label="申请原因" prop="reason" width="150px">
             </el-table-column>
-            <el-table-column label="状态" prop="admin_scrutinized" width="100px">
+            <el-table-column label="状态" prop="status" width="100px">
 
                 <el-popover>
                     <el-tag slot="reference" :type="this.handledState==='已处理' ? 'success' : 'info'">
@@ -157,6 +157,21 @@ export default {
                 app_labNum: "",
             },
 
+            studentRequestID:"",
+            week:0,
+            weekday:"",
+            slot:"",
+            reason:"",
+            requestTime:"",
+            status:"",
+            adminProcessTime:"",
+            adminMessage:"",
+            useCompleteTime:"",
+            labID:0,
+            semesterID:0,
+            studentID:0,
+
+
 
             formLabelWidth: '80px',
 
@@ -174,7 +189,7 @@ export default {
     },
     methods: {
         load() {
-            this.request.get("/appeal/" + this.user.user_id).then(res => {
+            this.request.get("/student-request/student" + this.user.user_id).then(res => {
                 console.log(res)
                 for (let i = 0; i < res.length; i++) {
                     let origin_appeal_time = res[i].appeal_time
@@ -200,11 +215,11 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/appeal/cancel/" + app_id).then(res => {
+                this.request.put("/student-request/use-complete" + this.studentRequestID).then(res => {
                     if (res) {
                         this.$message({
                             type: 'success',
-                            message: '已取消!'
+                            message: '已更改状态!'
                         });
                         this.load()
                     } else {
@@ -224,7 +239,7 @@ export default {
             // this.form = {}
         },
         save() {
-            // this.request.post("/section/?name="+this.form.sec_name+"&length="+this.form.sec_length+"&width="+this.form.sec_width+"&library="+this.form.library+"&floor="+this.form.floor).then(res =>{
+            // this.request.post("/student-request"+this.form.sec_name+"&length="+this.form.sec_length+"&width="+this.form.sec_width+"&library="+this.form.library+"&floor="+this.form.floor).then(res =>{
             //     if (res) {
             //         this.$message.success("添加区域成功")
             //         this.dialogFormVisible = false
@@ -236,7 +251,7 @@ export default {
             // })
         },
         save1() {
-            // let temp = "/desk/?deskId="+this.desk_id+"&axis1="+this.axis1+"&axis2="+this.axis2+"&capacity="+this.capacity+"&power="+this.power+"&sectionId="+this.$route.query.id
+            // let temp = "/student-request"+this.desk_id+"&axis1="+this.axis1+"&axis2="+this.axis2+"&capacity="+this.capacity+"&power="+this.power+"&sectionId="+this.$route.query.id
             // console.log(temp)
             // this.request.put(temp).then(res =>{
             //     if (res) {
