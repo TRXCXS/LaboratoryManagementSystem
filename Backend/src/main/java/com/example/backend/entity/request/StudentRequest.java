@@ -26,6 +26,7 @@ public class StudentRequest {
     private String reason;
     private Timestamp requestTime;  // 工单产生时间
     private StudentRequestStatus status;
+
     private Timestamp adminProcessTime; // 管理员更新status的时间
     private String adminMessage; // 管理员留言
     private Timestamp useCompleteTime;  // 使用完毕时间

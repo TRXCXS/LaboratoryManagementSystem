@@ -20,6 +20,7 @@ public class RepairRequest {
     private Timestamp requestTime;  // 工单产生时间
     private String requestDescription;
     private RepairRequestStatus status;
+
     private Timestamp repairStartTime;
     private Timestamp repairEndTime;
     private String technicianMessage;

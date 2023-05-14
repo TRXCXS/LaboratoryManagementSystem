@@ -19,8 +19,7 @@ import com.example.backend.mapper.request.InstructorRequestMapper;
 import com.example.backend.mapper.request.RepairRequestMapper;
 import com.example.backend.mapper.request.StudentRequestMapper;
 import com.example.backend.mapper.user.*;
-import com.example.backend.utils.enumClasses.model.Role;
-import com.example.backend.utils.enumClasses.model.Season;
+import com.example.backend.utils.enumClasses.model.*;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -153,6 +152,25 @@ public class IsEntityExists {
     public boolean isInstructorRequestExistsByInstructorID(Integer instructorID) {
         QueryWrapper<InstructorRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("instructorID", instructorID);
+        if (instructorRequestMapper.exists(queryWrapper)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isInstructorRequestExistsByInstructorRequestRequestBody(LabType labType, Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, String studentClass, Integer studentCount, String course, Integer instructorID, Integer semesterID) {
+        QueryWrapper<InstructorRequest> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("labType", labType);
+        queryWrapper.eq("startWeek", startWeek);
+        queryWrapper.eq("endWeek", endWeek);
+        queryWrapper.eq("weekday", weekday);
+        queryWrapper.eq("slot", slot);
+        queryWrapper.eq("studentClass", studentClass);
+        queryWrapper.eq("studentCount", studentCount);
+        queryWrapper.eq("course", course);
+        queryWrapper.eq("instructorID", instructorID);
+        queryWrapper.eq("semesterID", semesterID);
         if (instructorRequestMapper.exists(queryWrapper)) {
             return true;
         } else {

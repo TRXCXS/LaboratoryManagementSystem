@@ -16,7 +16,7 @@ import com.example.backend.mapper.request.StudentRequestMapper;
 import com.example.backend.utils.enumClasses.model.LabType;
 import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
-import com.example.backend.utils.utilClasses.LaboratoryException;
+import com.example.backend.utils.utilClasses.ExceptionUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     private final ShortArrangementMapper shortArrangementMapper;
     private final InstructorRequestMapper instructorRequestMapper;
     private final StudentRequestMapper studentRequestMapper;
-    private final LaboratoryException laboratoryException;
+    private final ExceptionUtil exceptionUtil;
 
     @Override
     public boolean isLabArranged(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, Integer labID) {
@@ -41,9 +41,9 @@ public class LaboratoryServiceImpl implements LaboratoryService {
          判断目标实验室是否在本学期的指定时间段内已经被安排了
          */
 
-        laboratoryException.WeekException(startWeek, endWeek);
-        laboratoryException.TypeException(weekday, slot);
-        laboratoryException.LabIDException(labID);
+        exceptionUtil.WeekException(startWeek, endWeek);
+        exceptionUtil.TypeException(weekday, slot);
+        exceptionUtil.LabIDException(labID);
 
         QueryWrapper<LongArrangement> queryWrapper = new QueryWrapper<>();
         queryWrapper.and(Wrapper -> Wrapper
@@ -82,8 +82,8 @@ public class LaboratoryServiceImpl implements LaboratoryService {
          找到指定时间段内指定类型的实验室，确保该实验室在该时间段内没有被安排。
          */
 
-        laboratoryException.WeekException(startWeek, endWeek);
-        laboratoryException.TypeException(weekday, slot, labType);
+        exceptionUtil.WeekException(startWeek, endWeek);
+        exceptionUtil.TypeException(weekday, slot, labType);
 
         // 先找到所有符合类型的实验室，再根据时间的约束条件进行排除
         List<Laboratory> laboratoryList = getLabsByType(labType.toString());
@@ -118,7 +118,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
          找到设备数量大于等于学生人数的实验室，该实验室可能已经被安排了。
          */
 
-        laboratoryException.StudentCount(studentCount);
+        exceptionUtil.StudentCountException(studentCount);
 
         QueryWrapper<Laboratory> queryWrapper = new QueryWrapper<>();
         queryWrapper.ge("deviceCount", studentCount);
@@ -130,8 +130,8 @@ public class LaboratoryServiceImpl implements LaboratoryService {
         if (week <= 0) {
             throw new NumberIllegalException("week<=0！");
         }
-        laboratoryException.TypeException(weekday, slot);
-        laboratoryException.LabIDException(labID);
+        exceptionUtil.TypeException(weekday, slot);
+        exceptionUtil.LabIDException(labID);
 
         QueryWrapper<ShortArrangement> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("week", week);
@@ -157,9 +157,9 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
     @Override
     public List<Laboratory> getLabs(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, LabType labType, Integer studentCount) {
-        laboratoryException.WeekException(startWeek, endWeek);
-        laboratoryException.TypeException(weekday, slot, labType);
-        laboratoryException.StudentCount(studentCount);
+        exceptionUtil.WeekException(startWeek, endWeek);
+        exceptionUtil.TypeException(weekday, slot, labType);
+        exceptionUtil.StudentCountException(studentCount);
 
         List<Laboratory> targetLabs = getLabsByTime(startWeek, endWeek, weekday, slot, labType);
         for (int i = 0, len = targetLabs.size(); i < len; i++) {

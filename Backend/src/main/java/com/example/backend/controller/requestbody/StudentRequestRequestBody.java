@@ -18,6 +18,7 @@ public class StudentRequestRequestBody {
     private Integer week;
     private Weekday weekday;
     private Slot slot;
+
     private String reason;
 
     private Integer labID;  // 想要借用的实验室

@@ -21,8 +21,8 @@
             </el-table-column>
             <el-table-column label="季度" prop="season">
             </el-table-column>
-<!--            <el-table-column label="学期开始时间" prop="startDate">-->
-<!--            </el-table-column>-->
+            <!--            <el-table-column label="学期开始时间" prop="startDate">-->
+            <!--            </el-table-column>-->
             <el-table-column label="周数" prop="weekCount">
             </el-table-column>
         </el-table>
@@ -124,7 +124,7 @@ export default {
         },
         save() {
             // this.request.post("/user/users?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
-            this.request.post("/semester/?semesterID=" + this.semesterID + "&firstHalfYear=" + this.firstHalfYear + "&secondHalfYear=" + this.secondHalfYear+ "&season=" + this.season+ "&startDate=" + this.startDate+ "&weekCount=" + this.weekCount).then(res => {
+            this.request.post("/semester/?semesterID=" + this.semesterID + "&firstHalfYear=" + this.firstHalfYear + "&secondHalfYear=" + this.secondHalfYear + "&season=" + this.season + "&startDate=" + this.startDate + "&weekCount=" + this.weekCount).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false

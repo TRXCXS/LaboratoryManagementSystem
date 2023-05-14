@@ -1,9 +1,9 @@
 package com.example.backend.service.model;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.entity.model.Semester;
 import com.example.backend.exception.model.semesterException.SemesterHasExistedException;
 import com.example.backend.mapper.model.SemesterMapper;
+import com.example.backend.utils.utilClasses.IsEntityExists;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SemesterServiceImpl implements SemesterService {
     private final SemesterMapper semesterMapper;
+    private final IsEntityExists isEntityExists;
 
     @Override
     public List<Semester> getAllSemesters() {
@@ -22,14 +23,12 @@ public class SemesterServiceImpl implements SemesterService {
 
     @Override
     public void createNewSemester(@NotNull Semester newSemester) {
-        QueryWrapper<Semester> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("firstHalfYear", newSemester.getFirstHalfYear());
-        queryWrapper.eq("secondHalfYear", newSemester.getSecondHalfYear());
-        queryWrapper.eq("season", newSemester.getSeason());
-        queryWrapper.or().eq("startDate", newSemester.getStartDate());
-
-        if (semesterMapper.exists(queryWrapper)) {
-            throw new SemesterHasExistedException("学期已经存在，无法创建");
+        if (isEntityExists.isSemesterExistsByYearAndSeason(
+                newSemester.getFirstHalfYear(),
+                newSemester.getSecondHalfYear(),
+                newSemester.getSeason()) ||
+                isEntityExists.isSemesterExistsByStartDate(newSemester.getStartDate())) {
+            throw new SemesterHasExistedException("学期已经存在，无法创建！");
         }
 
         semesterMapper.insert(newSemester);
@@ -38,7 +37,7 @@ public class SemesterServiceImpl implements SemesterService {
     @Override
     public void setCurrentSemester(Integer semesterID) {
 
-        // TODO: 2023/5/12 可能需要新建一个currentSemester表，这样就不需要这个接口了
+        // TODO: 2023/5/14 这里直接调用CurrentSemesterService的设置currentSemester的方法就行了
 
     }
 }

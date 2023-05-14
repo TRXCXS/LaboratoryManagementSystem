@@ -37,9 +37,10 @@
                 </el-popover>
 
             </el-table-column>
-            <el-table-column align="center" label="操作" >
+            <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                    <el-button type="success" style="margin-bottom: 5px" @click="checkAllEligibleLab">查看符合所有条件的教室 <i class="el-icon-edit"></i></el-button>
+                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab">查看符合所有条件的教室
+                        <i class="el-icon-edit"></i></el-button>
                     <el-button type="primary" @click="selectLab">筛选教室<i class="el-icon-edit"></i></el-button>
                     <!--                    <el-button type="primary">确认使用完毕 <i class="el-icon-remove-outline"></i></el-button>-->
                 </template>
@@ -69,8 +70,6 @@
 </template>
 
 <script>
-
-import router from "@/router";
 
 export default {
     name: "ClassScheduling",
@@ -103,22 +102,21 @@ export default {
 
             headerBg: 'headerBg',
 
-            instructorRequestID:0,
-            requestTime:"",
-            labType:"",
-            startWeek:0,
-            endWeek:0,
-            weekday:"",
-            slot:"",
-            studentClass:"",
-            studentCount:0,
-            course:"",
-            status:"",
-            adminProcessTime:"",
-            adminMessage:"",
-            instructorID:0,
-            semesterID:0,
-
+            instructorRequestID: 0,
+            requestTime: "",
+            labType: "",
+            startWeek: 0,
+            endWeek: 0,
+            weekday: "",
+            slot: "",
+            studentClass: "",
+            studentCount: 0,
+            course: "",
+            status: "",
+            adminProcessTime: "",
+            adminMessage: "",
+            instructorID: 0,
+            semesterID: 0,
 
 
         }
@@ -184,10 +182,10 @@ export default {
         reset() {
             this.$message.success("已重置")
         },
-        checkAllEligibleLab(){
+        checkAllEligibleLab() {
             this.$router.push("/Management/AllEligibleLab");
         },
-        selectLab(){
+        selectLab() {
             this.$router.push("/Management/AdminSelectLab");
         },
     }

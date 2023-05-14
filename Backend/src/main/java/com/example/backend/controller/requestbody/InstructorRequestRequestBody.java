@@ -24,10 +24,10 @@ public class InstructorRequestRequestBody {
     private Integer endWeek;
     private Weekday weekday;
     private Slot slot;
+
     // studentClass为班级的描述，有可能是”20计算机1-4班“
     private String studentClass;
     private Integer studentCount;
-
     private String course;
 
     private Integer instructorID; // 发起申请的教师，默认登录教师

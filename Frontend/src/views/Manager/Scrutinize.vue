@@ -35,7 +35,6 @@
             </el-table-column>
 
 
-
             <el-table-column align="center" label="操作" width="190px">
                 <template slot-scope="scope">
                     <el-button type="success" @click="approve(scope.row.user_id)">通过 <i class="el-icon-edit"></i>
@@ -104,20 +103,19 @@ export default {
             },
 
 
-            studentRequestID:"",
-            week:0,
-            weekday:"",
-            slot:"",
-            reason:"",
-            requestTime:"",
-            status:"",
-            adminProcessTime:"",
-            adminMessage:"",
-            useCompleteTime:"",
-            labID:0,
-            semesterID:0,
-            studentID:0,
-
+            studentRequestID: "",
+            week: 0,
+            weekday: "",
+            slot: "",
+            reason: "",
+            requestTime: "",
+            status: "",
+            adminProcessTime: "",
+            adminMessage: "",
+            useCompleteTime: "",
+            labID: 0,
+            semesterID: 0,
+            studentID: 0,
 
 
         }

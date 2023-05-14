@@ -17,15 +17,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class LaboratoryException {
-    private static LaboratoryException laboratoryException;
+public class ExceptionUtil {
+    private static ExceptionUtil exceptionUtil;
 
     private final IsEntityExists isEntityExists;
 
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     @PostConstruct
     public void init() {
-        laboratoryException = this;
+        exceptionUtil = this;
     }
 
     public void WeekException(Integer startWeek, Integer endWeek) {
@@ -69,7 +69,7 @@ public class LaboratoryException {
         }
     }
 
-    public void StudentCount(Integer studentCount) {
+    public void StudentCountException(Integer studentCount) {
         if (studentCount <= 0) {
             throw new StudentCountIllegalException("学生人数不合法（<=0）！");
         }

@@ -1,9 +1,12 @@
 <template>
     <div>
-        <el-button type="primary" @click="$router.push('/Management/classScheduling')" style="margin-bottom: 10px">返回</el-button>
+        <el-button style="margin-bottom: 10px" type="primary" @click="$router.push('/Management/classScheduling')">
+            返回
+        </el-button>
         <el-card style="margin-bottom: 10px">
             <div style="display: flex;justify-content: space-around; margin: 10px 0">
-                <el-select v-model="chooseSemester" placeholder="请选择实验室类型" style="padding-left: 10px" @change="change">
+                <el-select v-model="chooseSemester" placeholder="请选择实验室类型" style="padding-left: 10px"
+                           @change="change">
                     <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
                     <el-option label="2022-2023-2" value="2022-2023-2"></el-option>
                     <el-option label="2023-2024-1" value="2023-2024-1"></el-option>
@@ -28,12 +31,13 @@
             </el-table-column>
             <el-table-column label="实验室名字" prop="name">
             </el-table-column>
-            <el-table-column label="实验室类型" prop="labType" >
+            <el-table-column label="实验室类型" prop="labType">
             </el-table-column>
             <el-table-column label="设备数量" prop="deviceCount">
             </el-table-column>
             <el-table-column align="center" label="操作">
-                <el-button type="primary" style="margin-bottom: 5px" @click="confirmArrange">排课 <i class="el-icon-edit"></i></el-button>
+                <el-button style="margin-bottom: 5px" type="primary" @click="confirmArrange">排课 <i
+                        class="el-icon-edit"></i></el-button>
             </el-table-column>
         </el-table>
 
@@ -143,7 +147,7 @@ export default {
         reset() {
             this.$message.success("已设置")
         },
-        confirmArrange(){
+        confirmArrange() {
             // this.request.post("/long-arrangement" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
             //     if (res) {
             //         this.$message.success("排课成功")

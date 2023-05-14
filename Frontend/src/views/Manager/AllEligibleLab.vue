@@ -1,7 +1,9 @@
 <template>
     <div>
 
-        <el-button type="primary" @click="$router.push('/Management/classScheduling')" style="margin-bottom: 10px">返回筛选</el-button>
+        <el-button style="margin-bottom: 10px" type="primary" @click="$router.push('/Management/classScheduling')">
+            返回筛选
+        </el-button>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
             <el-table-column label="实验室ID" prop="labID">
@@ -10,12 +12,13 @@
             </el-table-column>
             <el-table-column label="实验室名字" prop="name">
             </el-table-column>
-            <el-table-column label="实验室类型" prop="labType" >
+            <el-table-column label="实验室类型" prop="labType">
             </el-table-column>
             <el-table-column label="设备数量" prop="deviceCount">
             </el-table-column>
             <el-table-column align="center" label="操作">
-                <el-button type="primary" style="margin-bottom: 5px" @click="confirmArrange">排课 <i class="el-icon-edit"></i></el-button>
+                <el-button style="margin-bottom: 5px" type="primary" @click="confirmArrange">排课 <i
+                        class="el-icon-edit"></i></el-button>
             </el-table-column>
         </el-table>
 
@@ -125,7 +128,7 @@ export default {
         reset() {
             this.$message.success("已设置")
         },
-        confirmArrange(){
+        confirmArrange() {
             // this.request.post("/long-arrangement" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
             //     if (res) {
             //         this.$message.success("排课成功")

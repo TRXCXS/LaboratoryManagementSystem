@@ -19,6 +19,7 @@ public class InstructorRequest {
     @TableId(value = "instructorRequestID", type = IdType.AUTO)
     private Integer instructorRequestID;
     private Timestamp requestTime;
+
     private LabType labType;
 
     // 以下6项为”想要“申请的时间段和学生班级、人数
@@ -26,6 +27,7 @@ public class InstructorRequest {
     private Integer endWeek;
     private Weekday weekday;
     private Slot slot;
+
     // studentClass为班级的描述，有可能是”20计算机1-4班“
     private String studentClass;
     private Integer studentCount;
