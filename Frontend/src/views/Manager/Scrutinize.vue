@@ -16,20 +16,26 @@
         <!--        </div>-->
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="申请时间" prop="app_time">
-            </el-table-column>
+
             <el-table-column label="申请学生" prop="app_student">
             </el-table-column>
-            <el-table-column label="申请学期" prop="app_semester">
+            <el-table-column label="申请时间" prop="requestTime">
             </el-table-column>
-            <el-table-column label="申请周次" prop="app_week" width="100px">
+            <el-table-column label="申请学期" prop="semesterID">
             </el-table-column>
-            <el-table-column label="申请节次" prop="app_section" width="100px">
+            <el-table-column label="申请周次" prop="week" width="100px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="app_labNum">
+            <el-table-column label="申请节次" prop="slot" width="100px">
             </el-table-column>
-            <el-table-column label="申请原因" prop="app_reason">
+            <el-table-column label="申请实验室编号" prop="labID" width="150px">
             </el-table-column>
+            <el-table-column label="申请原因" prop="reason" width="150px">
+            </el-table-column>
+            <el-table-column label="状态" prop="status" width="100px">
+            </el-table-column>
+
+
+
             <el-table-column align="center" label="操作" width="190px">
                 <template slot-scope="scope">
                     <el-button type="success" @click="approve(scope.row.user_id)">通过 <i class="el-icon-edit"></i>
@@ -95,7 +101,24 @@ export default {
             form: {
                 confirmation: "",
                 memorandum: "",
-            }
+            },
+
+
+            studentRequestID:"",
+            week:0,
+            weekday:"",
+            slot:"",
+            reason:"",
+            requestTime:"",
+            status:"",
+            adminProcessTime:"",
+            adminMessage:"",
+            useCompleteTime:"",
+            labID:0,
+            semesterID:0,
+            studentID:0,
+
+
 
         }
     },
@@ -157,7 +180,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                // this.request.delete("/user/users/"+id).then(res=>{
+                // this.request.post("/short-arrangement"+id).then(res=>{
                 //     if (res) {
                 //         this.$message({
                 //             type: 'success',

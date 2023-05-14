@@ -10,34 +10,37 @@
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
             <!--            <el-table-column prop="app_time" label="申请时间" >-->
             <!--            </el-table-column>-->
-            <el-table-column label="上课学期" prop="app_semester">
+            <el-table-column label="教师申请ID" prop="instructorRequestID" width="90px">
             </el-table-column>
-            <el-table-column label="课程名称" prop="course_name" width="100px">
+            <el-table-column label="上课学期" prop="requestTime" width="140px">
             </el-table-column>
-            <el-table-column label="实验室类型" prop="lab_type" width="100px">
+            <el-table-column label="课程名称" prop="course" width="100px">
             </el-table-column>
-            <el-table-column label="学生班级" prop="class" width="150px">
+            <el-table-column label="实验室类型" prop="labType" width="100px">
             </el-table-column>
-            <el-table-column label="学生人数" prop="stu_num" width="80px">
+            <el-table-column label="学生班级" prop="studentClass" width="150px">
             </el-table-column>
-            <el-table-column label="起始周" prop="start_week" width="60px">
+            <el-table-column label="学生人数" prop="studentCount" width="80px">
             </el-table-column>
-            <el-table-column label="结束周" prop="end_week" width="60px">
+            <el-table-column label="起始周" prop="startWeek" width="60px">
             </el-table-column>
-            <el-table-column label="节次" prop="app_section" width="50px">
+            <el-table-column label="结束周" prop="endWeek" width="60px">
             </el-table-column>
-            <el-table-column label="状态" prop="admin_scrutinized" width="100px">
+            <el-table-column label="节次" prop="slot" width="50px">
+            </el-table-column>
+            <el-table-column label="状态" prop="status" width="100px">
 
                 <el-popover>
-                    <el-tag slot="reference" :type="this.handledState==='已排课' ? 'success' : 'info'">
-                        {{ handledState }}
+                    <el-tag slot="reference" :type="this.status==='已排课' ? 'success' : 'info'">
+                        {{ status }}
                     </el-tag>
                 </el-popover>
 
             </el-table-column>
-            <el-table-column align="center" label="操作">
+            <el-table-column align="center" label="操作" >
                 <template slot-scope="scope">
-                    <el-button type="primary">排课 <i class="el-icon-edit"></i></el-button>
+                    <el-button type="success" style="margin-bottom: 5px" @click="checkAllEligibleLab">查看符合所有条件的教室 <i class="el-icon-edit"></i></el-button>
+                    <el-button type="primary" @click="selectLab">筛选教室<i class="el-icon-edit"></i></el-button>
                     <!--                    <el-button type="primary">确认使用完毕 <i class="el-icon-remove-outline"></i></el-button>-->
                 </template>
             </el-table-column>
@@ -66,6 +69,8 @@
 </template>
 
 <script>
+
+import router from "@/router";
 
 export default {
     name: "ClassScheduling",
@@ -96,7 +101,26 @@ export default {
             dialogFormVisible: false,
             multipleSelection: [],
 
-            headerBg: 'headerBg'
+            headerBg: 'headerBg',
+
+            instructorRequestID:0,
+            requestTime:"",
+            labType:"",
+            startWeek:0,
+            endWeek:0,
+            weekday:"",
+            slot:"",
+            studentClass:"",
+            studentCount:0,
+            course:"",
+            status:"",
+            adminProcessTime:"",
+            adminMessage:"",
+            instructorID:0,
+            semesterID:0,
+
+
+
         }
     },
     created() {
@@ -104,9 +128,9 @@ export default {
     },
     methods: {
         load() {
-            this.request.get("/user/users").then(res => {
+            this.request.get("/instructor-request/unhandled").then(res => {
                 console.log(res)
-                this.tableData = res
+                this.tableData = res.data
             })
         },
         resetDialog() {
@@ -159,7 +183,13 @@ export default {
 
         reset() {
             this.$message.success("已重置")
-        }
+        },
+        checkAllEligibleLab(){
+            this.$router.push("/Management/AllEligibleLab");
+        },
+        selectLab(){
+            this.$router.push("/Management/AdminSelectLab");
+        },
     }
 }
 </script>

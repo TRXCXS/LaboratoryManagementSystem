@@ -21,8 +21,8 @@
             </el-table-column>
             <el-table-column label="季度" prop="season">
             </el-table-column>
-            <el-table-column label="学期开始时间" prop="startDate">
-            </el-table-column>
+<!--            <el-table-column label="学期开始时间" prop="startDate">-->
+<!--            </el-table-column>-->
             <el-table-column label="周数" prop="weekCount">
             </el-table-column>
         </el-table>
@@ -109,9 +109,9 @@ export default {
     },
     methods: {
         load() {
-            this.request.get("/user/users").then(res => {
+            this.request.get("/semester/all").then(res => {
                 console.log(res)
-                this.tableData = res
+                this.tableData = res.data
             })
         },
         resetDialog() {
@@ -123,7 +123,8 @@ export default {
             this.resetDialog()
         },
         save() {
-            this.request.post("/user/users?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
+            // this.request.post("/user/users?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
+            this.request.post("/semester/?semesterID=" + this.semesterID + "&firstHalfYear=" + this.firstHalfYear + "&secondHalfYear=" + this.secondHalfYear+ "&season=" + this.season+ "&startDate=" + this.startDate+ "&weekCount=" + this.weekCount).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false
@@ -138,37 +139,9 @@ export default {
             this.dialogFormVisible = true;
             this.addSemester = {}
         },
-        del(id) {
-            console.log(id)
-            this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.request.delete("/user/users/" + id).then(res => {
-                    if (res) {
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        this.load()
-                    } else {
-                        this.$message.error("删除失败")
-                    }
-                })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
-        },
         change() {
             this.$store.state.semester = this.chooseSemester
         },
-        reset() {
-            this.$message.success("已重置")
-        }
     }
 }
 </script>

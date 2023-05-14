@@ -69,6 +69,7 @@ export default {
     data() {
         return {
             // section的空格不能删！！用来区分每个单元格，全是一样的话他会自动合并
+
             tableData: [
                 {
                     day: "星期一",

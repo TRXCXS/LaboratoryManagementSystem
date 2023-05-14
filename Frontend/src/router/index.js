@@ -67,6 +67,16 @@ const routes = [
                 name: '设备维修',
                 component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Maintenance.vue')
             },
+            {
+                path: '/Management/AllEligibleLab',
+                name: '所有符合条件的实验室',
+                component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/AllEligibleLab.vue')
+            },
+            {
+                path: '/Management/AdminSelectLab',
+                name: '选择实验室',
+                component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/AdminSelectLab.vue')
+            },
         ]
     },
     {
