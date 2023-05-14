@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Laboratory {
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "labID", type = IdType.AUTO)
     private Integer labID;
     private String labNumber; // 实际房间号
     private String name;

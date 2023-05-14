@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentRequest {
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "studentRequestID", type = IdType.AUTO)
     private Integer studentRequestID;
 
     // 以下3项是“想要”借用的具体时间段

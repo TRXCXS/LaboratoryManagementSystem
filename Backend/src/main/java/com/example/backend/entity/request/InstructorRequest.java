@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InstructorRequest {
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "instructorRequestID", type = IdType.AUTO)
     private Integer instructorRequestID;
     private Timestamp requestTime;
     private LabType labType;

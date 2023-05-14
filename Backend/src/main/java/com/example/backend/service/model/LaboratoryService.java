@@ -10,6 +10,8 @@ import java.util.List;
 
 @Service
 public interface LaboratoryService {
+    boolean isLabArranged(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, Integer labID);
+
     // 这个接口用来获取指定时间段指定类型的实验室，对应的是InstructorRequest和LongArrangement
     List<Laboratory> getLabsByTime(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, LabType labType);
 
