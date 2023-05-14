@@ -50,7 +50,7 @@ public class IsEntityExists {
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+
     @PostConstruct
     public void init() {
         isEntityExists = this;
