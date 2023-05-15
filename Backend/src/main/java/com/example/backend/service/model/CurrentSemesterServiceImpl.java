@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 @Service
-@AllArgsConstructor
 public class CurrentSemesterServiceImpl implements CurrentSemesterService {
     private final CurrentSemesterMapper currentSemesterMapper;
     private final SemesterMapper semesterMapper;
@@ -21,6 +20,21 @@ public class CurrentSemesterServiceImpl implements CurrentSemesterService {
     private CurrentSemester currentSemester;
     private Semester semesterInfo;
     private Timestamp currentSemesterEndDate;
+
+    public CurrentSemesterServiceImpl(
+            CurrentSemester currentSemester,
+            Semester semester,
+            CurrentSemesterMapper currentSemesterMapper,
+            SemesterMapper semesterMapper,
+            Timestamp currentSemesterEndDate,
+            Integer queryID) {
+        this.currentSemester = currentSemester;
+        this.semesterInfo = semester;
+        this.currentSemesterMapper = currentSemesterMapper;
+        this.semesterMapper = semesterMapper;
+        this.currentSemesterEndDate = currentSemesterEndDate;
+        this.currentSemesterQueryID = queryID;
+    }
 
     @Override
     public Semester getCurrentSemester() {
