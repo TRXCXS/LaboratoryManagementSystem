@@ -7,6 +7,8 @@ import com.example.backend.mapper.model.SemesterMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import com.example.backend.exception.model.semesterException.SetCurrentSemesterException;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +17,6 @@ import java.util.Calendar;
 
 @Service
 @AllArgsConstructor
-@Builder
 public class CurrentSemesterServiceImpl implements CurrentSemesterService {
     private CurrentSemester currentSemester;
     private Semester semesterInfo;
@@ -25,7 +26,7 @@ public class CurrentSemesterServiceImpl implements CurrentSemesterService {
 
     private Timestamp currentSemesterEndDate;
 
-    private final int currentSemesterQueryID;
+    private final Integer currentSemesterQueryID;
 
     @Override
     public Semester getCurrentSemester() {
