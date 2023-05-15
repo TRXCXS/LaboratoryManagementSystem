@@ -10,6 +10,7 @@ import com.example.backend.exception.request.studentRequestException.StudentRequ
 import com.example.backend.exception.request.studentRequestException.StudentRequestNotExistException;
 import com.example.backend.exception.user.studentException.StudentNotExistException;
 import com.example.backend.mapper.request.StudentRequestMapper;
+import com.example.backend.service.model.CurrentSemesterService;
 import com.example.backend.utils.enumClasses.requestStatus.StudentRequestStatus;
 import com.example.backend.utils.utilClasses.ExceptionUtil;
 import com.example.backend.utils.utilClasses.IsEntityExists;
@@ -26,11 +27,11 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     private final StudentRequestMapper studentRequestMapper;
     private final IsEntityExists isEntityExists;
     private final ExceptionUtil exceptionUtil;
+    private final CurrentSemesterService currentSemesterService;
 
     @Override
     public List<StudentRequest> getStudentRequestsByStudent(Integer studentID) {
-        // TODO: 2023/5/14 这里的 semesterID应该是根据CurrentSemesterService拿到的当前学期的ID
-        int semesterID = 0;
+        int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
 
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("studentID", studentID);
@@ -111,7 +112,7 @@ public class StudentRequestServiceImpl implements StudentRequestService {
 
         updateWrapper.set("reason", updatedStudentRequestInfo.getReason());
 
-        // TODO: 2023/5/14 这里没有办法更新status和adminMessage，因为方法参数updatedStudentRequestInfo没有这两个属性
+        // TODO: 2023/5/14 这里没有办法更新adminMessage，因为方法参数updatedStudentRequestInfo没有这两个属性
         updateWrapper.set("adminProcessTime", new Timestamp(System.currentTimeMillis()));
 
         updateWrapper.set("labID", updatedStudentRequestInfo.getLabID());

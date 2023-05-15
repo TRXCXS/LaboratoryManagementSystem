@@ -15,6 +15,7 @@ import java.util.List;
 public class SemesterServiceImpl implements SemesterService {
     private final SemesterMapper semesterMapper;
     private final IsEntityExists isEntityExists;
+    private final CurrentSemesterService currentSemesterService;
 
     @Override
     public List<Semester> getAllSemesters() {
@@ -37,7 +38,7 @@ public class SemesterServiceImpl implements SemesterService {
     @Override
     public void setCurrentSemester(Integer semesterID) {
 
-        // TODO: 2023/5/14 这里直接调用CurrentSemesterService的设置currentSemester的方法就行了
+        currentSemesterService.setNewCurrentSemester(semesterID);
 
     }
 }

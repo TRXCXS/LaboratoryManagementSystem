@@ -1,8 +1,12 @@
 package com.example.backend.service.arrangement;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.entity.arrangement.LongArrangement;
+import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.exception.user.instructorException.InstructorNotExistException;
 import com.example.backend.mapper.arrangement.LongArrangementMapper;
+import com.example.backend.mapper.request.InstructorRequestMapper;
+import com.example.backend.utils.enumClasses.requestStatus.InstructorRequestStatus;
 import com.example.backend.utils.utilClasses.ExceptionUtil;
 import com.example.backend.utils.utilClasses.IsEntityExists;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LongArrangementServiceImpl implements LongArrangementService {
     private final LongArrangementMapper longArrangementMapper;
+    private final InstructorRequestMapper instructorRequestMapper;
     private final IsEntityExists isEntityExists;
     private final ExceptionUtil exceptionUtil;
 
@@ -27,6 +32,11 @@ public class LongArrangementServiceImpl implements LongArrangementService {
         exceptionUtil.LabIDException(newLongArrangement.getLabID());
 
         longArrangementMapper.insert(newLongArrangement);
-        // TODO: 2023/5/15 要更新对应request为arranged
+
+        // 更新对应request为arranged
+        UpdateWrapper<InstructorRequest> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("instructorRequestID", newLongArrangement.getInstructorRequestID());
+        updateWrapper.set("status", InstructorRequestStatus.ARRANGED);
+        instructorRequestMapper.update(null, updateWrapper);
     }
 }

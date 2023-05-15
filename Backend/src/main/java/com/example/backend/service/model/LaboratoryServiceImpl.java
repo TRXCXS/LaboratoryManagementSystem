@@ -34,6 +34,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     private final InstructorRequestMapper instructorRequestMapper;
     private final StudentRequestMapper studentRequestMapper;
     private final ExceptionUtil exceptionUtil;
+    private final CurrentSemesterService currentSemesterService;
 
     @Override
     public boolean isLabArranged(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, Integer labID) {
@@ -63,8 +64,8 @@ public class LaboratoryServiceImpl implements LaboratoryService {
         if (longArrangementList.isEmpty()) {
             // 该实验室与本次要求的时间相冲突的安排在任何学期都不存在
         } else {
-            // TODO: 2023/5/14 这里的 semesterID应该是根据CurrentSemesterService拿到的当前学期的ID
-            int semesterID = 0;
+            int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
+
             for (int i = 0; i < longArrangementList.size(); i++) {
                 InstructorRequest instructorRequest = instructorRequestMapper.selectById(longArrangementList.get(i).getInstructorRequestID());
                 if (instructorRequest.getSemesterID() == semesterID) ;
@@ -142,8 +143,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
         if (shortArrangementList.isEmpty()) {
         } else {
-            // TODO: 2023/5/14 这里的 semesterID应该是根据CurrentSemesterService拿到的当前学期的ID
-            int semesterID = 0;
+            int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
             for (int i = 0; i < shortArrangementList.size(); i++) {
                 StudentRequest studentRequest = studentRequestMapper.selectById(shortArrangementList.get(i).getStudentRequestID());
                 if (studentRequest.getSemesterID() == semesterID) ;

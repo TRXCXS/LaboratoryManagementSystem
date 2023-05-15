@@ -9,6 +9,7 @@ import com.example.backend.exception.request.instructorRequestException.Instruct
 import com.example.backend.exception.request.instructorRequestException.InstructorRequestNotExistException;
 import com.example.backend.exception.user.instructorException.InstructorNotExistException;
 import com.example.backend.mapper.request.InstructorRequestMapper;
+import com.example.backend.service.model.CurrentSemesterService;
 import com.example.backend.utils.enumClasses.requestStatus.InstructorRequestStatus;
 import com.example.backend.utils.utilClasses.ExceptionUtil;
 import com.example.backend.utils.utilClasses.IsEntityExists;
@@ -25,12 +26,13 @@ public class InstructorRequestServiceImpl implements InstructorRequestService {
     private final InstructorRequestMapper instructorRequestMapper;
     private final IsEntityExists isEntityExists;
     private final ExceptionUtil exceptionUtil;
+    private final CurrentSemesterService currentSemesterService;
 
     @Override
     public List<InstructorRequest> getAllInstructorRequests() {
         // 这是获取当前学期的所有InstructorRequest
-        // TODO: 2023/5/14 这里的 semesterID应该是根据CurrentSemesterService拿到的当前学期的ID
-        int semesterID = 0;
+
+        int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
 
         QueryWrapper<InstructorRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", semesterID);
@@ -39,8 +41,7 @@ public class InstructorRequestServiceImpl implements InstructorRequestService {
 
     @Override
     public List<InstructorRequest> getUnhandledInstructorRequests() {
-        // TODO: 2023/5/14 这里的 semesterID应该是根据CurrentSemesterService拿到的当前学期的ID
-        int semesterID = 0;
+        int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
 
         QueryWrapper<InstructorRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", semesterID);
@@ -50,8 +51,7 @@ public class InstructorRequestServiceImpl implements InstructorRequestService {
 
     @Override
     public List<InstructorRequest> getInstructorRequestsByInstructor(Integer instructorID) {
-        // TODO: 2023/5/14 这里的 semesterID应该是根据CurrentSemesterService拿到的当前学期的ID
-        int semesterID = 0;
+        int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
 
         QueryWrapper<InstructorRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", semesterID);
@@ -141,7 +141,7 @@ public class InstructorRequestServiceImpl implements InstructorRequestService {
         updateWrapper.set("studentCount", updatedInstructorRequestInfo.getStudentCount());
         updateWrapper.set("course", updatedInstructorRequestInfo.getCourse());
 
-        // TODO: 2023/5/14 这里没有办法更新status和adminMessage，因为方法参数updatedInstructorRequestInfo没有这两个属性
+        // TODO: 2023/5/14 这里没有办法更新adminMessage，因为方法参数updatedInstructorRequestInfo没有这两个属性
         updateWrapper.set("adminProcessTime", new Timestamp(System.currentTimeMillis()));
 
         updateWrapper.set("instructorID", updatedInstructorRequestInfo.getInstructorID());
