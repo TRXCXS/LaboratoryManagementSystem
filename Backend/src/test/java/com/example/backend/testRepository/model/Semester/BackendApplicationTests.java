@@ -6,7 +6,6 @@ import com.example.backend.entity.model.Semester;
 import com.example.backend.mapper.model.SemesterMapper;
 import com.example.backend.utils.enumClasses.model.Season;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

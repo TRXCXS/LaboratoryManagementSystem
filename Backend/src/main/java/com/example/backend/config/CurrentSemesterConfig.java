@@ -18,12 +18,10 @@ import java.util.Calendar;
 @Configuration
 @RequiredArgsConstructor
 public class CurrentSemesterConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CurrentSemesterConfig.class);
+    private static final int QUERY_ID = 1;
     private final CurrentSemesterMapper currentSemesterMapper;
     private final SemesterMapper semesterMapper;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CurrentSemesterConfig.class);
-
-    private static final int QUERY_ID = 1;
 
     @Bean
     public CurrentSemester currentSemester() {

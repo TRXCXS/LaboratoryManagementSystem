@@ -15,21 +15,25 @@
 */
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+SET
+FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for current_semester
 -- ----------------------------
 DROP TABLE IF EXISTS `current_semester`;
-CREATE TABLE `current_semester`  (
-  `queryID` int NOT NULL,
-  `currentSemesterID` int NULL DEFAULT NULL,
-  PRIMARY KEY (`queryID`) USING BTREE
+CREATE TABLE `current_semester`
+(
+    `queryID`           int NOT NULL,
+    `currentSemesterID` int NULL DEFAULT NULL,
+    PRIMARY KEY (`queryID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of current_semester
 -- ----------------------------
-INSERT INTO `current_semester` VALUES (1, 1);
+INSERT INTO `current_semester`
+VALUES (1, 1);
 
-SET FOREIGN_KEY_CHECKS = 1;
+SET
+FOREIGN_KEY_CHECKS = 1;

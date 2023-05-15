@@ -29,5 +29,6 @@ public class ShortArrangementServiceImpl implements ShortArrangementService {
         }
 
         shortArrangementMapper.insert(newShortArrangement);
+        // TODO: 2023/5/15 要更新对应request为arranged 
     }
 }

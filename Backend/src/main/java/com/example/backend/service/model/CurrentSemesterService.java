@@ -1,6 +1,5 @@
 package com.example.backend.service.model;
 
-import com.example.backend.entity.model.CurrentSemester;
 import com.example.backend.entity.model.Semester;
 import org.springframework.stereotype.Service;
 

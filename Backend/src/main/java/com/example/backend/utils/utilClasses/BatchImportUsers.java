@@ -61,7 +61,7 @@ public class BatchImportUsers {
                         for (int j = 0; j < 3; j++) {
                             Cell cell = row.getCell(j);
                             cell.setCellType(CellType.STRING);
-                            strings[i] = cell.getStringCellValue();
+                            strings[j] = cell.getStringCellValue();
                         }
 
                         User user = new User(null, strings[1], strings[2], null);
@@ -90,7 +90,7 @@ public class BatchImportUsers {
                         for (int j = 0; j < 4; j++) {
                             Cell cell = row.getCell(j);
                             cell.setCellType(CellType.STRING);
-                            strings[i] = cell.getStringCellValue();
+                            strings[j] = cell.getStringCellValue();
                         }
 
                         User user = new User(null, strings[2], strings[3], null);
@@ -124,7 +124,7 @@ public class BatchImportUsers {
                         for (int j = 0; j < 5; j++) {
                             Cell cell = row.getCell(j);
                             cell.setCellType(CellType.STRING);
-                            strings[i] = cell.getStringCellValue();
+                            strings[j] = cell.getStringCellValue();
                         }
 
                         User user = new User(null, strings[3], strings[4], null);

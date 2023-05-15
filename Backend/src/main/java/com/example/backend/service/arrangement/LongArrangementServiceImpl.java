@@ -27,5 +27,6 @@ public class LongArrangementServiceImpl implements LongArrangementService {
         exceptionUtil.LabIDException(newLongArrangement.getLabID());
 
         longArrangementMapper.insert(newLongArrangement);
+        // TODO: 2023/5/15 要更新对应request为arranged
     }
 }

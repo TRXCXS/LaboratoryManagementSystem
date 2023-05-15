@@ -17,7 +17,7 @@ class BackendApplicationTests {
     @Test
     void test() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("C:\\Coding\\JavaProjects\\LaboratoryManagementSystem\\developFiles\\demoUserData.xlsx");
-        batchImportUsers.readAndImport(inputStream, true, "Administrator");
+        batchImportUsers.readAndImport(inputStream, false, "Administrator");
     }
 
 }
