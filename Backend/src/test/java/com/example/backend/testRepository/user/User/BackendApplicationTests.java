@@ -53,10 +53,10 @@ class BackendApplicationTests {
     @Test
     void testExists() {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("loginID", 2021);
+        queryWrapper.eq("loginID", "2021");
         System.out.println("是否存在loginID为2021的user?:" + userMapper.exists(queryWrapper));
 
-        queryWrapper.eq("loginID", 2022);
+        queryWrapper.eq("loginID", "2022");
         System.out.println("是否存在loginID为2022的user?:" + userMapper.exists(queryWrapper));
     }
 }
