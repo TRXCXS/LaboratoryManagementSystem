@@ -56,6 +56,7 @@ class BackendApplicationTests {
         queryWrapper.eq("loginID", "2021");
         System.out.println("是否存在loginID为2021的user?:" + userMapper.exists(queryWrapper));
 
+        queryWrapper.clear();
         queryWrapper.eq("loginID", "2022");
         System.out.println("是否存在loginID为2022的user?:" + userMapper.exists(queryWrapper));
     }
