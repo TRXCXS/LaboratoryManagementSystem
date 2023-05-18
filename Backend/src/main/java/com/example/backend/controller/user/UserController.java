@@ -2,14 +2,25 @@ package com.example.backend.controller.user;
 
 import com.example.backend.controller.requestbody.ResetPasswordRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBody;
+import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
+import com.example.backend.entity.request.InstructorRequest;
+import com.example.backend.entity.user.Instructor;
+import com.example.backend.entity.user.Student;
+import com.example.backend.entity.user.Technician;
 import com.example.backend.exception.user.userRequestException.MultipleRoleException;
 import com.example.backend.exception.user.userRequestException.RoleSpecificInfoNotFoundException;
 import com.example.backend.service.user.UserService;
+import com.example.backend.utils.enumClasses.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Struct;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -29,7 +40,8 @@ public class UserController {
             createTechnician(
                     @RequestBody UserRequestBody technicianInfo
     ) {
-        if(technicianInfo.getRoles().size() != 1) {
+        if(technicianInfo.getRoles().size() != 1
+                || technicianInfo.getRoles().get(0) != Role.ROLE_TECHNICIAN) {
             throw new MultipleRoleException("该接口只接受单角色用户创建");
         }
         Map<String, String> roleSpecificInfo = technicianInfo.getRoleSpecificInfo();
@@ -58,7 +70,8 @@ public class UserController {
     createInstructor(
             @RequestBody UserRequestBody instructorInfo
     ) {
-        if(instructorInfo.getRoles().size() != 1) {
+        if(instructorInfo.getRoles().size() != 1
+                || instructorInfo.getRoles().get(0) != Role.ROLE_INSTRUCTOR) {
             throw new MultipleRoleException("该接口只接受单角色用户创建");
         }
         Map<String, String> roleSpecificInfo = instructorInfo.getRoleSpecificInfo();
@@ -88,7 +101,8 @@ public class UserController {
     createStudent(
             @RequestBody UserRequestBody studentInfo
     ) {
-        if(studentInfo.getRoles().size() != 1) {
+        if(studentInfo.getRoles().size() != 1
+                || studentInfo.getRoles().get(0) != Role.ROLE_STUDENT) {
             throw new MultipleRoleException("该接口只接受单角色用户创建");
         }
         Map<String, String> roleSpecificInfo = studentInfo.getRoleSpecificInfo();
@@ -134,19 +148,146 @@ public class UserController {
                 .build();
     }
 
-//    @PostMapping
-//    public GeneralFormattedResponseBody<Object>
-//    createUser(
-//            @RequestBody UserRequestBody userInfo
-//    ) {
-//        userService.checkRolesAndInfo(userInfo);
-//        userService.createUser(userInfo);
-//        return GeneralFormattedResponseBody
-//                .<Object>builder()
-//                .status(HttpStatus.CREATED.value())
-//                .message("success")
-//                .data(null)
-//                .build();
-//    }
+    @PostMapping
+    public GeneralFormattedResponseBody<Object>
+    createUser(
+            @RequestBody UserRequestBody userInfo
+    ) {
+        userService.checkRolesAndInfo(userInfo);
+        userService.createUser(userInfo);
+        return GeneralFormattedResponseBody
+                .<Object>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
 
+    @PutMapping("/technician")
+    public GeneralFormattedResponseBody<Object>
+    updateTechnician(UserRequestBodyForUpdate userUpdate) {
+        if(!userUpdate.getRoles().contains(Role.ROLE_TECHNICIAN)) {
+            throw new MultipleRoleException("该接口只接受实验员信息更改");
+        }
+        userService.updateTechnician(userUpdate);
+        return GeneralFormattedResponseBody
+                .<Object>builder()
+                .status(HttpStatus.NO_CONTENT.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
+
+    @PutMapping("/instructor")
+    public GeneralFormattedResponseBody<Object>
+    updateInstructor(UserRequestBodyForUpdate userUpdate) {
+        if(!userUpdate.getRoles().contains(Role.ROLE_INSTRUCTOR)) {
+            throw new MultipleRoleException("该接口只接受教师信息更改");
+        }
+        userService.updateInstructor(userUpdate);
+        return GeneralFormattedResponseBody
+                .<Object>builder()
+                .status(HttpStatus.NO_CONTENT.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
+
+    @PutMapping("/student")
+    public GeneralFormattedResponseBody<Object>
+    updateStudent(UserRequestBodyForUpdate userUpdate) {
+        if(!userUpdate.getRoles().contains(Role.ROLE_STUDENT)) {
+            throw new MultipleRoleException("该接口只接受学生信息更改");
+        }
+        userService.updateInstructor(userUpdate);
+        return GeneralFormattedResponseBody
+                .<Object>builder()
+                .status(HttpStatus.NO_CONTENT.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
+
+    @GetMapping("/technician/all")
+    public GeneralFormattedResponseBody<List<Technician>>
+    getAllTechnicians() {
+        return GeneralFormattedResponseBody
+                .<List<Technician>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getAllTechnicians())
+                .build();
+    }
+
+    @GetMapping("/instructor/all")
+    public GeneralFormattedResponseBody<List<Instructor>>
+    getAllInstructors() {
+        return GeneralFormattedResponseBody
+                .<List<Instructor>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getAllInstructors())
+                .build();
+    }
+
+
+    @GetMapping("/student/all")
+    public GeneralFormattedResponseBody<List<Student>>
+    getAllStudents() {
+        return GeneralFormattedResponseBody
+                .<List<Student>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getAllStudents())
+                .build();
+    }
+
+
+    @GetMapping("/technician/name")
+    public GeneralFormattedResponseBody<List<Technician>>
+    getTechniciansByName(@RequestParam String name) {
+        return GeneralFormattedResponseBody
+                .<List<Technician>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getTechniciansByName(name))
+                .build();
+    }
+
+    @GetMapping("/instructor/name")
+    public GeneralFormattedResponseBody<List<Instructor>>
+    getInstructorsByName(@RequestParam String name) {
+        return GeneralFormattedResponseBody
+                .<List<Instructor>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getInstructorsByName(name))
+                .build();
+    }
+
+    @GetMapping("/student/name")
+    public GeneralFormattedResponseBody<List<Student>>
+    getStudentsByName(@RequestParam String name) {
+        return GeneralFormattedResponseBody
+                .<List<Student>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getStudentsByName(name))
+                .build();
+    }
+
+    @PostMapping("/batch")
+    public GeneralFormattedResponseBody<Object>
+    batchImport(@RequestParam("table") MultipartFile table)
+            throws IOException {
+        File t = new File(table.getOriginalFilename());
+        table.transferTo(t);
+        userService.batchImport(t);
+        return GeneralFormattedResponseBody
+                .<Object>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
 }
