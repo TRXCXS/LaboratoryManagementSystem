@@ -3,12 +3,20 @@
         <div style="margin: 10px 0">
             <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
             <el-select v-model="chooseSemester" placeholder="请选择学期" style="padding-left: 10px" @change="change">
-                <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
-                <el-option label="2022-2023-2" value="2022-2023-2"></el-option>
-                <el-option label="2023-2024-1" value="2023-2024-1"></el-option>
-                <el-option label="2023-2024-2" value="2023-2024-2"></el-option>
-                <el-option label="2024-2025-1" value="2024-2025-1"></el-option>
-                <el-option label="2024-2025-2" value="2024-2025-2"></el-option>
+<!--                <el-option label="2022-2023-1" value="2022-2023-1"></el-option>-->
+<!--                <el-option label="2022-2023-2" value="2022-2023-2"></el-option>-->
+<!--                <el-option label="2023-2024-1" value="2023-2024-1"></el-option>-->
+<!--                <el-option label="2023-2024-2" value="2023-2024-2"></el-option>-->
+<!--                <el-option label="2024-2025-1" value="2024-2025-1"></el-option>-->
+<!--                <el-option label="2024-2025-2" value="2024-2025-2"></el-option>-->
+
+                <el-option
+                    v-for="option in options"
+                    :key="option.value"
+                    :label="option.label"
+                    :value="option.value"
+                ></el-option>
+
             </el-select>
         </div>
 
@@ -21,8 +29,8 @@
             </el-table-column>
             <el-table-column label="季度" prop="season">
             </el-table-column>
-            <!--            <el-table-column label="学期开始时间" prop="startDate">-->
-            <!--            </el-table-column>-->
+<!--            <el-table-column label="学期开始时间" prop="startDate">-->
+<!--            </el-table-column>-->
             <el-table-column label="周数" prop="weekCount">
             </el-table-column>
         </el-table>
@@ -62,17 +70,9 @@
 export default {
     name: "Semester",
     data() {
-        const item = {
-            semesterID: "1",
-            firstHalfYear: "2023",
-            secondHalfYear: "2024",
-            season: "1",
-            startDate: "2023-2-3",
-            weekCount: "18",
-        };
         return {
-            // tableData: [],
-            tableData: Array(10).fill(item),
+            tableData: [],
+            options: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -101,7 +101,7 @@ export default {
             dialogFormVisible: false,
             multipleSelection: [],
 
-            headerBg: 'headerBg'
+            headerBg: 'headerBg',
         }
     },
     created() {
@@ -112,6 +112,18 @@ export default {
             this.request.get("/semester/all").then(res => {
                 console.log(res)
                 this.tableData = res.data
+                for(let i = 0;i<res.data.length;i++){
+                    let label =""
+                    let value = ""
+                    if (res.data[i].season === "FALL"){
+                        label = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-2"
+                        // value = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-2"
+                    }else {
+                        label = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-1"
+                        // value = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-2"
+                    }
+                    this.options.push({label:label,value:label})
+                }
             })
         },
         resetDialog() {
