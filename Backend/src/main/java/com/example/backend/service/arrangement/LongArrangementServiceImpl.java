@@ -1,6 +1,7 @@
 package com.example.backend.service.arrangement;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.backend.controller.responsebody.LongArrangementResponseDataForDisplay;
 import com.example.backend.entity.arrangement.LongArrangement;
 import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.exception.user.instructorException.InstructorNotExistException;
@@ -12,6 +13,8 @@ import com.example.backend.utils.utilClasses.IsEntityExists;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +41,10 @@ public class LongArrangementServiceImpl implements LongArrangementService {
         updateWrapper.eq("instructorRequestID", newLongArrangement.getInstructorRequestID());
         updateWrapper.set("status", InstructorRequestStatus.ARRANGED);
         instructorRequestMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public List<LongArrangementResponseDataForDisplay> getTableData() {
+        return null;
     }
 }

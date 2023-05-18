@@ -1,11 +1,14 @@
 package com.example.backend.controller.arrangement;
 
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
+import com.example.backend.controller.responsebody.LongArrangementResponseDataForDisplay;
 import com.example.backend.entity.arrangement.LongArrangement;
 import com.example.backend.service.arrangement.LongArrangementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +28,16 @@ public class LongArrangementController {
                 .status(HttpStatus.CREATED.value())
                 .message("success")
                 .data(null)
+                .build();
+    }
+
+    @GetMapping("/table")
+    public GeneralFormattedResponseBody<List<LongArrangementResponseDataForDisplay>>
+    getTableData() {
+        return GeneralFormattedResponseBody.<List<LongArrangementResponseDataForDisplay>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(longArrangementService.getTableData())
                 .build();
     }
 }

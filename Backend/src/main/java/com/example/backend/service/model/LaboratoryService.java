@@ -7,6 +7,7 @@ import com.example.backend.utils.enumClasses.model.Weekday;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface LaboratoryService {
@@ -24,4 +25,11 @@ public interface LaboratoryService {
 
     // InstructorRequest全部条件都满足对应的接口
     List<Laboratory> getLabs(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, LabType labType, Integer studentCount);
+
+    /**
+     * 返回所有实验室，但是按类型分组
+     * LabType有几个类型，这个Map就有几个key
+     * 每个key的value是一个链表，包含所有这个类型的实验室，不包含其他类型的实验室
+     */
+    Map<LabType, List<Laboratory>> getLabsGroupByType();
 }

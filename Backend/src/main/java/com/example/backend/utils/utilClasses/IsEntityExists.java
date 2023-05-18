@@ -238,7 +238,7 @@ public class IsEntityExists {
         }
     }
 
-    public boolean isUserExistsByLoginID(Integer loginID) {
+    public boolean isUserExistsByLoginID(String loginID) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("loginID", loginID);
         if (userMapper.exists(queryWrapper)) {
