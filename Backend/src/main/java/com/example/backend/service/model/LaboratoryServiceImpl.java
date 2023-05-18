@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -176,6 +177,21 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
     @Override
     public Map<LabType, List<Laboratory>> getLabsGroupByType() {
-        return null;
+        Map<LabType, List<Laboratory>> map = new HashMap<>();
+
+        // 获取到所有类型
+        QueryWrapper<Laboratory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("distinct labType");
+        List<Laboratory> laboratoryList = laboratoryMapper.selectList(queryWrapper);
+
+        for (Laboratory laboratory : laboratoryList) {
+            QueryWrapper<Laboratory> queryWrapper_laboratoriesByType = new QueryWrapper<>();
+            queryWrapper.eq("labType", laboratory.getLabType());
+            List<Laboratory> laboratories = laboratoryMapper.selectList(queryWrapper_laboratoriesByType);
+
+            map.put(laboratory.getLabType(), laboratories);
+        }
+
+        return map;
     }
 }
