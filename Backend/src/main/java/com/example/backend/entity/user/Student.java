@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Student {
-    @TableId
+    @TableId(value = "studentID")
     private Integer studentID; // 外键，指向User
     private String name;
     private String major;

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Administrator {
-    @TableId
+    @TableId(value = "adminID")
     private Integer adminID; // 外键，指向User
     private String name;
 }

@@ -55,6 +55,8 @@ public class BatchImportUsers {
             switch (userType) {
                 case "Administrator" -> {
                     for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
+                        // 从第二行开始读
+
                         Row row = sheet.getRow(i);
 
                         String[] strings = new String[3];
@@ -68,18 +70,8 @@ public class BatchImportUsers {
                         userMapper.insert(user);
                         Administrator administrator = new Administrator(user.getUserID(), strings[0]);
                         administratorMapper.insert(administrator);
-
-                        Cell cell = row.getCell(3);
-                        cell.setCellType(CellType.NUMERIC);
-                        int roleNumber = (int) cell.getNumericCellValue();
-                        for (int k = 0; k < roleNumber; k++) {
-                            Cell tempCell = row.getCell(4 + k);
-                            tempCell.setCellType(CellType.STRING);
-                            String role = tempCell.getStringCellValue();
-
-                            UserRole userRole = new UserRole(null, user.getUserID(), Role.valueOf(role));
-                            userRoleMapper.insert(userRole);
-                        }
+                        UserRole userRole = new UserRole(null, user.getUserID(), Role.ROLE_ADMIN);
+                        userRoleMapper.insert(userRole);
                     }
                 }
                 case "Technician", "Instructor" -> {
@@ -98,20 +90,12 @@ public class BatchImportUsers {
                         if (userType.equals("Technician")) {
                             Technician technician = new Technician(user.getUserID(), strings[0], strings[1]);
                             technicianMapper.insert(technician);
+                            UserRole userRole = new UserRole(null, user.getUserID(), Role.ROLE_TECHNICIAN);
+                            userRoleMapper.insert(userRole);
                         } else {
                             Instructor instructor = new Instructor(user.getUserID(), strings[0], strings[1]);
                             instructorMapper.insert(instructor);
-                        }
-
-                        Cell cell = row.getCell(4);
-                        cell.setCellType(CellType.NUMERIC);
-                        int roleNumber = (int) cell.getNumericCellValue();
-                        for (int k = 0; k < roleNumber; k++) {
-                            Cell tempCell = row.getCell(5 + k);
-                            tempCell.setCellType(CellType.STRING);
-                            String role = tempCell.getStringCellValue();
-
-                            UserRole userRole = new UserRole(null, user.getUserID(), Role.valueOf(role));
+                            UserRole userRole = new UserRole(null, user.getUserID(), Role.ROLE_INSTRUCTOR);
                             userRoleMapper.insert(userRole);
                         }
                     }

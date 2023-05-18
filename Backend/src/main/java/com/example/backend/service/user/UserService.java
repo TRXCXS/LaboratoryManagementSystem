@@ -7,9 +7,9 @@ import com.example.backend.entity.user.Instructor;
 import com.example.backend.entity.user.Student;
 import com.example.backend.entity.user.Technician;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Service
@@ -49,14 +49,14 @@ public interface UserService {
 
     /**
      * 检查用户信息userInfo里的角色和角色特定信息
-     *
+     * <p>
      * 这个方法用于在创建多角色用户之前，对客户端提供的用户信息进行检查
      * 实现时，可以创建并调用2个服务层实现类impl的私有方法：
      * private void checkRoles()，检查用户角色是否符合要求，比如
      * “不能同时存在老师和学生这2个角色”
      * private void checkRoleSpecificInfo()，检查角色特定信息是否全面，比如
      * “存在管理员角色，那么至少要提供‘姓名’”
-     *
+     * <p>
      * 这2个私有方法还有调用它的接口方法，都没有返回值
      * 成功返回则通过检查
      * 一旦检查出异常，就立刻抛异常，不会成功执行完毕
@@ -70,7 +70,7 @@ public interface UserService {
      * 1、向User表插入表项
      * 2、向各个子表插入表项
      * 3、向UserRole表插入表项
-     *
+     * <p>
      * 第0步需要实现为impl类的一个私有方法，
      * 并在各类创建方法中（不止这一个）事先调用判断
      */
@@ -90,7 +90,7 @@ public interface UserService {
      * 若有且不一样，需要更新
      * 4、最好可以做到，当name发生改变时，其他角色子表里的name也发生改变
      * title应该是不用跟着改变的，实验室的职称和教师的职称应该是不同的2个概念
-     *
+     * <p>
      * 注：
      * 1、此接口不对用户的权限做更改，只修改基本用户信息，roles只用于查询
      * 2、针对的是单一角色的实验员用户，但改到名字时最好同时更新其他子表
@@ -115,5 +115,5 @@ public interface UserService {
 
     List<Student> getStudentsByName(String name);
 
-    void batchImport(File table);
+    void batchImport(File table, boolean isXls, String userType) throws FileNotFoundException;
 }

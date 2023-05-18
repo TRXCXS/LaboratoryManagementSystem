@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "userID",type = IdType.AUTO)
     private Integer userID; // 系统内的唯一标识符
     private String loginID; // 学号或工号
     private String password;

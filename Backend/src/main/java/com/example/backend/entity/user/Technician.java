@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Technician {
-    @TableId
+    @TableId(value = "technicianID")
     private Integer technicianID; // 外键，指向User
     private String name;
     private String title;

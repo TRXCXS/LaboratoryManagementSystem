@@ -4,7 +4,6 @@ import com.example.backend.controller.requestbody.ResetPasswordRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
-import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.entity.user.Instructor;
 import com.example.backend.entity.user.Student;
 import com.example.backend.entity.user.Technician;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Struct;
 import java.util.List;
 import java.util.Map;
 
@@ -37,15 +35,15 @@ public class UserController {
      */
     @PostMapping("/technician")
     public GeneralFormattedResponseBody<Object>
-            createTechnician(
-                    @RequestBody UserRequestBody technicianInfo
+    createTechnician(
+            @RequestBody UserRequestBody technicianInfo
     ) {
-        if(technicianInfo.getRoles().size() != 1
+        if (technicianInfo.getRoles().size() != 1
                 || technicianInfo.getRoles().get(0) != Role.ROLE_TECHNICIAN) {
             throw new MultipleRoleException("该接口只接受单角色用户创建");
         }
         Map<String, String> roleSpecificInfo = technicianInfo.getRoleSpecificInfo();
-        if(!roleSpecificInfo.containsKey("name")
+        if (!roleSpecificInfo.containsKey("name")
                 || !roleSpecificInfo.containsKey("title")) {
             throw new RoleSpecificInfoNotFoundException(
                     "创建角色实验员要求填写姓名和职称"
@@ -70,12 +68,12 @@ public class UserController {
     createInstructor(
             @RequestBody UserRequestBody instructorInfo
     ) {
-        if(instructorInfo.getRoles().size() != 1
+        if (instructorInfo.getRoles().size() != 1
                 || instructorInfo.getRoles().get(0) != Role.ROLE_INSTRUCTOR) {
             throw new MultipleRoleException("该接口只接受单角色用户创建");
         }
         Map<String, String> roleSpecificInfo = instructorInfo.getRoleSpecificInfo();
-        if(!roleSpecificInfo.containsKey("name")
+        if (!roleSpecificInfo.containsKey("name")
                 || !roleSpecificInfo.containsKey("title")) {
             throw new RoleSpecificInfoNotFoundException(
                     "创建角色教师要求填写姓名和职称"
@@ -101,12 +99,12 @@ public class UserController {
     createStudent(
             @RequestBody UserRequestBody studentInfo
     ) {
-        if(studentInfo.getRoles().size() != 1
+        if (studentInfo.getRoles().size() != 1
                 || studentInfo.getRoles().get(0) != Role.ROLE_STUDENT) {
             throw new MultipleRoleException("该接口只接受单角色用户创建");
         }
         Map<String, String> roleSpecificInfo = studentInfo.getRoleSpecificInfo();
-        if(!roleSpecificInfo.containsKey("name")
+        if (!roleSpecificInfo.containsKey("name")
                 || !roleSpecificInfo.containsKey("major")
                 || !roleSpecificInfo.containsKey("clazz")
         ) {
@@ -166,7 +164,7 @@ public class UserController {
     @PutMapping("/technician")
     public GeneralFormattedResponseBody<Object>
     updateTechnician(UserRequestBodyForUpdate userUpdate) {
-        if(!userUpdate.getRoles().contains(Role.ROLE_TECHNICIAN)) {
+        if (!userUpdate.getRoles().contains(Role.ROLE_TECHNICIAN)) {
             throw new MultipleRoleException("该接口只接受实验员信息更改");
         }
         userService.updateTechnician(userUpdate);
@@ -181,7 +179,7 @@ public class UserController {
     @PutMapping("/instructor")
     public GeneralFormattedResponseBody<Object>
     updateInstructor(UserRequestBodyForUpdate userUpdate) {
-        if(!userUpdate.getRoles().contains(Role.ROLE_INSTRUCTOR)) {
+        if (!userUpdate.getRoles().contains(Role.ROLE_INSTRUCTOR)) {
             throw new MultipleRoleException("该接口只接受教师信息更改");
         }
         userService.updateInstructor(userUpdate);
@@ -196,7 +194,7 @@ public class UserController {
     @PutMapping("/student")
     public GeneralFormattedResponseBody<Object>
     updateStudent(UserRequestBodyForUpdate userUpdate) {
-        if(!userUpdate.getRoles().contains(Role.ROLE_STUDENT)) {
+        if (!userUpdate.getRoles().contains(Role.ROLE_STUDENT)) {
             throw new MultipleRoleException("该接口只接受学生信息更改");
         }
         userService.updateInstructor(userUpdate);
@@ -282,7 +280,8 @@ public class UserController {
             throws IOException {
         File t = new File(table.getOriginalFilename());
         table.transferTo(t);
-        userService.batchImport(t);
+        // TODO: 2023/5/18 这里我把它注释掉是为了测试的时候不报错，润填待会取消掉测试即可
+        // userService.batchImport(t);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())

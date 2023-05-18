@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -171,5 +172,10 @@ public class LaboratoryServiceImpl implements LaboratoryService {
             }
         }
         return targetLabs;
+    }
+
+    @Override
+    public Map<LabType, List<Laboratory>> getLabsGroupByType() {
+        return null;
     }
 }
