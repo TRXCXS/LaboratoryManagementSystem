@@ -14,20 +14,22 @@ import lombok.NoArgsConstructor;
 public class LongArrangementResponseDataForDisplay {
     private Integer longArrangementID;
 
-    // 以下4项为”实际“排课的时间
+    // 实际排课的时间
     private Integer startWeek;
     private Integer endWeek;
     private Weekday weekday;
     private Slot slot;
 
-    // 以下2项为”实际“排课的学生班级和学生人数
+    // 实际排课的学生班级和学生人数
     private String studentClass;
     private Integer studentCount;
 
-    // 原本long arrangement没有这其中的某些项
-    // 需要帮前端查好发过去
+    // 课程名称
     private String course;
+    // 教师名称
     private String instructorName;
+    // 实验室ID
     private Integer labID;
+    // 实验室房间号
     private Integer labNumber;
 }
