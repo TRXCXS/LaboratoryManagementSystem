@@ -196,6 +196,7 @@ export default {
                     this.dialogFormVisible = false
                     this.resetDialog()
                     this.load()
+                    this.$router.push("/Management/classScheduling")
                 } else {
                     this.$message.error("排课失败")
                 }
