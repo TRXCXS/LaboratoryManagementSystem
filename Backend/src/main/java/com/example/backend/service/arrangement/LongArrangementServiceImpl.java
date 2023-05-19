@@ -103,4 +103,25 @@ public class LongArrangementServiceImpl implements LongArrangementService {
 
         return list;
     }
+
+    @Override
+    public List<LongArrangement> getAllLongArrangements() {
+        List<LongArrangement> list = new ArrayList<>();
+
+        List<LongArrangement> longArrangementList = longArrangementMapper.selectList(null);
+
+        for (LongArrangement longArrangement : longArrangementList) {
+            if (isEntityExists.isInstructorRequestExists(longArrangement.getInstructorRequestID())) {
+                throw new InstructorRequestNotExistException("InstructorRequest不存在！");
+            }
+            InstructorRequest instructorRequest = instructorRequestMapper.selectById(longArrangement.getInstructorRequestID());
+
+            // 获取所有当前学期的安排信息
+            if (Objects.equals(instructorRequest.getSemesterID(), currentSemesterService.getCurrentSemester().getSemesterID())) {
+                list.add(longArrangement);
+            }
+        }
+
+        return list;
+    }
 }
