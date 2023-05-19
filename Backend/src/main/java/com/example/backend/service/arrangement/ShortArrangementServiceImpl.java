@@ -57,7 +57,7 @@ public class ShortArrangementServiceImpl implements ShortArrangementService {
         List<ShortArrangement> shortArrangementList = shortArrangementMapper.selectList(null);
 
         for (ShortArrangement shortArrangement : shortArrangementList) {
-            if (isEntityExists.isStudentRequestExists(shortArrangement.getStudentRequestID())) {
+            if (!isEntityExists.isStudentRequestExists(shortArrangement.getStudentRequestID())) {
                 throw new InstructorRequestNotExistException("StudentRequest不存在！");
             }
             StudentRequest studentRequest = studentRequestMapper.selectById(shortArrangement.getStudentRequestID());
