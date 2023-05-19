@@ -11,4 +11,6 @@ public interface LongArrangementService {
     void createLongArrangement(LongArrangement newLongArrangement);
 
     List<LongArrangementResponseDataForDisplay> getTableData();
+
+    List<LongArrangement> getAllLongArrangements();
 }

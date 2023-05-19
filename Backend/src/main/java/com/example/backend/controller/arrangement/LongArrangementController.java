@@ -3,6 +3,7 @@ package com.example.backend.controller.arrangement;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.controller.responsebody.LongArrangementResponseDataForDisplay;
 import com.example.backend.entity.arrangement.LongArrangement;
+import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.service.arrangement.LongArrangementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,18 @@ public class LongArrangementController {
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(longArrangementService.getTableData())
+                .build();
+    }
+
+    @GetMapping("/all")
+    public GeneralFormattedResponseBody<List<LongArrangement>>
+    getAllLongArrangements() {
+        return GeneralFormattedResponseBody
+                .<List<LongArrangement>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(longArrangementService
+                        .getAllLongArrangements())
                 .build();
     }
 }
