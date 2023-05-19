@@ -62,19 +62,19 @@ public class LongArrangementServiceImpl implements LongArrangementService {
         List<LongArrangement> longArrangementList = longArrangementMapper.selectList(null);
 
         for (LongArrangement longArrangement : longArrangementList) {
-            if (isEntityExists.isInstructorRequestExists(longArrangement.getInstructorRequestID())) {
+            if (!isEntityExists.isInstructorRequestExists(longArrangement.getInstructorRequestID())) {
                 throw new InstructorRequestNotExistException("InstructorRequest不存在！");
             }
             InstructorRequest instructorRequest = instructorRequestMapper.selectById(longArrangement.getInstructorRequestID());
 
             // 获取所有当前学期的安排信息，用来展示
             if (Objects.equals(instructorRequest.getSemesterID(), currentSemesterService.getCurrentSemester().getSemesterID())) {
-                if (isEntityExists.isInstructorExists(instructorRequest.getInstructorID())) {
+                if (!isEntityExists.isInstructorExists(instructorRequest.getInstructorID())) {
                     throw new InstructorNotExistException("Instructor不存在！");
                 }
                 Instructor instructor = instructorMapper.selectById(instructorRequest.getInstructorID());
 
-                if (isEntityExists.isLaboratoryExists(longArrangement.getLabID())) {
+                if (!isEntityExists.isLaboratoryExists(longArrangement.getLabID())) {
                     throw new LaboratoryNotExistedException("Laboratory不存在！");
                 }
                 Laboratory laboratory = laboratoryMapper.selectById(longArrangement.getLabID());
@@ -111,7 +111,7 @@ public class LongArrangementServiceImpl implements LongArrangementService {
         List<LongArrangement> longArrangementList = longArrangementMapper.selectList(null);
 
         for (LongArrangement longArrangement : longArrangementList) {
-            if (isEntityExists.isInstructorRequestExists(longArrangement.getInstructorRequestID())) {
+            if (!isEntityExists.isInstructorRequestExists(longArrangement.getInstructorRequestID())) {
                 throw new InstructorRequestNotExistException("InstructorRequest不存在！");
             }
             InstructorRequest instructorRequest = instructorRequestMapper.selectById(longArrangement.getInstructorRequestID());
