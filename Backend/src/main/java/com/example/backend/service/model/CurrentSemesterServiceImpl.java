@@ -54,8 +54,9 @@ public class CurrentSemesterServiceImpl implements CurrentSemesterService {
         int ret = currentSemesterMapper.updateById(toUpdate);
         if (ret != 1) throw new SetCurrentSemesterException("在表current_semester设置当前学期失败");
 
-        semesterInfo = semesterMapper.selectById(newCurrentSemesterID);
-        if (semesterInfo == null) throw new SetCurrentSemesterException("在表semester无法找到指定学期");
+        Semester s = semesterMapper.selectById(newCurrentSemesterID);
+        if (s == null) throw new SetCurrentSemesterException("在表semester无法找到指定学期");
+        semesterInfo = s;
 
         long startTime = semesterInfo.getStartDate().getTime();
         Calendar calendar = Calendar.getInstance();

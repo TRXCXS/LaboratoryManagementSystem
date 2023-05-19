@@ -17,7 +17,7 @@
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
 
-            <el-table-column label="申请学生" prop="app_student">
+            <el-table-column label="申请ID" prop="studentRequestID">
             </el-table-column>
             <el-table-column label="申请时间" prop="requestTime">
             </el-table-column>
@@ -25,9 +25,11 @@
             </el-table-column>
             <el-table-column label="申请周次" prop="week" width="100px">
             </el-table-column>
+            <el-table-column label="星期" prop="weekday" >
+            </el-table-column>
             <el-table-column label="申请节次" prop="slot" width="100px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="labID" width="150px">
+            <el-table-column label="申请实验室编号" prop="labID" >
             </el-table-column>
             <el-table-column label="申请原因" prop="reason" width="150px">
             </el-table-column>
@@ -37,9 +39,9 @@
 
             <el-table-column align="center" label="操作" width="190px">
                 <template slot-scope="scope">
-                    <el-button type="success" @click="approve(scope.row.user_id)">通过 <i class="el-icon-edit"></i>
+                    <el-button type="success" @click="approve(scope.row.studentRequestID)">通过 <i class="el-icon-edit"></i>
                     </el-button>
-                    <el-button type="danger" @click="disapprove(scope.row.user_id)">不通过 <i
+                    <el-button type="danger" @click="disapprove(scope.row.studentRequestID)">不通过 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
@@ -72,19 +74,10 @@ export default {
     name: "Appeal",
 
     data() {
-        const item = {
-            app_time: "2023-04-25 02:44:30",
-            app_student: "小鑫",
-            app_semester: "2022-2023-2",
-            app_week: "5",
-            app_section: "8-9",
-            app_labNum: "532",
-            app_reason: "开会"
-        };
         return {
             api: this.GLOBAL.BASE_URL,
-            // tableData:[],
-            tableData: Array(10).fill(item),
+            tableData:[],
+            // tableData: Array(10).fill(item),
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -116,6 +109,15 @@ export default {
             labID: 0,
             semesterID: 0,
             studentID: 0,
+
+            shortArrangement:{
+                slot: "",
+                studentRequestID: 0,
+                week: 0,
+                labID: 0,
+                weekday: "",
+                shortArrangementID: 0
+            }
 
 
         }
@@ -161,34 +163,53 @@ export default {
             this.dialogFormVisible = true;
         },
         load() {
-            this.request.get("/appeal/unhandled").then(res => {
-                for (let i = 0; i < res.length; i++) {
-                    let origin_appeal_time = res[i].appeal_time
-                    let date1 = new Date(origin_appeal_time);
-                    let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
-                    res[i].appeal_time = time1
+            this.request.get("/student-request/student",{
+                params:{
+                    studentID:2
                 }
-                this.tableData = res
+            }).then(res => {
+                // for (let i = 0; i < res.length; i++) {
+                //     let origin_appeal_time = res[i].appeal_time
+                //     let date1 = new Date(origin_appeal_time);
+                //     let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
+                //     res[i].appeal_time = time1
+                // }
+                this.tableData = res.data
             })
         },
         approve(id) {
-            console.log(id)
+            this.request.get("/student-request/student",{
+                params:{
+                    studentID:2
+                }
+            }).then(res => {
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].studentRequestID === id){
+                        this.shortArrangement.slot = res.data[i].slot
+                        this.shortArrangement.studentRequestID = res.data[i].studentRequestID
+                        this.shortArrangement.week = res.data[i].week
+                        this.shortArrangement.labID = res.data[i].labID
+                        this.shortArrangement.weekday = res.data[i].weekday
+                    }
+                }
+            })
             this.$confirm('确认通过?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                // this.request.post("/short-arrangement"+id).then(res=>{
-                //     if (res) {
-                //         this.$message({
-                //             type: 'success',
-                //             message: '已通过学生申请!'
-                //         });
-                //         this.load()
-                //     } else {
-                //         this.$message.error("处理失败")
-                //     }
-                // })
+                // console.log(this.shortArrangement)
+                this.request.post("/short-arrangement", this.shortArrangement).then(res=>{
+                    if (res) {
+                        this.$message({
+                            type: 'success',
+                            message: '已通过学生申请!'
+                        });
+                        this.load()
+                    } else {
+                        this.$message.error("处理失败")
+                    }
+                })
             }).catch(() => {
                 this.$message({
                     type: 'info',

@@ -5,23 +5,21 @@
         </el-button>
         <el-card style="margin-bottom: 10px">
             <div style="display: flex;justify-content: space-around; margin: 10px 0">
-                <el-select v-model="chooseSemester" placeholder="请选择实验室类型" style="padding-left: 10px"
-                           @change="change">
-                    <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
-                    <el-option label="2022-2023-2" value="2022-2023-2"></el-option>
-                    <el-option label="2023-2024-1" value="2023-2024-1"></el-option>
-                    <el-option label="2023-2024-2" value="2023-2024-2"></el-option>
-                    <el-option label="2024-2025-1" value="2024-2025-1"></el-option>
-                    <el-option label="2024-2025-2" value="2024-2025-2"></el-option>
-                </el-select>
-                <el-select v-model="chooseSemester" placeholder="请选择" style="padding-left: 10px" @change="change">
-                    <el-option label="2022-2023-1" value="2022-2023-1"></el-option>
-                    <el-option label="2022-2023-2" value="2022-2023-2"></el-option>
-                    <el-option label="2023-2024-1" value="2023-2024-1"></el-option>
-                    <el-option label="2023-2024-2" value="2023-2024-2"></el-option>
-                    <el-option label="2024-2025-1" value="2024-2025-1"></el-option>
-                    <el-option label="2024-2025-2" value="2024-2025-2"></el-option>
-                </el-select>
+                <div style="display: flex">
+                    <h5 style="margin-top: 6px;">实验室检索:</h5>
+                    <el-select v-model="form.labType" placeholder="请选择实验室类型" style="padding-left: 10px"
+                               @change="change">
+                        <el-option label="软件实验室" value="SOFTWARE"></el-option>
+                        <el-option label="计算机系统实验室" value="SYSTEM"></el-option>
+                        <el-option label="计算机硬件实验室" value="HARDWARE"></el-option>
+                        <el-option label="物联网实验室" value="IOT"></el-option>
+                        <el-option label="计算机网络实验室" value="NETWORK"></el-option>
+                    </el-select>
+                </div>
+                <div style="display: flex">
+                    <h5 style="margin-top: 6px; margin-right: 10px">学生人数:</h5>
+                    <el-input-number v-model="form.studentCount" @change="handleStudentCountChange" :min="1" label="请输入学生人数" ></el-input-number>
+                </div>
             </div>
         </el-card>
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
@@ -40,33 +38,17 @@
                         class="el-icon-edit"></i></el-button>
             </el-table-column>
         </el-table>
-
-        <el-dialog :visible.sync="dialogFormVisible" title="确认维修" width="30%">
-            <el-form :label-width="formLabelWidth">
-                <el-form-item label="维修情况说明">
-                    <el-input v-model="description" autocomplete="off" type="textarea"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="save">确 定</el-button>
-            </div>
-        </el-dialog>
     </div>
 </template>
 
 <script>
+import Login from "@/views/Login.vue";
+
 export default {
     name: "Tester",
     data() {
-        const item = {
-            time: "2023-4-10",
-            lab_num: "532",
-            description: "投影仪坏了",
-        };
         return {
-            // tableData: [],
-            tableData: Array(10).fill(item),
+            tableData: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -74,10 +56,23 @@ export default {
             headerBg: 'headerBg',
             handledState: "",
 
-            teacher_name: "",
-            lab_num: "",
-            description: "",
-
+            form:{
+                labType: "",
+                weekday: "",
+                startWeek: 1,
+                studentClass: "",
+                studentCount: -1,
+                semesterID: 1,
+                instructorID: 1,
+                instructorRequestID: 1,
+                endWeek: 18,
+                course: "",
+                slot: "",
+                // requestTime: "",
+                // status: "",
+                // adminProcessTime: "",
+                // adminMessage: "",
+            },
 
             formLabelWidth: '80px',
             username: "",
@@ -92,15 +87,12 @@ export default {
     },
     methods: {
         load() {
-            this.request.get("/user/admins").then(res => {
-                console.log(res)
-                this.tableData = res
-            })
+            // this.request.get("/user/admins").then(res => {
+            //     console.log(res)
+            //     this.tableData = res
+            // })
         },
         resetDialog() {
-            this.username = ""
-            this.password = ""
-            this.role = ""
             this.load()
         },
         save() {
@@ -146,6 +138,26 @@ export default {
         },
         reset() {
             this.$message.success("已设置")
+        },
+        change(){
+            this.request.get("/laboratory/type",{
+                params:{
+                    labType: this.form.labType
+                }
+            }).then(res => {
+                console.log(res)
+                this.tableData = res.data
+            })
+        },
+        handleStudentCountChange(){
+            this.request.get("/laboratory/capacity",{
+                params:{
+                    studentCount: this.form.studentCount
+                }
+            }).then(res => {
+                console.log(res)
+                this.tableData = res.data
+            })
         },
         confirmArrange() {
             // this.request.post("/long-arrangement" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {

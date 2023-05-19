@@ -71,4 +71,28 @@ public class StudentRequestController {
                 .data(null)
                 .build();
     }
+
+    @GetMapping("/all")
+    public GeneralFormattedResponseBody<List<StudentRequest>>
+    getAllStudentRequests() {
+        return GeneralFormattedResponseBody
+                .<List<StudentRequest>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(studentRequestService
+                        .getAllStudentRequests())
+                .build();
+    }
+
+    @GetMapping("/unhandled")
+    public GeneralFormattedResponseBody<List<StudentRequest>>
+    getUnhandledStudentRequests() {
+        return GeneralFormattedResponseBody
+                .<List<StudentRequest>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(studentRequestService
+                        .getUnhandledStudentRequests())
+                .build();
+    }
 }

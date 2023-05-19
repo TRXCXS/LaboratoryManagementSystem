@@ -26,6 +26,10 @@ public class SemesterController {
                 .build();
     }
 
+    /**
+     * 创建新学期
+     * @param newSemester 其中的semesterID无意义，填0即可
+     */
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createNewSemester(@RequestBody Semester newSemester) {

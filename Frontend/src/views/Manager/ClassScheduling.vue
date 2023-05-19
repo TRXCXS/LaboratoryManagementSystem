@@ -26,15 +26,15 @@
             </el-table-column>
             <el-table-column label="结束周" prop="endWeek" width="60px">
             </el-table-column>
-            <el-table-column label="节次" prop="slot" width="50px">
+            <el-table-column label="节次" prop="slot" width="55px">
             </el-table-column>
             <el-table-column label="状态" prop="status" width="100px">
 
-                <el-popover>
-                    <el-tag slot="reference" :type="this.status==='已排课' ? 'success' : 'info'">
-                        {{ status }}
-                    </el-tag>
-                </el-popover>
+<!--                <el-popover>-->
+<!--                    <el-tag slot="reference" :type="this.handledState==='已排课' ? 'success' : 'info'">-->
+<!--                        {{ handledState }}-->
+<!--                    </el-tag>-->
+<!--                </el-popover>-->
 
             </el-table-column>
             <el-table-column align="center" label="操作">
@@ -118,6 +118,7 @@ export default {
             instructorID: 0,
             semesterID: 0,
 
+            handledState:""
 
         }
     },
@@ -128,6 +129,32 @@ export default {
         load() {
             this.request.get("/instructor-request/unhandled").then(res => {
                 console.log(res)
+                for (let i = 0; i < res.data.length; i++) {
+                    // let origin_appeal_time = res[i].appeal_time
+                    // let date1 = new Date(origin_appeal_time);
+                    // let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
+                    // res[i].appeal_time = time1
+                    if (res.data[i].status ==='NOT_ARRANGED') {
+                        this.handledState = "未排课"
+                        res.data[i].status = "未排课"
+                    } else {
+                        this.handledState = "已排课"
+                        res.data[i].status = "已排课"
+                    }
+                    if (res.data[i].slot === "ONE_TO_TWO"){
+                        res.data[i].slot ="1-2"
+                    }else if (res.data[i].slot ==="THREE_TO_FIVE"){
+                        res.data[i].slot ="3-5"
+                    }else if (res.data[i].slot ==="SIX_TO_SEVEN"){
+                        res.data[i].slot ="6-7"
+                    }else if (res.data[i].slot ==="EIGHT_TO_NINE"){
+                        res.data[i].slot ="8-9"
+                    }else if (res.data[i].slot ==="TEN_TO_TWELVE"){
+                        res.data[i].slot ="10-12"
+                    }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
+                        res.data[i].slot ="13-15"
+                    }
+                }
                 this.tableData = res.data
             })
         },
