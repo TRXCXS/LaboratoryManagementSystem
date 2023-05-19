@@ -55,7 +55,7 @@ public class RepairRequestServiceImpl implements RepairRequestService {
     }
 
     @Override
-    public void setRepaired(Integer repairRequestID) {
+    public void setRepaired(Integer repairRequestID, String message) {
         if (!isEntityExists.isRepairRequestExists(repairRequestID)) {
             throw new RepairRequestNotExistException("目标申请不存在，无法更新！");
         }
@@ -63,9 +63,23 @@ public class RepairRequestServiceImpl implements RepairRequestService {
         UpdateWrapper<RepairRequest> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("repairRequestID", repairRequestID);
         updateWrapper.set("status", RepairRequestStatus.REPAIRED);
+        updateWrapper.set("technicianMessage", message);
         updateWrapper.set("repairEndTime", new Timestamp(System.currentTimeMillis()));
         repairRequestMapper.update(null, updateWrapper);
     }
+
+//    @Override
+//    public void setRepaired(Integer repairRequestID) {
+//        if (!isEntityExists.isRepairRequestExists(repairRequestID)) {
+//            throw new RepairRequestNotExistException("目标申请不存在，无法更新！");
+//        }
+//
+//        UpdateWrapper<RepairRequest> updateWrapper = new UpdateWrapper<>();
+//        updateWrapper.eq("repairRequestID", repairRequestID);
+//        updateWrapper.set("status", RepairRequestStatus.REPAIRED);
+//        updateWrapper.set("repairEndTime", new Timestamp(System.currentTimeMillis()));
+//        repairRequestMapper.update(null, updateWrapper);
+//    }
 
     @Override
     public void createRepairRequest(@NotNull RepairRequestRequestBody newRepairRequestInfo) {
@@ -99,5 +113,10 @@ public class RepairRequestServiceImpl implements RepairRequestService {
                 newRepairRequestInfo.getLabID()
         );
         repairRequestMapper.insert(repairRequest);
+    }
+
+    @Override
+    public List<RepairRequest> getRepairRequestsByTechnician(Integer technicianID) {
+        return null;
     }
 }

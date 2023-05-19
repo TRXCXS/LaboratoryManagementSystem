@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 
 
 public class RepairRequest {
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "repairRequestID",type = IdType.AUTO)
     private Integer repairRequestID;
     private Timestamp requestTime;  // 工单产生时间
     private String requestDescription;
