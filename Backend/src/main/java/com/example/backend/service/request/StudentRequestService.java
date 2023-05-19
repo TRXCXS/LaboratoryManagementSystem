@@ -15,4 +15,8 @@ public interface StudentRequestService {
     void updateStudentRequest(StudentRequestRequestBody updatedStudentRequestInfo);
 
     void setUseComplete(Integer studentRequestID);
+
+    List<StudentRequest> getAllStudentRequests();
+
+    List<StudentRequest> getUnhandledStudentRequests();
 }

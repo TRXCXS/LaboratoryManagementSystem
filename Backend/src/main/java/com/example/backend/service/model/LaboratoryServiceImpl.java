@@ -186,7 +186,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
         for (Laboratory laboratory : laboratoryList) {
             QueryWrapper<Laboratory> queryWrapper_laboratoriesByType = new QueryWrapper<>();
-            queryWrapper.eq("labType", laboratory.getLabType());
+            queryWrapper_laboratoriesByType.eq("labType", laboratory.getLabType());
             List<Laboratory> laboratories = laboratoryMapper.selectList(queryWrapper_laboratoriesByType);
 
             map.put(laboratory.getLabType(), laboratories);
