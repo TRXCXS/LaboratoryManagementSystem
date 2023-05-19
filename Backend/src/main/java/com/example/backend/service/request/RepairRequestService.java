@@ -15,7 +15,12 @@ public interface RepairRequestService {
 
     void setRepairing(Integer repairRequestID);
 
-    void setRepaired(Integer repairRequestID);
+    void setRepaired(Integer repairRequestID, String message);
 
     void createRepairRequest(RepairRequestRequestBody newRepairRequestInfo);
+
+    /**
+     * 让实验员查看自己所负责实验室的保修
+     */
+    List<RepairRequest> getRepairRequestsByTechnician(Integer technicianID);
 }
