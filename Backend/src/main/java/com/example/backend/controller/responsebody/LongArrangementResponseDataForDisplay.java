@@ -1,5 +1,6 @@
 package com.example.backend.controller.responsebody;
 
+import com.example.backend.utils.enumClasses.model.LabType;
 import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class LongArrangementResponseDataForDisplay {
     private String instructorName;
     // 实验室ID
     private Integer labID;
+    // 实验室类型
+    private LabType labType;
     // 实验室房间号
     private Integer labNumber;
 }
