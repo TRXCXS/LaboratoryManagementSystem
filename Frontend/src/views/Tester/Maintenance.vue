@@ -43,7 +43,7 @@
             </el-table-column>
         </el-table>
 
-        <el-dialog :visible.sync="dialogFormVisible" title="确认维修" width="30%">
+        <el-dialog :visible.sync="dialogFormVisible" title="确认维修" width="32%">
             <el-form :label-width="formLabelWidth">
                 <el-form-item label="维修情况说明">
                     <el-input v-model="description" autocomplete="off" type="textarea"></el-input>
