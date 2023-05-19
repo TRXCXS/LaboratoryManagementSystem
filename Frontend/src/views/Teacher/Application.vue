@@ -27,11 +27,11 @@
             </el-table-column>
             <el-table-column label="状态" prop="status" width="100px">
 
-                <el-popover>
-                    <el-tag slot="reference" :type="this.handledState==='已排课' ? 'success' : 'info'">
-                        {{ handledState }}
-                    </el-tag>
-                </el-popover>
+<!--                <el-popover>-->
+<!--                    <el-tag slot="reference" :type="this.handledState==='已排课' ? 'success' : 'info'">-->
+<!--                        {{ handledState }}-->
+<!--                    </el-tag>-->
+<!--                </el-popover>-->
 
             </el-table-column>
 
@@ -144,11 +144,11 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="起始周">
-                    <el-input-number v-model="form.startWeek" :max="20" :min="1" label="选择周次"
+                    <el-input-number v-model="form.startWeek" :max="20" :min="1" label="选择起始周次"
                                      @change="handleChange"></el-input-number>
                 </el-form-item>
                 <el-form-item label="结束周">
-                    <el-input-number v-model="form.endWeek" :max="20" :min="1" label="选择周次"
+                    <el-input-number v-model="form.endWeek" :max="20" :min="1" label="选择结束周次"
                                      @change="handleChange"></el-input-number>
                 </el-form-item>
                 <el-form-item label="申请节次">
@@ -259,9 +259,10 @@ export default {
                     // res[i].appeal_time = time1
                     if (res.data[i].status ==='NOT_ARRANGED') {
                         this.handledState = "未排课"
-                        // this.tagForm = "success"
+                        res.data[i].status = "未排课"
                     } else {
                         this.handledState = "已排课"
+                        res.data[i].status = "已排课"
                     }
                     if (res.data[i].slot === "ONE_TO_TWO"){
                         res.data[i].slot ="1-2"
