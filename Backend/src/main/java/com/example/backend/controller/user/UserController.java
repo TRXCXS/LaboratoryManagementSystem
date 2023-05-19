@@ -13,6 +13,7 @@ import com.example.backend.exception.user.userRequestException.RoleSpecificInfoN
 import com.example.backend.service.user.UserService;
 import com.example.backend.utils.enumClasses.model.Role;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -304,7 +305,7 @@ public class UserController {
                 .build();
     }
 
-    private File multipartToFile(MultipartFile m) throws IOException {
+    private @NotNull File multipartToFile(@NotNull MultipartFile m) throws IOException {
         InputStream is = m.getInputStream();
         File f = new File(m.getOriginalFilename());
 
@@ -320,7 +321,7 @@ public class UserController {
         return f;
     }
 
-    private boolean checkFileType(File file) {
+    private boolean checkFileType(@NotNull File file) {
         Path path = file.toPath();
         boolean ret = true;
         try {

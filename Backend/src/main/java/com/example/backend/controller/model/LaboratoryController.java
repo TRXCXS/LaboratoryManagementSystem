@@ -8,6 +8,7 @@ import com.example.backend.entity.model.Laboratory;
 import com.example.backend.service.model.LaboratoryService;
 import com.example.backend.utils.enumClasses.model.LabType;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +61,7 @@ public class LaboratoryController {
 
     @GetMapping("/for-instructor-requests/time-and-type")
     public GeneralFormattedResponseBody<List<Laboratory>>
-    getLabsByTimeAndType(@RequestBody LabRequestBody1 request) {
+    getLabsByTimeAndType(@RequestBody @NotNull LabRequestBody1 request) {
         return GeneralFormattedResponseBody.<List<Laboratory>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
@@ -76,7 +77,7 @@ public class LaboratoryController {
 
     @GetMapping("/for-student-requests/time-and-id")
     public GeneralFormattedResponseBody<Laboratory>
-    getLabByTimeAndID(@RequestBody LabRequestBody2 request) {
+    getLabByTimeAndID(@RequestBody @NotNull LabRequestBody2 request) {
         return GeneralFormattedResponseBody.<Laboratory>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
@@ -91,7 +92,7 @@ public class LaboratoryController {
 
     @GetMapping("/for-instructor-requests/satisfying-everything")
     public GeneralFormattedResponseBody<List<Laboratory>>
-    getLabsSatisfyingEverything(@RequestBody LabRequestBody3 request) {
+    getLabsSatisfyingEverything(@RequestBody @NotNull LabRequestBody3 request) {
         return GeneralFormattedResponseBody.<List<Laboratory>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
