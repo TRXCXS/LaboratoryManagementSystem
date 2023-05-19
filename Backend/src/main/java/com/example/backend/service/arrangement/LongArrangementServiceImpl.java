@@ -41,7 +41,7 @@ public class LongArrangementServiceImpl implements LongArrangementService {
         exceptionUtil.WeekException(newLongArrangement.getStartWeek(), newLongArrangement.getEndWeek());
         exceptionUtil.TypeException(newLongArrangement.getWeekday(), newLongArrangement.getSlot());
         exceptionUtil.StudentCountException(newLongArrangement.getStudentCount());
-        if (isEntityExists.isInstructorRequestExists(newLongArrangement.getInstructorRequestID())) {
+        if (!isEntityExists.isInstructorRequestExists(newLongArrangement.getInstructorRequestID())) {
             throw new InstructorNotExistException("申请不存在，无法创建安排！");
         }
         exceptionUtil.LabIDException(newLongArrangement.getLabID());

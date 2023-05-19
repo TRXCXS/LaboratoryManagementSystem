@@ -28,6 +28,10 @@ public class RepairRequestController {
                 .build();
     }
 
+    /**
+     * RepairRequestsByInstructor
+     * 给教师查看自己提交过的保修
+     */
     @GetMapping("/instructor")
     public GeneralFormattedResponseBody<List<RepairRequest>>
     getRepairRequestsByInstructor(@RequestParam Integer instructorID) {
@@ -68,8 +72,9 @@ public class RepairRequestController {
 
     @PutMapping("/repaired")
     public GeneralFormattedResponseBody<Object>
-    setRepaired(@RequestParam Integer repairRequestID) {
-        repairRequestService.setRepaired(repairRequestID);
+    setRepaired(@RequestParam Integer repairRequestID,
+                @RequestParam String message) {
+        repairRequestService.setRepaired(repairRequestID, message);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -78,4 +83,18 @@ public class RepairRequestController {
                 .build();
     }
 
+    /**
+     * RepairRequestsByTechnician
+     * 让实验员查看自己负责的实验室的保修
+     */
+    @GetMapping("/technician")
+    public GeneralFormattedResponseBody<List<RepairRequest>>
+    getRepairRequestsByTechnician(@RequestParam Integer technicianID) {
+        return GeneralFormattedResponseBody
+                .<List<RepairRequest>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(repairRequestService.getRepairRequestsByTechnician(technicianID))
+                .build();
+    }
 }
