@@ -136,4 +136,21 @@ public class StudentRequestServiceImpl implements StudentRequestService {
 
         studentRequestMapper.update(null, updateWrapper);
     }
+
+    @Override
+    public List<StudentRequest> getAllStudentRequests() {
+        QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("semesterID", currentSemesterService.getCurrentSemester().getSemesterID());
+        List<StudentRequest> studentRequests = studentRequestMapper.selectList(queryWrapper);
+        return studentRequests;
+    }
+
+    @Override
+    public List<StudentRequest> getUnhandledStudentRequests() {
+        QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("semesterID", currentSemesterService.getCurrentSemester().getSemesterID());
+        queryWrapper.eq("status", StudentRequestStatus.NOT_VIEWED);
+        List<StudentRequest> studentRequests = studentRequestMapper.selectList(queryWrapper);
+        return studentRequests;
+    }
 }
