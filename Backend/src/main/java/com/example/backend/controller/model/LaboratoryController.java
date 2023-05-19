@@ -1,5 +1,8 @@
 package com.example.backend.controller.model;
 
+import com.example.backend.controller.requestbody.LabRequestBody1;
+import com.example.backend.controller.requestbody.LabRequestBody2;
+import com.example.backend.controller.requestbody.LabRequestBody3;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.model.Laboratory;
 import com.example.backend.service.model.LaboratoryService;
@@ -18,7 +21,7 @@ import java.util.Map;
 public class LaboratoryController {
     private final LaboratoryService laboratoryService;
 
-    @GetMapping("/type")
+    @GetMapping("/general/type")
     public GeneralFormattedResponseBody<List<Laboratory>>
     getLabsByType(@RequestParam String labType) {
         return GeneralFormattedResponseBody
@@ -29,7 +32,7 @@ public class LaboratoryController {
                 .build();
     }
 
-    @GetMapping("/capacity")
+    @GetMapping("/general/capacity")
     public GeneralFormattedResponseBody<List<Laboratory>>
     getLabsByCapacity(@RequestParam Integer studentCount) {
         return GeneralFormattedResponseBody
@@ -40,13 +43,66 @@ public class LaboratoryController {
                 .build();
     }
 
-    @GetMapping("/group-by-type")
+    /**
+     * 获得全部实验室数据用于表格展示
+     * 按实验室类型分类
+     */
+    @GetMapping("/for-table/group-by-type")
     public GeneralFormattedResponseBody<Map<LabType, List<Laboratory>>>
     getLabsGroupByType() {
         return GeneralFormattedResponseBody.<Map<LabType, List<Laboratory>>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(laboratoryService.getLabsGroupByType())
+                .build();
+    }
+
+
+    @GetMapping("/for-instructor-requests/time-and-type")
+    public GeneralFormattedResponseBody<List<Laboratory>>
+    getLabsByTimeAndType(@RequestBody LabRequestBody1 request) {
+        return GeneralFormattedResponseBody.<List<Laboratory>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(laboratoryService.getLabsByTime(
+                        request.getStartWeek(),
+                        request.getEndWeek(),
+                        request.getWeekday(),
+                        request.getSlot(),
+                        request.getLabType()
+                ))
+                .build();
+    }
+
+    @GetMapping("/for-student-requests/time-and-id")
+    public GeneralFormattedResponseBody<Laboratory>
+    getLabByTimeAndID(@RequestBody LabRequestBody2 request) {
+        return GeneralFormattedResponseBody.<Laboratory>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(laboratoryService.getLab(
+                        request.getWeek(),
+                        request.getWeekday(),
+                        request.getSlot(),
+                        request.getLabID()
+                ))
+                .build();
+    }
+
+    @GetMapping("/for-instructor-requests/satisfying-everything")
+    public GeneralFormattedResponseBody<List<Laboratory>>
+    getLabsSatisfyingEverything(@RequestBody LabRequestBody3 request) {
+        return GeneralFormattedResponseBody.<List<Laboratory>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(laboratoryService.getLabs(
+                        request.getStartWeek(),
+                        request.getEndWeek(),
+                        request.getWeekday(),
+                        request.getSlot(),
+                        request.getLabType(),
+                        request.getStudentCount()
+                ))
                 .build();
     }
 }
