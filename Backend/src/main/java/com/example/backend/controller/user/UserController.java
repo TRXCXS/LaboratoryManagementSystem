@@ -274,6 +274,9 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * 暂不可用
+     */
     @PostMapping("/batch")
     public GeneralFormattedResponseBody<Object>
     batchImport(@RequestParam("table") MultipartFile table)
