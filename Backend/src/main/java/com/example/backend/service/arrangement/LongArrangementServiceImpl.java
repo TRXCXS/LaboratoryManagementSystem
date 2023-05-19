@@ -94,6 +94,7 @@ public class LongArrangementServiceImpl implements LongArrangementService {
                         instructor.getName(),
 
                         longArrangement.getLabID(),
+                        laboratory.getLabType(),
                         Integer.valueOf(laboratory.getLabNumber())
                 );
 
