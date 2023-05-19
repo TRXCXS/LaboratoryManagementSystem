@@ -7,6 +7,7 @@ import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.user.Instructor;
 import com.example.backend.entity.user.Student;
 import com.example.backend.entity.user.Technician;
+import com.example.backend.exception.uploaddownload.FileTypeNotSupportedException;
 import com.example.backend.exception.user.userRequestException.MultipleRoleException;
 import com.example.backend.exception.user.userRequestException.RoleSpecificInfoNotFoundException;
 import com.example.backend.service.user.UserService;
@@ -16,8 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +149,10 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * 创建用户，可以是多角色用户
+     * @param userInfo 带有想要的角色类型和对应的完整角色信息
+     */
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createUser(
@@ -275,21 +282,63 @@ public class UserController {
     }
 
     /**
-     * 暂不可用
+     * 用户批量导入
+     * 注意使用form-data请求进行调用
+     * com.example.backend.utils.utilClasses.BatchImportUsers 在这里确定要输入什么字符串
+     *
+     * @param table 1个.xls或者.xlsx文件
+     * @param usertype 导入什么类型的用户
      */
     @PostMapping("/batch")
     public GeneralFormattedResponseBody<Object>
-    batchImport(@RequestParam("table") MultipartFile table)
+    batchImport(@RequestParam MultipartFile table,
+                @RequestParam String usertype)
             throws IOException {
-        File t = new File(table.getOriginalFilename());
-        table.transferTo(t);
-        // TODO: 2023/5/18 这里我把它注释掉是为了测试的时候不报错，润填待会取消掉测试即可
-        // userService.batchImport(t);
+        File t = multipartToFile(table);
+        userService.batchImport(t, checkFileType(t), usertype);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
                 .message("success")
                 .data(null)
                 .build();
+    }
+
+    private File multipartToFile(MultipartFile m) throws IOException {
+        InputStream is = m.getInputStream();
+        File f = new File(m.getOriginalFilename());
+
+        OutputStream os = new FileOutputStream(f);
+        int bytesRead = 0;
+        byte[] buffer = new byte[8192];
+        while ((bytesRead = is.read(buffer, 0, 8192)) != -1) {
+            os.write(buffer, 0, bytesRead);
+        }
+        os.close();
+
+        is.close();
+        return f;
+    }
+
+    private boolean checkFileType(File file) {
+        Path path = file.toPath();
+        boolean ret = true;
+        try {
+            String fileType = Files.probeContentType(path);
+            System.out.println(file.exists());
+            System.out.println(file.length());
+            System.out.println("path: " + path.toString());
+            System.out.println("File type: " + fileType);
+            if(!fileType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    && !fileType.equals("application/vnd.ms-excel")) {
+                throw new FileTypeNotSupportedException("文件类型不受支持");
+            }
+            if(fileType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+                ret = false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file type: " + e.getMessage());
+        }
+        return ret;
     }
 }
