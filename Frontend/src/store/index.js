@@ -6,7 +6,19 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         currentPathName: '',
-        semester: ''
+        semester: '',
+        LongArrangement:{
+            longArrangementID: 0,
+            labID: 0,
+            studentClass: "",
+            weekday: "",
+            studentCount: 0,
+            instructorRequestID: 0,
+            endWeek: 0,
+            slot: "",
+            startWeek: 0
+        }
+
     },
     mutations: {
         setPath(state) {

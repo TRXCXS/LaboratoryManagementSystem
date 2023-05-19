@@ -1,24 +1,17 @@
 <template>
     <div>
-        <!--        <div style="margin: 10px 0">-->
-        <!--            <el-button type="primary"  @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>-->
-        <!--            &lt;!&ndash;            <el-button type="danger">批量删除 <i class="el-icon-remove-outline"></i></el-button>&ndash;&gt;-->
-        <!--            <el-button type="primary">导入 <i class="el-icon-bottom"></i></el-button>-->
-        <!--            &lt;!&ndash;            <el-button type="primary">导出 <i class="el-icon-top"></i></el-button>&ndash;&gt;-->
-        <!--        </div>-->
-
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <!--            <el-table-column prop="app_time" label="申请时间" >-->
-            <!--            </el-table-column>-->
-            <el-table-column label="教师申请ID" prop="instructorRequestID" width="90px">
+            <el-table-column label="教师申请ID" prop="instructorRequestID" width="85px">
             </el-table-column>
-            <el-table-column label="上课学期" prop="requestTime" width="140px">
+            <el-table-column label="申请时间" prop="requestTime" width="140px">
             </el-table-column>
             <el-table-column label="课程名称" prop="course" width="100px">
             </el-table-column>
             <el-table-column label="实验室类型" prop="labType" width="100px">
             </el-table-column>
-            <el-table-column label="学生班级" prop="studentClass" width="150px">
+            <el-table-column label="星期" prop="weekday" width="80px" >
+            </el-table-column>
+            <el-table-column label="学生班级" prop="studentClass" width="90px">
             </el-table-column>
             <el-table-column label="学生人数" prop="studentCount" width="80px">
             </el-table-column>
@@ -28,7 +21,7 @@
             </el-table-column>
             <el-table-column label="节次" prop="slot" width="55px">
             </el-table-column>
-            <el-table-column label="状态" prop="status" width="100px">
+            <el-table-column label="状态" prop="status" width="70px">
 
 <!--                <el-popover>-->
 <!--                    <el-tag slot="reference" :type="this.handledState==='已排课' ? 'success' : 'info'">-->
@@ -41,8 +34,7 @@
                 <template slot-scope="scope">
                     <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab">查看符合所有条件的教室
                         <i class="el-icon-edit"></i></el-button>
-                    <el-button type="primary" @click="selectLab">筛选教室<i class="el-icon-edit"></i></el-button>
-                    <!--                    <el-button type="primary">确认使用完毕 <i class="el-icon-remove-outline"></i></el-button>-->
+                    <el-button type="primary" @click="selectLab(scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek)">筛选教室<i class="el-icon-edit"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -70,6 +62,7 @@
 </template>
 
 <script>
+
 
 export default {
     name: "ClassScheduling",
@@ -130,10 +123,6 @@ export default {
             this.request.get("/instructor-request/unhandled").then(res => {
                 console.log(res)
                 for (let i = 0; i < res.data.length; i++) {
-                    // let origin_appeal_time = res[i].appeal_time
-                    // let date1 = new Date(origin_appeal_time);
-                    // let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
-                    // res[i].appeal_time = time1
                     if (res.data[i].status ==='NOT_ARRANGED') {
                         this.handledState = "未排课"
                         res.data[i].status = "未排课"
@@ -212,8 +201,17 @@ export default {
         checkAllEligibleLab() {
             this.$router.push("/Management/AllEligibleLab");
         },
-        selectLab() {
-            this.$router.push("/Management/AdminSelectLab");
+        selectLab(studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek) {
+            this.$router.push({
+                path:"/Management/AdminSelectLab",
+            })
+            this.$store.state.LongArrangement.studentClass = studentClass
+            this.$store.state.LongArrangement.weekday = weekday
+            this.$store.state.LongArrangement.studentCount = studentCount
+            this.$store.state.LongArrangement.instructorRequestID = instructorRequestID
+            this.$store.state.LongArrangement.endWeek = endWeek
+            this.$store.state.LongArrangement.slot = slot
+            this.$store.state.LongArrangement.startWeek = startWeek
         },
     }
 }

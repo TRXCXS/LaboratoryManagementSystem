@@ -9,11 +9,13 @@
             <!--            </el-table-column>-->
             <el-table-column label="教师申请ID" prop="instructorRequestID" width="90px">
             </el-table-column>
-            <el-table-column label="上课学期" prop="requestTime" width="140px">
+            <el-table-column label="申请时间" prop="requestTime" width="140px">
             </el-table-column>
             <el-table-column label="课程名称" prop="course" width="100px">
             </el-table-column>
             <el-table-column label="实验室类型" prop="labType" width="100px">
+            </el-table-column>
+            <el-table-column label="星期" prop="weekday" width="100px">
             </el-table-column>
             <el-table-column label="学生班级" prop="studentClass" width="150px">
             </el-table-column>
