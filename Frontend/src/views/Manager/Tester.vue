@@ -2,15 +2,24 @@
     <div>
         <el-card>
             <div style="display: flex;justify-content: space-around; margin: 10px 0">
+                <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
                 <h5 style="margin-top: 6px;">实验员检索:</h5>
-                <el-input placeholder="请输入实验员姓名" style="width: 200px" suffix-icon="el-icon-search"></el-input>
-                <!--                <el-input style="width: 200px" placeholder="请输入用户ID" suffix-icon="el-icon-star-off" class="ml-5"></el-input>-->
+                <el-input placeholder="请输入实验员姓名" style="width: 200px" suffix-icon="el-icon-search"  @input="input" v-model="value"></el-input>
                 <el-button type="primary">搜索</el-button>
             </div>
         </el-card>
-        <div style="margin: 10px 0">
-            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-button type="primary">导入 <i class="el-icon-bottom"></i></el-button>
+        <div style="margin: 10px 0; width: 175px" >
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="http://localhost:8080/user/batch"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList"
+                :auto-upload="false">
+                <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
+                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
+            </el-upload>
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
@@ -28,7 +37,7 @@
                     >
                         <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>
                     </el-popconfirm>
-                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.user_id)">删除 <i
+                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.technicianID)">删除 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
@@ -69,8 +78,9 @@ export default {
     name: "Tester",
     data() {
         return {
+            value:"",
             tableData: [],
-            // tableData: Array(10).fill(item),
+            fileList:[],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -169,7 +179,26 @@ export default {
                 console.log(res)
                 this.$message.success("已重置")
             })
-        }
+        },
+        input(){
+            console.log(this.value)
+            this.request.get("/user/technician/name",{
+                params:{
+                    name:this.value
+                }
+            }).then(res =>{
+                this.tableData = res.data
+            })
+        },
+        handlePreview(file){
+            console.log(file);
+        },
+        handleRemove(file,fileList){
+            console.log(file, fileList);
+        },
+        submitUpload(){
+            this.$refs.upload.submit();
+        },
     }
 }
 </script>

@@ -4,8 +4,7 @@
             <div style="display: flex;justify-content: space-around; margin: 10px 0">
                 <el-button type="primary" @click="handleAdd" style="margin-right: 10px">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
                 <h5 style="margin-top: 6px;">学生检索:</h5>
-                <el-input placeholder="请输入学生姓名" style="width: 200px" suffix-icon="el-icon-search"></el-input>
-                <!--                <el-input style="width: 200px" placeholder="请输入用户ID" suffix-icon="el-icon-star-off" class="ml-5"></el-input>-->
+                <el-input placeholder="请输入学生姓名" style="width: 200px" suffix-icon="el-icon-search" @input="input" v-model="value"></el-input>
                 <el-button type="primary">搜索</el-button>
             </div>
         </el-card>
@@ -40,7 +39,7 @@
                     >
                         <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>
                     </el-popconfirm>
-                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.user_id)">删除 <i
+                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.studentID)">删除 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
@@ -78,6 +77,7 @@ export default {
 
     data() {
         return {
+            value:"",
             tableData: [],
             fileList:[],
             collapseBtnClass: 'el-icon-s-fold',
@@ -158,6 +158,16 @@ export default {
         },
         handleAdd() {
             this.dialogFormVisible = true;
+        },
+        input(){
+            console.log(this.value)
+            this.request.get("/user/student/name",{
+                params:{
+                    name:this.value
+                }
+            }).then(res =>{
+                this.tableData = res.data
+            })
         },
         del(id) {
             console.log(id)
