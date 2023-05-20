@@ -13,14 +13,31 @@
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="http://localhost:8080/user/batch"
+                accept=".xls,.xlsx,.csv"
+                :action="api"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
+                :on-chage="handleChange"
                 :file-list="fileList"
                 :auto-upload="false">
                 <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
             </el-upload>
+
+<!--            <el-upload-->
+<!--                class="upload-demo"-->
+<!--                ref="upload"-->
+<!--                action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--                :on-preview="handlePreview"-->
+<!--                :on-remove="handleRemove"-->
+<!--                :file-list="fileList"-->
+<!--                :auto-upload="false">-->
+<!--                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>-->
+<!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
+<!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+<!--            </el-upload>-->
+
+
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
@@ -79,6 +96,7 @@ export default {
     name: "Tester",
     data() {
         return {
+            api:this.GLOBAL.BASE_URL+"/user/batch?usertype=Administrator",
             value:"",
             tableData: [],
             fileList:[],
@@ -110,7 +128,10 @@ export default {
                 },
                 password: "123456",
                 loginID: 0
-            }
+            },
+
+            userType:"Administrator",
+
         }
     },
     created() {
@@ -193,9 +214,14 @@ export default {
         },
         handlePreview(file){
             console.log(file);
+            console.log("Sssss")
         },
         handleRemove(file,fileList){
             console.log(file, fileList);
+            console.log("ddd")
+        },
+        handleChange(){
+            console.log("25365")
         },
         submitUpload(){
             this.$refs.upload.submit();

@@ -31,26 +31,17 @@
                 </template>
             </el-table-column>
         </el-table>
-
-        <!--        <el-dialog title="审核申诉" :visible.sync="dialogFormVisible"  width="30%">-->
-        <!--            <el-form :label-width="formLabelWidth">-->
-
-        <!--                <el-form-item label="审核确认">-->
-        <!--                    <el-select v-model="form.confirmation" placeholder="请审核申诉是否通过">-->
-        <!--                        <el-option label="YES" value="YES"></el-option>-->
-        <!--                        <el-option label="NO" value="NO"></el-option>-->
-        <!--                        <el-option label="OTHER" value="OTHER"></el-option>-->
-        <!--                    </el-select>-->
-        <!--                </el-form-item>-->
-        <!--                <el-form-item label="审核意见">-->
-        <!--                    <el-input type="textarea" v-model="form.memorandum"></el-input>-->
-        <!--                </el-form-item>-->
-        <!--            </el-form>-->
-        <!--            <div slot="footer" class="dialog-footer">-->
-        <!--                <el-button @click="resetDialog">取 消</el-button>-->
-        <!--                <el-button type="primary" @click="save">确 定</el-button>-->
-        <!--            </div>-->
-        <!--        </el-dialog>-->
+        <el-dialog :visible.sync="dialogFormVisible" title="确认驳回" width="32%">
+            <el-form :label-width="formLabelWidth">
+                <el-form-item label="驳回说明">
+                    <el-input v-model="message" autocomplete="off" type="textarea"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancel">取 消</el-button>
+                <el-button type="primary" @click="save">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -102,7 +93,11 @@ export default {
                 labID: 0,
                 weekday: "",
                 shortArrangementID: 0
-            }
+            },
+
+            message:"",
+            disapproveID:-1
+
 
 
         }
@@ -125,26 +120,27 @@ export default {
         },
         resetDialog() {
             this.dialogFormVisible = false
-            this.form.confirmation = ""
-            this.form.memorandum = ""
+            this.disapproveID = -1
+            this.message = ""
+        },
+        cancel(){
+            this.dialogFormVisible = false
+            this.message = ""
+            this.disapproveID = -1
         },
         save() {
-            console.log(this.form.confirmation)
-            console.log(this.form.memorandum)
-            console.log(this.appeal_id)
-            this.request.post("/scrutiny/?appeal_id=" + this.appeal_id + "&confirmation=" + this.form.confirmation + "&memorandum=" + this.form.memorandum).then(res => {
+            this.request.put("/student-request?studentRequestID=" + this.disapproveID + "&adminMessage=" + this.message).then(res => {
                 if (res) {
-                    this.$message.success("审核成功")
+                    this.$message.success("已驳回学生申请")
                     this.dialogFormVisible = false
                     this.resetDialog()
                     this.load()
                 } else {
-                    this.$message.error("审核失败")
+                    this.$message.error("操作失败")
                 }
             })
         },
         handleAdd(id) {
-            this.appeal_id = id
             this.dialogFormVisible = true;
         },
         load() {
@@ -237,29 +233,31 @@ export default {
             });
         },
         disapprove(id) {
+            this.dialogFormVisible = true
+            this.disapproveID = id
             console.log(id)
-            this.$confirm('确认不通过?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                // this.request.delete("/user/users/"+id).then(res=>{
-                //     if (res) {
-                //         this.$message({
-                //             type: 'success',
-                //             message: '已驳回学生申请!'
-                //         });
-                //         this.load()
-                //     } else {
-                //         this.$message.error("处理失败")
-                //     }
-                // })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            });
+            // this.$confirm('确认不通过?', '提示', {
+            //     confirmButtonText: '确定',
+            //     cancelButtonText: '取消',
+            //     type: 'warning'
+            // }).then(() => {
+            //     this.request.put("/student-request?studentRequestID="+id+"&adminMessage="+this.message).then(res=>{
+            //         if (res) {
+            //             this.$message({
+            //                 type: 'success',
+            //                 message: '已驳回学生申请!'
+            //             });
+            //             this.load()
+            //         } else {
+            //             this.$message.error("处理失败")
+            //         }
+            //     })
+            // }).catch(() => {
+            //     this.$message({
+            //         type: 'info',
+            //         message: '已取消'
+            //     });
+            // });
         },
     },
 }
