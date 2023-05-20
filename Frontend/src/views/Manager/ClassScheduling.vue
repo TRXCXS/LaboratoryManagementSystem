@@ -131,14 +131,38 @@ export default {
                     }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
                         res.data[i].slot ="13-15"
                     }
+                    if (res.data[i].weekday ==='MONDAY') {
+                        res.data[i].weekday = "星期一"
+                    }else if(res.data[i].weekday ==='TUESDAY') {
+                        res.data[i].weekday = "星期二"
+                    }else if(res.data[i].weekday ==='WEDNESDAY') {
+                        res.data[i].weekday = "星期三"
+                    }else if(res.data[i].weekday ==='THURSDAY') {
+                        res.data[i].weekday = "星期四"
+                    }else if(res.data[i].weekday ==='FRIDAY') {
+                        res.data[i].weekday = "星期五"
+                    }else if(res.data[i].weekday ==='SATURDAY') {
+                        res.data[i].weekday = "星期六"
+                    }else if(res.data[i].weekday ==='SUNDAY') {
+                        res.data[i].weekday = "星期七"
+                    }
+                    if(res.data[i].labType === "SOFTWARE"){
+                        res.data[i].labType = "软件实验室"
+                    }else if (res.data[i].labType === "HARDWARE"){
+                        res.data[i].labType = "计算机硬件实验室"
+                    }else if (res.data[i].labType === "NETWORK"){
+                        res.data[i].labType = "计算机网络实验室"
+                    }else if (res.data[i].labType === "SYSTEM"){
+                        res.data[i].labType = "计算机系统实验室"
+                    }else if (res.data[i].labType === "IOT"){
+                        res.data[i].labType = "物联网实验室"
+                    }
+
                 }
                 this.tableData = res.data
             })
         },
         resetDialog() {
-            this.username = ""
-            this.password = ""
-            this.role = ""
             this.load()
         },
         save() {
@@ -188,6 +212,47 @@ export default {
         },
         checkAllEligibleLab(studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
             this.$router.push("/Management/AllEligibleLab");
+            if(labType === "软件实验室"){
+                labType = "SOFTWARE"
+            }else if (labType === "计算机硬件实验室"){
+                labType = "HARDWARE"
+            }else if (labType === "计算机网络实验室"){
+                labType = "NETWORK"
+            }else if (labType === "计算机系统实验室"){
+                labType = "SYSTEM"
+            }else if (labType === "物联网实验室"){
+                labType = "IOT"
+            }
+            if (slot === "1-2"){
+                slot ="ONE_TO_TWO"
+            }else if (slot ==="3-5"){
+                slot ="THREE_TO_FIVE"
+            }else if (slot ==="6-7"){
+                slot ="SIX_TO_SEVEN"
+            }else if (slot ==="8-9"){
+                slot ="EIGHT_TO_NINE"
+            }else if (slot ==="10-12"){
+                slot ="TEN_TO_TWELVE"
+            }else if (slot ==="13-15"){
+                slot ="THIRTEEN_TO_FIFTEEN"
+            }
+            if (weekday ==='星期一') {
+                weekday = "MONDAY"
+            }else if(weekday ==='星期二') {
+                weekday = "TUESDAY"
+            }else if(weekday ==='星期三') {
+                weekday = "WEDNESDAY"
+            }else if(weekday ==='星期四') {
+                weekday = "THURSDAY"
+            }else if(weekday ==='星期五') {
+                weekday = "FRIDAY"
+            }else if(weekday ==='星期六') {
+                weekday = "SATURDAY"
+            }else if(weekday ==='星期七') {
+                weekday = "SUNDAY"
+            }
+
+
             this.$store.state.LongArrangement.studentClass = studentClass
             this.$store.state.LongArrangement.weekday = weekday
             this.$store.state.LongArrangement.studentCount = studentCount
@@ -209,6 +274,35 @@ export default {
             this.$router.push({
                 path:"/Management/AdminSelectLab",
             })
+            if (slot === "1-2"){
+                slot ="ONE_TO_TWO"
+            }else if (slot ==="3-5"){
+                slot ="THREE_TO_FIVE"
+            }else if (slot ==="6-7"){
+                slot ="SIX_TO_SEVEN"
+            }else if (slot ==="8-9"){
+                slot ="EIGHT_TO_NINE"
+            }else if (slot ==="10-12"){
+                slot ="TEN_TO_TWELVE"
+            }else if (slot ==="13-15"){
+                slot ="THIRTEEN_TO_FIFTEEN"
+            }
+            if (weekday ==='星期一') {
+                weekday = "MONDAY"
+            }else if(weekday ==='星期二') {
+                weekday = "TUESDAY"
+            }else if(weekday ==='星期三') {
+                weekday = "WEDNESDAY"
+            }else if(weekday ==='星期四') {
+                weekday = "THURSDAY"
+            }else if(weekday ==='星期五') {
+                weekday = "FRIDAY"
+            }else if(weekday ==='星期六') {
+                weekday = "SATURDAY"
+            }else if(weekday ==='星期七') {
+                weekday = "SUNDAY"
+            }
+
             this.$store.state.LongArrangement.studentClass = studentClass
             this.$store.state.LongArrangement.weekday = weekday
             this.$store.state.LongArrangement.studentCount = studentCount

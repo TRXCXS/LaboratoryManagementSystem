@@ -218,10 +218,6 @@ export default {
             }).then(res => {
                 console.log(res)
                 for (let i = 0; i < res.data.length; i++) {
-                    // let origin_appeal_time = res[i].appeal_time
-                    // let date1 = new Date(origin_appeal_time);
-                    // let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
-                    // res[i].appeal_time = time1
                     if (res.data[i].status ==='NOT_VIEWED') {
                         this.handledState = "未审核"
                         res.data[i].status = "未审核"
@@ -247,6 +243,21 @@ export default {
                         res.data[i].slot ="10-12"
                     }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
                         res.data[i].slot ="13-15"
+                    }
+                    if (res.data[i].weekday ==='MONDAY') {
+                        res.data[i].weekday = "星期一"
+                    }else if(res.data[i].weekday ==='TUESDAY') {
+                        res.data[i].weekday = "星期二"
+                    }else if(res.data[i].weekday ==='WEDNESDAY') {
+                        res.data[i].weekday = "星期三"
+                    }else if(res.data[i].weekday ==='THURSDAY') {
+                        res.data[i].weekday = "星期四"
+                    }else if(res.data[i].weekday ==='FRIDAY') {
+                        res.data[i].weekday = "星期五"
+                    }else if(res.data[i].weekday ==='SATURDAY') {
+                        res.data[i].weekday = "星期六"
+                    }else if(res.data[i].weekday ==='SUNDAY') {
+                        res.data[i].weekday = "星期七"
                     }
                 }
                 this.tableData = res.data

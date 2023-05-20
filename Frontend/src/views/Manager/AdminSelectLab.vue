@@ -176,19 +176,19 @@ export default {
         },
         confirmArrange(labID) {
             this.createLongArrangement.labID = labID
-            if (this.createLongArrangement.slot === "1-2"){
-                this.createLongArrangement.slot = "ONE_TO_TWO"
-            }else if (this.createLongArrangement.slot === "3-5"){
-                this.createLongArrangement.slot = "THREE_TO_FIVE"
-            }else if (this.createLongArrangement.slot === "6-7"){
-                this.createLongArrangement.slot = "SIX_TO_SEVEN"
-            }else if (this.createLongArrangement.slot === "8-9"){
-                this.createLongArrangement.slot = "EIGHT_TO_NINE"
-            }else if (this.createLongArrangement.slot === "10-12"){
-                this.createLongArrangement.slot = "TEN_TO_TWELVE"
-            }else if (this.createLongArrangement.slot === "13-15"){
-                this.createLongArrangement.slot = "THIRTEEN_TO_FIFTEEN"
-            }
+            // if (this.createLongArrangement.slot === "1-2"){
+            //     this.createLongArrangement.slot = "ONE_TO_TWO"
+            // }else if (this.createLongArrangement.slot === "3-5"){
+            //     this.createLongArrangement.slot = "THREE_TO_FIVE"
+            // }else if (this.createLongArrangement.slot === "6-7"){
+            //     this.createLongArrangement.slot = "SIX_TO_SEVEN"
+            // }else if (this.createLongArrangement.slot === "8-9"){
+            //     this.createLongArrangement.slot = "EIGHT_TO_NINE"
+            // }else if (this.createLongArrangement.slot === "10-12"){
+            //     this.createLongArrangement.slot = "TEN_TO_TWELVE"
+            // }else if (this.createLongArrangement.slot === "13-15"){
+            //     this.createLongArrangement.slot = "THIRTEEN_TO_FIFTEEN"
+            // }
             console.log(this.createLongArrangement)
             this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
                 if (res) {

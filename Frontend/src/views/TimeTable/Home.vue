@@ -1792,17 +1792,17 @@ export default {
                         // console.log(res.data[i].labType === this.tableData[j].room)
                         if (res.data[i].weekday === this.tableData[j].day && res.data[i].labType === this.tableData[j].room&& res.data[i].labNumber === this.tableData[j].room_num){
                             if (res.data[i].slot === "1-2"){
-                                this.tableData[j].section1_2 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                                this.tableData[j].section1_2 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].startWeek+"-"+res.data[i].endWeek
                             }else if (res.data[i].slot === "3-5"){
-                                this.tableData[j].section3_5 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                                this.tableData[j].section3_5 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].startWeek+"-"+res.data[i].endWeek
                             }else if (res.data[i].slot === "6-7"){
-                                this.tableData[j].section6_7 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                                this.tableData[j].section6_7 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].startWeek+"-"+res.data[i].endWeek
                             }else if (res.data[i].slot === "8-9"){
-                                this.tableData[j].section8_9 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                                this.tableData[j].section8_9 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].startWeek+"-"+res.data[i].endWeek
                             }else if (res.data[i].slot === "10-12"){
-                                this.tableData[j].section10_12 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                                this.tableData[j].section10_12 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].startWeek+"-"+res.data[i].endWeek
                             }else if (res.data[i].slot === "13-15"){
-                                this.tableData[j].section13_15 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                                this.tableData[j].section13_15 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].startWeek+"-"+res.data[i].endWeek
                             }
                             console.log("sss")
                         }

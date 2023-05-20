@@ -1,11 +1,12 @@
 <template>
     <div>
         <el-card>
-            <div style="display: flex;justify-content: space-around; margin: 10px 0">
+            <div style="display: flex; margin: 10px 0">
                 <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
-                <h5 style="margin-top: 6px;">实验员检索:</h5>
-                <el-input placeholder="请输入实验员姓名" style="width: 200px" suffix-icon="el-icon-search"  @input="input" v-model="value"></el-input>
-                <el-button type="primary">搜索</el-button>
+                <div style="display: flex;margin-left: 280px">
+                    <h5 style="margin-top: 6px; margin-right: 10px">实验员检索:</h5>
+                    <el-input placeholder="请输入实验员姓名" style="width: 200px" suffix-icon="el-icon-search"  @input="input" v-model="value"></el-input>
+                </div>
             </div>
         </el-card>
         <div style="margin: 10px 0; width: 175px" >
@@ -150,7 +151,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/user/admins/" + id).then(res => {
+                this.request.delete("/user?userID=" + id).then(res => {
                     if (res) {
                         this.$message({
                             type: 'success',
