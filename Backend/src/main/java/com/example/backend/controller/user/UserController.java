@@ -292,8 +292,8 @@ public class UserController {
      */
     @PostMapping("/batch")
     public GeneralFormattedResponseBody<Object>
-    batchImport(@RequestParam MultipartFile table,
-                @RequestParam String usertype)
+    batchImport(@RequestParam(name="table", required = false) MultipartFile table,
+                @RequestParam(name="usertype", required = false) String usertype)
             throws IOException {
         File t = multipartToFile(table);
         userService.batchImport(t, checkFileType(t), usertype);
