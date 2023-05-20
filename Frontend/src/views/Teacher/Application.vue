@@ -13,13 +13,13 @@
             </el-table-column>
             <el-table-column label="课程名称" prop="course" width="100px">
             </el-table-column>
-            <el-table-column label="实验室类型" prop="labType" width="100px">
+            <el-table-column label="实验室类型" prop="labType" width="120px">
             </el-table-column>
             <el-table-column label="星期" prop="weekday" width="100px">
             </el-table-column>
-            <el-table-column label="学生班级" prop="studentClass" width="150px">
+            <el-table-column label="学生班级" prop="studentClass" width="120px">
             </el-table-column>
-            <el-table-column label="学生人数" prop="studentCount" width="80px">
+            <el-table-column label="学生人数" prop="studentCount" width="70px">
             </el-table-column>
             <el-table-column label="起始周" prop="startWeek" width="60px">
             </el-table-column>
@@ -27,57 +27,32 @@
             </el-table-column>
             <el-table-column label="节次" prop="slot" width="60px">
             </el-table-column>
-            <el-table-column label="状态" prop="status" width="100px">
-
-<!--                <el-popover>-->
-<!--                    <el-tag slot="reference" :type="this.handledState==='已排课' ? 'success' : 'info'">-->
-<!--                        {{ handledState }}-->
-<!--                    </el-tag>-->
-<!--                </el-popover>-->
-
+            <el-table-column label="状态" prop="status" width="70px">
             </el-table-column>
 
             <el-table-column align="center" label="操作" >
                 <template slot-scope="scope">
                     <el-button type="warning" @click="handleUpdate(scope.row.instructorRequestID)">修改 <i class="el-icon-edit"></i>
                     </el-button>
-                    <el-button type="danger" @click="del(scope.row.appeal_id)">撤销 <i
-                            class="el-icon-remove-outline"></i></el-button>
+<!--                    <el-button type="danger" @click="del(scope.row.appeal_id)">撤销 <i-->
+<!--                            class="el-icon-remove-outline"></i></el-button>-->
                 </template>
             </el-table-column>
         </el-table>
 
         <el-dialog :visible.sync="applicationDialogFormVisible" title="填写申请信息" width="32%">
             <el-form :label-width="formLabelWidth">
-<!--                <el-form-item label="上课学期">-->
-<!--                    &lt;!&ndash;                    <el-input v-model="form.app_semester" autocomplete="off"></el-input>&ndash;&gt;-->
-<!--                    <el-select v-model="form.app_semester" placeholder="请选择学期">-->
-<!--                        <el-option label="2022-2023-1" value="2022-2023-1"></el-option>-->
-<!--                        <el-option label="2022-2023-1" value="2022-2023-1"></el-option>-->
-<!--                        <el-option label="2022-2023-1" value="2022-2023-1"></el-option>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="申请教师">-->
-<!--                    <el-input v-model="form.app_name" autocomplete="off" disabled></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="学期ID">-->
-<!--                    <el-input v-model="form.semesterID" autocomplete="off"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="教师申请ID">-->
-<!--                    <el-input v-model="form.instructorRequestID" autocomplete="off"></el-input>-->
-<!--                </el-form-item>-->
                 <el-form-item label="课程名称">
-                    <el-input v-model="form.course" autocomplete="off"></el-input>
+                    <el-input v-model="addApplication.course" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="学生人数">
-                    <el-input v-model="form.studentCount" autocomplete="off"></el-input>
+                    <el-input v-model="addApplication.studentCount" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="学生班级">
-                    <el-input v-model="form.studentClass" autocomplete="off"></el-input>
+                    <el-input v-model="addApplication.studentClass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="星期">
-<!--                    <el-input v-model="form.weekday" autocomplete="off"></el-input>-->
-                    <el-select v-model="form.weekday" placeholder="请选择星期">
+                    <el-select v-model="addApplication.weekday" placeholder="请选择星期">
                         <el-option label="星期一" value="MONDAY"></el-option>
                         <el-option label="星期二" value="TUESDAY"></el-option>
                         <el-option label="星期三" value="WEDNESDAY"></el-option>
@@ -88,16 +63,15 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="起始周">
-                    <el-input-number v-model="form.startWeek" :max="20" :min="1" label="选择周次"
+                    <el-input-number v-model="addApplication.startWeek" :max="20" :min="1" label="选择周次"
                                      @change="handleChange"></el-input-number>
                 </el-form-item>
                 <el-form-item label="结束周">
-                    <el-input-number v-model="form.endWeek" :max="20" :min="1" label="选择周次"
+                    <el-input-number v-model="addApplication.endWeek" :max="20" :min="1" label="选择周次"
                                      @change="handleChange"></el-input-number>
                 </el-form-item>
                 <el-form-item label="申请节次">
-                    <!--                    <el-input v-model="form.app_week" autocomplete="off"></el-input>-->
-                    <el-select v-model="form.slot" placeholder="请选择节次">
+                    <el-select v-model="addApplication.slot" placeholder="请选择节次">
                         <el-option label="1-2" value="ONE_TO_TWO"></el-option>
                         <el-option label="3-5" value="THREE_TO_FIVE"></el-option>
                         <el-option label="6-7" value="SIX_TO_SEVEN"></el-option>
@@ -107,8 +81,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="申请实验室类型">
-<!--                    <el-input v-model="form.lab_type" autocomplete="off"></el-input>-->
-                    <el-select v-model="form.labType" placeholder="请选择实验室类型">
+                    <el-select v-model="addApplication.labType" placeholder="请选择实验室类型">
                         <el-option label="软件实验室" value="SOFTWARE"></el-option>
                         <el-option label="计算机系统实验室" value="SYSTEM"></el-option>
                         <el-option label="计算机硬件实验室" value="HARDWARE"></el-option>
@@ -165,7 +138,6 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="申请实验室类型">
-                    <!--                    <el-input v-model="form.lab_type" autocomplete="off"></el-input>-->
                     <el-select v-model="form.labType" placeholder="请选择实验室类型">
                         <el-option label="软件实验室" value="SOFTWARE"></el-option>
                         <el-option label="计算机系统实验室" value="SYSTEM"></el-option>
@@ -214,6 +186,20 @@ export default {
                 // status: "",
                 // adminProcessTime: "",
                 // adminMessage: "",
+            },
+
+            addApplication:{
+                labType: "",
+                weekday: "",
+                startWeek: 1,
+                studentClass: "",
+                studentCount: -1,
+                semesterID: 1,
+                instructorID: 1,
+                instructorRequestID: 1,
+                endWeek: 18,
+                course: "",
+                slot: "",
             },
 
             instructorRequestID: 0,
@@ -279,6 +265,33 @@ export default {
                     }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
                         res.data[i].slot ="13-15"
                     }
+                    if (res.data[i].weekday ==='MONDAY') {
+                        res.data[i].weekday = "星期一"
+                    }else if(res.data[i].weekday ==='TUESDAY') {
+                        res.data[i].weekday = "星期二"
+                    }else if(res.data[i].weekday ==='WEDNESDAY') {
+                        res.data[i].weekday = "星期三"
+                    }else if(res.data[i].weekday ==='THURSDAY') {
+                        res.data[i].weekday = "星期四"
+                    }else if(res.data[i].weekday ==='FRIDAY') {
+                        res.data[i].weekday = "星期五"
+                    }else if(res.data[i].weekday ==='SATURDAY') {
+                        res.data[i].weekday = "星期六"
+                    }else if(res.data[i].weekday ==='SUNDAY') {
+                        res.data[i].weekday = "星期七"
+                    }
+                    if(res.data[i].labType === "SOFTWARE"){
+                        res.data[i].labType = "软件实验室"
+                    }else if (res.data[i].labType === "HARDWARE"){
+                        res.data[i].labType = "计算机硬件实验室"
+                    }else if (res.data[i].labType === "NETWORK"){
+                        res.data[i].labType = "计算机网络实验室"
+                    }else if (res.data[i].labType === "SYSTEM"){
+                        res.data[i].labType = "计算机系统实验室"
+                    }else if (res.data[i].labType === "IOT"){
+                        res.data[i].labType = "物联网实验室"
+                    }
+
                 }
                 this.tableData = res.data
             })
@@ -309,19 +322,42 @@ export default {
         },
         handleAdd() {
             this.applicationDialogFormVisible = true;
-            // this.form = {}
+            // this.addApplication = {}
         },
-        resetDialog(){
-            this.form = {}
+        resetAddDialog(){
+            this.addApplication.labType = ""
+            this.addApplication.weekday =  ""
+            this.addApplication.startWeek= 1
+            this.addApplication.studentClass= ""
+            this.addApplication.studentCount= -1
+            this.addApplication.semesterID= 1
+            this.addApplication.instructorID= 1
+            this.addApplication.instructorRequestID= 1
+            this.addApplication.endWeek=18
+            this.addApplication.course= ""
+            this.addApplication.slot=""
+        },
+        resetModifyDialog(){
+            this.form.labType = ""
+            this.form.weekday =  ""
+            this.form.startWeek= 1
+            this.form.studentClass= ""
+            this.form.studentCount= -1
+            this.form.semesterID= 1
+            this.form.instructorID= 1
+            this.form.instructorRequestID= 1
+            this.form.endWeek=18
+            this.form.course= ""
+            this.form.slot=""
         },
         save() {
             console.log(this.form)
-            this.request.post("/instructor-request",this.form).then(res =>{
+            this.request.post("/instructor-request",this.addApplication).then(res =>{
                 console.log(res)
                 if(res){
                     this.$message.success("申请成功")
                     this.applicationDialogFormVisible = false
-                    this.resetDialog()
+                    this.resetAddDialog()
                     this.load()
                 }else {
                     this.$message.error("申请失败")
@@ -335,7 +371,7 @@ export default {
                 if(res){
                     this.$message.success("修改成功")
                     this.modifyDialogFormVisible = false
-                    this.resetDialog()
+                    this.resetModifyDialog()
                     this.load()
                 }else {
                     this.$message.error("修改失败")
@@ -347,11 +383,11 @@ export default {
         },
         closeApplicationDialog() {
             this.applicationDialogFormVisible = false;
-            this.form = {}
+            this.resetAddDialog()
         },
         closeModifyDialog() {
             this.modifyDialogFormVisible = false;
-            this.form = {}
+            this.resetModifyDialog()
         },
         handleUpdate(id) {
             this.request.get("/instructor-request/instructor",{

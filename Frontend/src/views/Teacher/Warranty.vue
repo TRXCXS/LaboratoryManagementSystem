@@ -5,6 +5,8 @@
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
+            <el-table-column label="维修工单ID" prop="repairRequestID">
+            </el-table-column>
             <el-table-column label="报修日期" prop="requestTime">
             </el-table-column>
             <el-table-column label="实验室ID" prop="labID">
@@ -15,27 +17,22 @@
             </el-table-column>
             <el-table-column label="维修结束时间" prop="repairEndTime">
             </el-table-column>
-            <el-table-column label="维修工单ID" prop="repairRequestID">
-            </el-table-column>
             <el-table-column label="实验员信息" prop="technicianMessage">
             </el-table-column>
             <el-table-column label="状态" prop="status" width="100px">
-
-
-                <el-popover>
-                    <el-tag slot="reference" :type="this.handledState==='已维修' ? 'success' : (this.handledState === '未维修' ? 'info' : 'warning')">
-                        {{ handledState }}
-                    </el-tag>
-                </el-popover>
-
+<!--                <el-popover>-->
+<!--                    <el-tag slot="reference" :type="this.handledState==='已维修' ? 'success' : (this.handledState === '未维修' ? 'info' : 'warning')">-->
+<!--                        {{ handledState }}-->
+<!--                    </el-tag>-->
+<!--                </el-popover>-->
             </el-table-column>
         </el-table>
 
         <el-dialog :visible.sync="dialogFormVisible" title="报修信息" width="32%">
             <el-form :label-width="formLabelWidth">
-                <el-form-item label="报修教师ID">
-                    <el-input v-model.number="addRepairRequest.instructorID" autocomplete="off" disabled></el-input>
-                </el-form-item>
+<!--                <el-form-item label="报修教师ID">-->
+<!--                    <el-input v-model.number="addRepairRequest.instructorID" autocomplete="off" disabled></el-input>-->
+<!--                </el-form-item>-->
 <!--                <el-form-item label="状态">-->
 <!--                    <el-input v-model="repair.status" autocomplete="off" disabled></el-input>-->
 <!--                </el-form-item>-->
@@ -83,13 +80,13 @@ export default {
             multipleSelection: [],
 
             repair:{
-                status: "REPAIRING",
+                status: "",
                 requestTime: "",
                 requestDescription: "",
                 repairRequestID: 1,
-                repairEndTime: "1985-09-27 07:06:12",
+                repairEndTime: "",
                 labID: 1,
-                repairStartTime: "1983-02-18 20:09:13",
+                repairStartTime: "",
                 technicianMessage: "",
                 instructorID: 1
             },
@@ -120,10 +117,13 @@ export default {
                     // res[i].appeal_time = time1
                     if (res.data[i].status ==='NOT_REPAIRED') {
                         this.handledState = "未维修"
+                        res.data[i].status ='未维修'
                     }else if(res.data[i].status ==='REPAIRED') {
                         this.handledState = "已维修"
+                        res.data[i].status ='已维修'
                     }else {
                         this.handledState = "维修中"
+                        res.data[i].status ='维修中'
                     }
                 }
                 console.log(res)
@@ -131,20 +131,23 @@ export default {
             })
         },
         resetDialog() {
-            this.load()
+             this.addRepairRequest.repairRequestID= 0
+             this.addRepairRequest.requestDescription= ""
+             this.addRepairRequest.instructorID=1
+             this.addRepairRequest.labID= ""
         },
         save() {
             console.log(this.addRepairRequest)
-            // this.request.post("/repair-request",this.addRepairRequest).then(res => {
-            //     if (res) {
-            //         this.$message.success("添加成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()
-            //     } else {
-            //         this.$message.error("添加失败")
-            //     }
-            // })
+            this.request.post("/repair-request",this.addRepairRequest).then(res => {
+                if (res) {
+                    this.$message.success("申请成功")
+                    this.dialogFormVisible = false
+                    this.resetDialog()
+                    this.load()
+                } else {
+                    this.$message.error("申请失败")
+                }
+            })
         },
         del(id) {
             console.log(id)

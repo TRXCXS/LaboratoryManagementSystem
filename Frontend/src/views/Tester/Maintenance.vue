@@ -5,11 +5,11 @@
         <!--        </div>-->
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="申请维修ID" prop="repairRequestID">
+            <el-table-column label="申请维修ID" prop="repairRequestID" width="90px">
             </el-table-column>
             <el-table-column label="报修日期" prop="requestTime">
             </el-table-column>
-            <el-table-column label="实验室ID" prop="labID">
+            <el-table-column label="实验室ID" prop="labID" width="80px">
             </el-table-column>
             <el-table-column label="故障描述" prop="requestDescription">
             </el-table-column>
@@ -20,14 +20,11 @@
             <el-table-column label="实验员信息" prop="technicianMessage">
             </el-table-column>
             <el-table-column label="状态" prop="status" width="100px">
-
-
-                <el-popover>
-                    <el-tag slot="reference" :type="this.handledState==='已维修' ? 'success' : (this.handledState === '未维修' ? 'info' : 'warning')">
-                        {{ handledState }}
-                    </el-tag>
-                </el-popover>
-
+<!--                <el-popover>-->
+<!--                    <el-tag slot="reference" :type="this.handledState==='已维修' ? 'success' : (this.handledState === '未维修' ? 'info' : 'warning')">-->
+<!--                        {{ handledState }}-->
+<!--                    </el-tag>-->
+<!--                </el-popover>-->
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
@@ -35,7 +32,7 @@
                             title="是否确定？报修状态将被置为“维修中”"
                             @confirm="setRepairing(scope.row.repairRequestID)"
                     >
-                        <el-button slot="reference" type="warning">维修中 <i class="el-icon-setting"></i></el-button>
+                        <el-button slot="reference" type="warning" style="margin-bottom: 5px">维修中 <i class="el-icon-setting"></i></el-button>
                     </el-popconfirm>
                     <el-button style="margin-left: 5px" type="success" @click="handleMaintenance(scope.row.repairRequestID)">维修完成 <i
                             class="el-icon-circle-check"></i></el-button>
@@ -94,10 +91,13 @@ export default {
                     // res[i].appeal_time = time1
                     if (res.data[i].status ==='NOT_REPAIRED') {
                         this.handledState = "未维修"
+                        res.data[i].status ='未维修'
                     }else if(res.data[i].status ==='REPAIRED') {
                         this.handledState = "已维修"
+                        res.data[i].status ='已维修'
                     }else {
                         this.handledState = "维修中"
+                        res.data[i].status ='维修中'
                     }
                 }
                 console.log(res)
@@ -105,9 +105,6 @@ export default {
             })
         },
         resetDialog() {
-            this.username = ""
-            this.password = ""
-            this.role = ""
             this.load()
         },
         save(id) {
@@ -121,7 +118,7 @@ export default {
             //         this.$message.error("添加失败")
             //     }
             // })
-            this.request.put("/repair-request/repaired?repairRequestID="+this.tempRepairRequestID).then(res => {
+            this.request.put("/repair-request/repaired?repairRequestID="+this.tempRepairRequestID+"&message="+this.description).then(res => {
                 this.dialogFormVisible = false;
                 this.$message.success("已设置")
                 this.load()
