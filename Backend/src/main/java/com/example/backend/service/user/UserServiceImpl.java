@@ -100,15 +100,15 @@ public class UserServiceImpl implements UserService {
         for (UserRole userRole : userRoleList) {
             if (userRole.getRole() == Role.ROLE_TECHNICIAN) {
                 QueryWrapper<Technician> queryWrapper_technician = new QueryWrapper<>();
-                queryWrapper_technician.eq("userID", userID);
+                queryWrapper_technician.eq("technicianID", userID);
                 technicianMapper.delete(queryWrapper_technician);
             } else if (userRole.getRole() == Role.ROLE_INSTRUCTOR) {
                 QueryWrapper<Instructor> queryWrapper_instructor = new QueryWrapper<>();
-                queryWrapper_instructor.eq("userID", userID);
+                queryWrapper_instructor.eq("instructorID", userID);
                 instructorMapper.delete(queryWrapper_instructor);
             } else if (userRole.getRole() == Role.ROLE_STUDENT) {
                 QueryWrapper<Student> queryWrapper_student = new QueryWrapper<>();
-                queryWrapper_student.eq("userID", userID);
+                queryWrapper_student.eq("studentID", userID);
                 studentMapper.delete(queryWrapper_student);
             }
         }
