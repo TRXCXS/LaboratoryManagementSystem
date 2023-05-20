@@ -40,14 +40,8 @@
 export default {
     name: "Tester",
     data() {
-        const item = {
-            time: "2023-4-10",
-            lab_num: "532",
-            description: "投影仪坏了",
-        };
         return {
-            // tableData: [],
-            tableData: Array(10).fill(item),
+            tableData: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -66,22 +60,66 @@ export default {
             password: "",
             dialogFormVisible: false,
             multipleSelection: [],
+
+            satisfyingEverythingInstructorRequest:{
+                endWeek: 0,
+                slot: "",
+                labType: "",
+                startWeek: 0,
+                weekday: "",
+                studentCount: 0
+            },
+            createLongArrangement:{
+                longArrangementID: 0,
+                labID: 0,
+                studentClass: "",
+                weekday: "",
+                studentCount: 0,
+                instructorRequestID: 0,
+                endWeek: 0,
+                slot: "",
+                startWeek: 0
+            },
+
+            temp:{
+                startWeek: 25,
+                labType: "SOFTWARE",
+                weekday: "TUESDAY",
+                endWeek: 62,
+                slot: "TEN_TO_TWELVE",
+                studentCount: 16
+            },
+
         }
     },
     created() {
+        this.createLongArrangement = this.$store.state.LongArrangement
+        this.satisfyingEverythingInstructorRequest = this.$store.state.satisfyingEverythingInstructorRequest
         this.load()
     },
     methods: {
         load() {
-            this.request.get("/user/admins").then(res => {
+            if (this.satisfyingEverythingInstructorRequest.slot === "1-2"){
+                this.satisfyingEverythingInstructorRequest.slot = "ONE_TO_TWO"
+            }else if (this.satisfyingEverythingInstructorRequest.slot === "3-5"){
+                this.satisfyingEverythingInstructorRequest.slot = "THREE_TO_FIVE"
+            }else if (this.satisfyingEverythingInstructorRequest.slot === "6-7"){
+                this.satisfyingEverythingInstructorRequest.slot = "SIX_TO_SEVEN"
+            }else if (this.satisfyingEverythingInstructorRequest.slot === "8-9"){
+                this.satisfyingEverythingInstructorRequest.slot = "EIGHT_TO_NINE"
+            }else if (this.satisfyingEverythingInstructorRequest.slot === "10-12"){
+                this.satisfyingEverythingInstructorRequest.slot = "TEN_TO_TWELVE"
+            }else if (this.satisfyingEverythingInstructorRequest.slot === "13-15"){
+                this.satisfyingEverythingInstructorRequest.slot = "THIRTEEN_TO_FIFTEEN"
+            }
+            console.log(this.satisfyingEverythingInstructorRequest)
+            console.log(this.temp)
+            this.request.get("/laboratory/for-instructor-requests/satisfying-everything",this.temp).then(res => {
                 console.log(res)
-                this.tableData = res
+                this.tableData = res.data
             })
         },
         resetDialog() {
-            this.username = ""
-            this.password = ""
-            this.role = ""
             this.load()
         },
         save() {

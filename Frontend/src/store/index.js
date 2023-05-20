@@ -17,7 +17,15 @@ const store = new Vuex.Store({
             endWeek: 0,
             slot: "",
             startWeek: 0
-        }
+        },
+        satisfyingEverythingInstructorRequest:{
+            endWeek: 0,
+            slot: "",
+            labType: "",
+            startWeek: 0,
+            weekday: "",
+            studentCount: 0
+        },
 
     },
     mutations: {

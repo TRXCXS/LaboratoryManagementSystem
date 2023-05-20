@@ -1743,47 +1743,81 @@ export default {
         this.getSpanArr(this.tableData);
     },
     methods: {
-        load2(){
-            console.log(this.dataArray.length)
-
-        },
-        load3(){
-            console.log(this.labData)
-        },
         load(){
-            // this.request.get("/long-arrangement/table").then(res =>{
-            //     console.log(res) //后执行
-            //     this.dataArray = res.data
-            //     this.load2()
-            //     // for (let i = 0;i<this.dataArray.length;i++){
-            //     //     console.log("fuck")
-            //     // }
-            // })
+            this.request.get("/long-arrangement/table").then(res =>{
+                for (let i = 0; i < res.data.length; i++) {
+                    if(res.data[i].slot === "ONE_TO_TWO"){
+                        res.data[i].slot = "1-2"
+                    }else if (res.data[i].slot === "THERE_TO_FIVE"){
+                        res.data[i].slot = "3-5"
+                    }else if (res.data[i].slot === "SIX_TO_SEVEN"){
+                        res.data[i].slot = "6-7"
+                    }else if (res.data[i].slot === "EIGHT_TO_NINE"){
+                        res.data[i].slot = "8-9"
+                    }else if (res.data[i].slot === "TEN_TO_TWELVE"){
+                        res.data[i].slot = "10-12"
+                    }else if (res.data[i].slot === "THIRTEEN_TO_FIFTEEN"){
+                        res.data[i].slot = "13-15"
+                    }
+                    if (res.data[i].labType === "SOFTWARE"){
+                        res.data[i].labType = "软件实验室"
+                    }else if (res.data[i].labType === "HARDWARE"){
+                        res.data[i].labType = "计算机硬件实验室"
+                    }else if (res.data[i].labType === "NETWORK"){
+                        res.data[i].labType = "计算机网络实验室"
+                    }else if (res.data[i].labType === "SYSTEM"){
+                        res.data[i].labType = "计算机系统实验室"
+                    }else if (res.data[i].labType === "IOT"){
+                        res.data[i].labType = "物联网实验室"
+                    }
+                    if(res.data[i].weekday === "MONDAY"){
+                        res.data[i].weekday = "星期一"
+                    }else if (res.data[i].weekday === "TUESDAY"){
+                        res.data[i].weekday = "星期二"
+                    }else if (res.data[i].weekday === "WEDNESDAY"){
+                        res.data[i].weekday = "星期三"
+                    }else if (res.data[i].weekday === "THURSDAY"){
+                        res.data[i].weekday = "星期四"
+                    }else if (res.data[i].weekday === "FRIDAY"){
+                        res.data[i].weekday = "星期五"
+                    }else if (res.data[i].weekday === "SATURDAY"){
+                        res.data[i].weekday = "星期六"
+                    }else if (res.data[i].weekday === "SUNDAY"){
+                        res.data[i].weekday = "星期日"
+                    }
+                }
+
+                for (let i = 0; i < res.data.length; i++) {
+                    for (let j = 0; j < this.tableData.length; j++) {
+                        // console.log(res.data[i].labType === this.tableData[j].room)
+                        if (res.data[i].weekday === this.tableData[j].day && res.data[i].labType === this.tableData[j].room&& res.data[i].labNumber === this.tableData[j].room_num){
+                            if (res.data[i].slot === "1-2"){
+                                this.tableData[j].section1_2 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                            }else if (res.data[i].slot === "3-5"){
+                                this.tableData[j].section3_5 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                            }else if (res.data[i].slot === "6-7"){
+                                this.tableData[j].section6_7 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                            }else if (res.data[i].slot === "8-9"){
+                                this.tableData[j].section8_9 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                            }else if (res.data[i].slot === "10-12"){
+                                this.tableData[j].section10_12 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                            }else if (res.data[i].slot === "13-15"){
+                                this.tableData[j].section13_15 = "课程："+res.data[i].course+"，教师："+res.data[i].instructorName+"，班级："+res.data[i].studentClass+"，周次："+res.data[i].slot
+                            }
+                            console.log("sss")
+                        }
+                    }
+                }
+
+
+                console.log(res) //后执行
+            })
             // this.request.get("/laboratory/for-table/group-by-type").then(res =>{
             //     console.log(res) //先执行
             //     this.labData = res.data
             //     this.load3()
             // })
-            for (let i = 0; i < this.temp.length; i++) {
-                for (let j = 0; j < this.tableData.length; j++) {
-                    // console.log(this.temp[i].labNumber === this.tableData[j].room_num)
-                    if (this.temp[i].weekday === this.tableData[j].day && this.temp[i].name === this.tableData[j].room&& this.temp[i].labNumber === this.tableData[j].room_num){
-                        if (this.temp[i].slot === "1-2"){
-                            this.tableData[j].section1_2 = "课程："+this.temp[i].course+"，教师："+this.temp[i].instructorName+"，班级："+this.temp[i].studentClass+"，周次："+this.temp[i].slot
-                        }else if (this.temp[i].slot === "3-5"){
-                            this.tableData[j].section3_5 = "课程："+this.temp[i].course+"，教师："+this.temp[i].instructorName+"，班级："+this.temp[i].studentClass+"，周次："+this.temp[i].slot
-                        }else if (this.temp[i].slot === "6-7"){
-                            this.tableData[j].section6_7 = "课程："+this.temp[i].course+"，教师："+this.temp[i].instructorName+"，班级："+this.temp[i].studentClass+"，周次："+this.temp[i].slot
-                        }else if (this.temp[i].slot === "8-9"){
-                            this.tableData[j].section8_9 = "课程："+this.temp[i].course+"，教师："+this.temp[i].instructorName+"，班级："+this.temp[i].studentClass+"，周次："+this.temp[i].slot
-                        }else if (this.temp[i].slot === "10-12"){
-                            this.tableData[j].section10_12 = "课程："+this.temp[i].course+"，教师："+this.temp[i].instructorName+"，班级："+this.temp[i].studentClass+"，周次："+this.temp[i].slot
-                        }else if (this.temp[i].slot === "13-15"){
-                            this.tableData[j].section13_15 = "课程："+this.temp[i].course+"，教师："+this.temp[i].instructorName+"，班级："+this.temp[i].studentClass+"，周次："+this.temp[i].slot
-                        }
-                    }
-                }
-            }
+
 
         },
         // getSpanArr方法

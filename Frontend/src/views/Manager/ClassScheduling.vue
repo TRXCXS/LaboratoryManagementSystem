@@ -32,7 +32,7 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab">查看符合所有条件的教室
+                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab(scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType)">查看符合所有条件的教室
                         <i class="el-icon-edit"></i></el-button>
                     <el-button type="primary" @click="selectLab(scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek)">筛选教室<i class="el-icon-edit"></i></el-button>
                 </template>
@@ -67,20 +67,8 @@
 export default {
     name: "ClassScheduling",
     data() {
-        const item = {
-            app_time: "2023-4-15-20:30:15",
-            app_semester: "2023-2024-1",
-            course_name: "现代软件开发",
-            lab_type: "机房",
-            class: "计算机科学与技术三班",
-            stu_num: "55",
-            start_week: "1",
-            end_week: "12",
-            app_section: "5-6",
-        };
         return {
-            // tableData: [],
-            tableData: Array(10).fill(item),
+            tableData: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -198,8 +186,24 @@ export default {
         reset() {
             this.$message.success("已重置")
         },
-        checkAllEligibleLab() {
+        checkAllEligibleLab(studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
             this.$router.push("/Management/AllEligibleLab");
+            this.$store.state.LongArrangement.studentClass = studentClass
+            this.$store.state.LongArrangement.weekday = weekday
+            this.$store.state.LongArrangement.studentCount = studentCount
+            this.$store.state.LongArrangement.instructorRequestID = instructorRequestID
+            this.$store.state.LongArrangement.endWeek = endWeek
+            this.$store.state.LongArrangement.slot = slot
+            this.$store.state.LongArrangement.startWeek = startWeek
+
+            this.$store.state.satisfyingEverythingInstructorRequest.endWeek = endWeek
+            this.$store.state.satisfyingEverythingInstructorRequest.slot = slot
+            this.$store.state.satisfyingEverythingInstructorRequest.labType = labType
+            this.$store.state.satisfyingEverythingInstructorRequest.startWeek = startWeek
+            this.$store.state.satisfyingEverythingInstructorRequest.weekday = weekday
+            this.$store.state.satisfyingEverythingInstructorRequest.studentCount = studentCount
+
+
         },
         selectLab(studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek) {
             this.$router.push({

@@ -17,9 +17,9 @@
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="教师ID" prop="teacher_id">
+            <el-table-column label="教师ID" prop="instructorID">
             </el-table-column>
-            <el-table-column label="教师姓名" prop="teacher_name">
+            <el-table-column label="教师姓名" prop="name">
             </el-table-column>
             <el-table-column label="职称" prop="title">
             </el-table-column>
@@ -27,7 +27,7 @@
                 <template slot-scope="scope">
                     <el-popconfirm
                             title="是否确定重置密码？密码将被重置为“123456”"
-                            @confirm="reset"
+                            @confirm="reset(scope.row.instructorID)"
                     >
                         <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>
                     </el-popconfirm>
@@ -71,14 +71,8 @@ export default {
     },
 
     data() {
-        const item = {
-            teacher_id: "202025310320",
-            teacher_name: "小填",
-            title: "校长",
-        };
         return {
-            // tableData: [],
-            tableData: Array(10).fill(item),
+            tableData: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -91,7 +85,11 @@ export default {
             dialogFormVisible: false,
             multipleSelection: [],
 
-            headerBg: 'headerBg'
+            headerBg: 'headerBg',
+            resetPassword:{
+                newPassword:"123456",
+                userID:0
+            }
         }
     },
     created() {
@@ -99,9 +97,9 @@ export default {
     },
     methods: {
         load() {
-            this.request.get("/user/users").then(res => {
+            this.request.get("/user/instructor/all").then(res => {
                 console.log(res)
-                this.tableData = res
+                this.tableData = res.data
             })
         },
         resetDialog() {
@@ -156,8 +154,14 @@ export default {
             });
         },
 
-        reset() {
-            this.$message.success("已重置")
+        reset(id) {
+            this.resetPassword.userID = id
+            // console.log(this.resetPassword)
+            this.request.put("/user/password?",this.resetPassword).then(res=>{
+                console.log(res)
+                this.tableData = res.data
+                this.$message.success("已重置")
+            })
         }
     }
 }

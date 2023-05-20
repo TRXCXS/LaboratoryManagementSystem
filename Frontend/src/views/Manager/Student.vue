@@ -15,19 +15,19 @@
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="学生账号" prop="student_id">
+            <el-table-column label="学生账号" prop="studentID">
             </el-table-column>
-            <el-table-column label="学生姓名" prop="student_name">
+            <el-table-column label="学生姓名" prop="name">
             </el-table-column>
             <el-table-column label="专业" prop="major">
             </el-table-column>
-            <el-table-column label="班级" prop="class">
+            <el-table-column label="班级" prop="clazz">
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
                     <el-popconfirm
                             title="是否确定重置密码？密码将被重置为“123456”"
-                            @confirm="reset"
+                            @confirm="reset(scope.row.studentID)"
                     >
                         <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>
                     </el-popconfirm>
@@ -68,15 +68,8 @@ export default {
     name: "Student",
 
     data() {
-        const item = {
-            student_id: "202025310320",
-            student_name: "小颜",
-            major: "计算机科学与技术",
-            class: "三班",
-        };
         return {
-            // tableData: [],
-            tableData: Array(10).fill(item),
+            tableData: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -92,12 +85,17 @@ export default {
             dialogFormVisible: false,
             multipleSelection: [],
 
-            headerBg: 'headerBg'
+            headerBg: 'headerBg',
+
+            resetPassword:{
+                newPassword:"123456",
+                userID:0
+            }
         }
     },
     created() {
         this.load()
-        console.log(this.currentSemester + "Ssssss")
+        // console.log(this.currentSemester + "Ssssss")
     },
     computed: {
         currentSemester() {
@@ -106,10 +104,10 @@ export default {
     },
     methods: {
         load() {
-            // this.request.get("/user/users").then(res=>{
-            //     console.log(res)
-            //     this.tableData = res
-            // })
+            this.request.get("/user/student/all").then(res=>{
+                console.log(res)
+                this.tableData = res.data
+            })
         },
         cancelAdd() {
             this.dialogFormVisible = false;
@@ -164,8 +162,14 @@ export default {
             });
         },
 
-        reset() {
-            this.$message.success("已重置")
+        reset(id) {
+            this.resetPassword.userID = id
+            // console.log(this.resetPassword)
+            this.request.put("/user/password?",this.resetPassword).then(res=>{
+                console.log(res)
+                this.tableData = res.data
+                this.$message.success("已重置")
+            })
         }
     }
 }
