@@ -297,6 +297,7 @@ public class UserController {
             throws IOException {
         File t = multipartToFile(table);
         userService.batchImport(t, checkFileType(t), usertype);
+        t.delete();
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
