@@ -98,19 +98,19 @@ export default {
     },
     methods: {
         load() {
-            if (this.satisfyingEverythingInstructorRequest.slot === "1-2"){
-                this.satisfyingEverythingInstructorRequest.slot = "ONE_TO_TWO"
-            }else if (this.satisfyingEverythingInstructorRequest.slot === "3-5"){
-                this.satisfyingEverythingInstructorRequest.slot = "THREE_TO_FIVE"
-            }else if (this.satisfyingEverythingInstructorRequest.slot === "6-7"){
-                this.satisfyingEverythingInstructorRequest.slot = "SIX_TO_SEVEN"
-            }else if (this.satisfyingEverythingInstructorRequest.slot === "8-9"){
-                this.satisfyingEverythingInstructorRequest.slot = "EIGHT_TO_NINE"
-            }else if (this.satisfyingEverythingInstructorRequest.slot === "10-12"){
-                this.satisfyingEverythingInstructorRequest.slot = "TEN_TO_TWELVE"
-            }else if (this.satisfyingEverythingInstructorRequest.slot === "13-15"){
-                this.satisfyingEverythingInstructorRequest.slot = "THIRTEEN_TO_FIFTEEN"
-            }
+            // if (this.satisfyingEverythingInstructorRequest.slot === "1-2"){
+            //     this.satisfyingEverythingInstructorRequest.slot = "ONE_TO_TWO"
+            // }else if (this.satisfyingEverythingInstructorRequest.slot === "3-5"){
+            //     this.satisfyingEverythingInstructorRequest.slot = "THREE_TO_FIVE"
+            // }else if (this.satisfyingEverythingInstructorRequest.slot === "6-7"){
+            //     this.satisfyingEverythingInstructorRequest.slot = "SIX_TO_SEVEN"
+            // }else if (this.satisfyingEverythingInstructorRequest.slot === "8-9"){
+            //     this.satisfyingEverythingInstructorRequest.slot = "EIGHT_TO_NINE"
+            // }else if (this.satisfyingEverythingInstructorRequest.slot === "10-12"){
+            //     this.satisfyingEverythingInstructorRequest.slot = "TEN_TO_TWELVE"
+            // }else if (this.satisfyingEverythingInstructorRequest.slot === "13-15"){
+            //     this.satisfyingEverythingInstructorRequest.slot = "THIRTEEN_TO_FIFTEEN"
+            // }
             console.log(this.satisfyingEverythingInstructorRequest)
             this.request.get("/laboratory/for-instructor-requests/satisfying-everything",this.satisfyingEverythingInstructorRequest).then(res => {
                 console.log(res)

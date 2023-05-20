@@ -28,6 +28,10 @@
 <!--                    </el-tag>-->
 <!--                </el-popover>-->
             </el-table-column>
+            <el-table-column label="审批时间" prop="adminProcessTime" width="150px">
+            </el-table-column>
+            <el-table-column label="管理员留言" prop="adminMessage" width="150px">
+            </el-table-column>
             <el-table-column align="center" label="操作" width="250px">
                 <template slot-scope="scope">
                     <el-button type="warning" @click="handleUpdate(scope.row.studentRequestID)">修改 <i class="el-icon-edit"></i>

@@ -129,7 +129,9 @@ export default {
             this.disapproveID = -1
         },
         save() {
-            this.request.put("/student-request?studentRequestID=" + this.disapproveID + "&adminMessage=" + this.message).then(res => {
+            // console.log(this.disapproveID)
+            // console.log(this.message)
+            this.request.put("/student-request/deny?studentRequestID=" + this.disapproveID + "&adminMessage=" + this.message).then(res => {
                 if (res) {
                     this.$message.success("已驳回学生申请")
                     this.dialogFormVisible = false
