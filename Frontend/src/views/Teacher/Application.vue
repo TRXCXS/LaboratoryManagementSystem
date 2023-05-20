@@ -32,7 +32,7 @@
 
             <el-table-column align="center" label="操作" >
                 <template slot-scope="scope">
-                    <el-button type="warning" @click="handleUpdate(scope.row.instructorRequestID)">修改 <i class="el-icon-edit"></i>
+                    <el-button type="warning" @click="handleUpdate(scope.row.instructorRequestID,scope.row.status)" >修改 <i class="el-icon-edit"></i>
                     </el-button>
 <!--                    <el-button type="danger" @click="del(scope.row.appeal_id)">撤销 <i-->
 <!--                            class="el-icon-remove-outline"></i></el-button>-->
@@ -161,6 +161,8 @@ export default {
     name: "MyAppeal",
     data() {
         return {
+            checkStatus:"",
+            isAvailable:true,
             tableData: [],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
@@ -365,18 +367,22 @@ export default {
             })
         },
         save1() {
-            console.log(this.form)
-            this.request.put("/instructor-request",this.form).then(res =>{
-                console.log(res)
-                if(res){
-                    this.$message.success("修改成功")
-                    this.modifyDialogFormVisible = false
-                    this.resetModifyDialog()
-                    this.load()
-                }else {
-                    this.$message.error("修改失败")
-                }
-            })
+            if(this.checkStatus === "已排课"){
+                this.$message.warning("已排课，无法修改！")
+            }else {
+                console.log(this.form)
+                this.request.put("/instructor-request", this.form).then(res => {
+                    console.log(res)
+                    if (res) {
+                        this.$message.success("修改成功")
+                        this.modifyDialogFormVisible = false
+                        this.resetModifyDialog()
+                        this.load()
+                    } else {
+                        this.$message.error("修改失败")
+                    }
+                })
+            }
         },
         handleChange(value) {
             // console.log(value)
@@ -389,7 +395,8 @@ export default {
             this.modifyDialogFormVisible = false;
             this.resetModifyDialog()
         },
-        handleUpdate(id) {
+        handleUpdate(id,status) {
+            this.checkStatus = status
             this.request.get("/instructor-request/instructor",{
                 params:{
                     instructorID: 1,

@@ -26,6 +26,19 @@ const store = new Vuex.Store({
             weekday: "",
             studentCount: 0
         },
+        beingArrangedRequest:{
+            instructorRequestID: 0,
+            requestTime:"",
+            course:"",
+            labType:"",
+            weekday: "",
+            studentClass: "",
+            studentCount: 0,
+            endWeek: 0,
+            slot: "",
+            startWeek: 0
+        }
+
 
     },
     mutations: {

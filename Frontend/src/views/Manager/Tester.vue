@@ -17,8 +17,9 @@
                 :action="api"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
-                :on-chage="handleChange"
+                :on-change="handleChange"
                 :file-list="fileList"
+                name="table"
                 :auto-upload="false">
                 <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
@@ -96,7 +97,7 @@ export default {
     name: "Tester",
     data() {
         return {
-            api:this.GLOBAL.BASE_URL+"/user/batch?usertype=Administrator",
+            api:this.GLOBAL.BASE_URL+"/user/batch?usertype=Technician",
             value:"",
             tableData: [],
             fileList:[],
@@ -136,6 +137,14 @@ export default {
     },
     created() {
         this.load()
+    },
+    // 绑定监听事件
+    mounted() {
+        window.addEventListener('keydown', this.keyDown)
+    },
+    // 销毁事件
+    destroyed() {
+        window.removeEventListener('keydown', this.keyDown, false)
     },
     methods: {
         load() {
@@ -220,12 +229,27 @@ export default {
             console.log(file, fileList);
             console.log("ddd")
         },
-        handleChange(){
-            console.log("25365")
+        handleChange(file){
+            if (file.status === "ready" ){
+                this.fileList.push(file)
+                console.log("sss")
+                console.log(this.fileList)
+            }
         },
         submitUpload(){
+            if (this.fileList.length === 0) {
+                return this.$message.warning("请选取文件后再上传");
+            }
             this.$refs.upload.submit();
+            this.load()
+            this.$message.success("导入成功！")
         },
+        keyDown(e) {
+            // 回车则执行登录方法 enter键的ASCII是13
+            if (e.keyCode === 13) {
+                this.save() // 需要执行的方法方法
+            }
+        }
     }
 }
 </script>

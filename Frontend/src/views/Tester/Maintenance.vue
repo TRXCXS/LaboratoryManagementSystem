@@ -30,7 +30,7 @@
                 <template slot-scope="scope">
                     <el-popconfirm
                             title="是否确定？报修状态将被置为“维修中”"
-                            @confirm="setRepairing(scope.row.repairRequestID)"
+                            @confirm="setRepairing(scope.row.repairRequestID,scope.row.status)"
                     >
                         <el-button slot="reference" type="warning" style="margin-bottom: 5px">维修中 <i class="el-icon-setting"></i></el-button>
                     </el-popconfirm>
@@ -154,7 +154,7 @@ export default {
             this.description = ""
             this.tempRepairRequestID = id
         },
-        setRepairing(id) {
+        setRepairing(id,status) {
             // this.request.put("/repair-request/repairing",{
             //     params:{
             //         repairRequestID:id
@@ -162,10 +162,14 @@ export default {
             // }).then(res => {
             //     this.$message.success("已设置")
             // })
-            this.request.put("/repair-request/repairing?repairRequestID="+id).then(res => {
-                this.$message.success("已设置")
-                this.load()
-            })
+            if (status === "已维修"){
+                this.$message.warning("已经被维修过啦！")
+            }else {
+                this.request.put("/repair-request/repairing?repairRequestID="+id).then(res => {
+                    this.$message.success("已设置")
+                    this.load()
+                })
+            }
         }
     }
 }

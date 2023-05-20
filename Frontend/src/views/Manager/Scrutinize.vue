@@ -1,5 +1,9 @@
 <template>
     <div>
+        <el-card style="margin-bottom: 10px">
+            <el-button type="primary" @click="checkAll">查看全部申请</el-button>
+            <el-button type="primary" @click="checkUnhandled">查看未审核的申请</el-button>
+        </el-card>
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
 
             <el-table-column label="申请ID" prop="studentRequestID">
@@ -106,18 +110,6 @@ export default {
         this.load()
     },
     methods: {
-        download(photo_id) {
-            console.log(photo_id)
-            this.request.get(this.api + "/photo/" + photo_id, {responseType: 'blob'})
-                .then(response => {
-                    const url = window.URL.createObjectURL(new Blob([response]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', 'filename.jpg');
-                    document.body.appendChild(link);
-                    link.click();
-                })
-        },
         resetDialog() {
             this.dialogFormVisible = false
             this.disapproveID = -1
@@ -129,8 +121,6 @@ export default {
             this.disapproveID = -1
         },
         save() {
-            // console.log(this.disapproveID)
-            // console.log(this.message)
             this.request.put("/student-request/deny?studentRequestID=" + this.disapproveID + "&adminMessage=" + this.message).then(res => {
                 if (res) {
                     this.$message.success("已驳回学生申请")
@@ -144,6 +134,58 @@ export default {
         },
         handleAdd(id) {
             this.dialogFormVisible = true;
+        },
+        checkAll(){
+            this.request.get("/student-request/all").then(res => {
+                for (let i = 0; i < res.data.length; i++) {
+                    // let origin_appeal_time = res[i].appeal_time
+                    // let date1 = new Date(origin_appeal_time);
+                    // let time1 = date1.getFullYear() + '-' + ((date1.getMonth() + 1) < 10 ? "0" + (date1.getMonth() + 1) : (date1.getMonth() + 1)) + '-' + (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate()) + ' ' + (date1.getHours() < 10 ? "0" + date1.getHours() : date1.getHours()) + ':' + (date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes()) + ':' + (date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds());
+                    // res[i].appeal_time = time1
+                    if (res.data[i].slot === "ONE_TO_TWO"){
+                        res.data[i].slot ="1-2"
+                    }else if (res.data[i].slot ==="THREE_TO_FIVE"){
+                        res.data[i].slot ="3-5"
+                    }else if (res.data[i].slot ==="SIX_TO_SEVEN"){
+                        res.data[i].slot ="6-7"
+                    }else if (res.data[i].slot ==="EIGHT_TO_NINE"){
+                        res.data[i].slot ="8-9"
+                    }else if (res.data[i].slot ==="TEN_TO_TWELVE"){
+                        res.data[i].slot ="10-12"
+                    }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
+                        res.data[i].slot ="13-15"
+                    }
+                    if (res.data[i].weekday ==='MONDAY') {
+                        res.data[i].weekday = "星期一"
+                    }else if(res.data[i].weekday ==='TUESDAY') {
+                        res.data[i].weekday = "星期二"
+                    }else if(res.data[i].weekday ==='WEDNESDAY') {
+                        res.data[i].weekday = "星期三"
+                    }else if(res.data[i].weekday ==='THURSDAY') {
+                        res.data[i].weekday = "星期四"
+                    }else if(res.data[i].weekday ==='FRIDAY') {
+                        res.data[i].weekday = "星期五"
+                    }else if(res.data[i].weekday ==='SATURDAY') {
+                        res.data[i].weekday = "星期六"
+                    }else if(res.data[i].weekday ==='SUNDAY') {
+                        res.data[i].weekday = "星期七"
+                    }
+                    if (res.data[i].status ==='NOT_VIEWED') {
+                        res.data[i].status = "未审核"
+                    }else if(res.data[i].status ==='APPROVED') {
+                        res.data[i].status = "通过"
+                    }else if(res.data[i].status ==='DENIED') {
+                        res.data[i].status = "驳回"
+                    }else if(res.data[i].status ==='USE_COMPLETE') {
+                        res.data[i].status = "使用完毕"
+                    }
+                }
+
+                this.tableData = res.data
+            })
+        },
+        checkUnhandled(){
+            this.load()
         },
         load() {
             this.request.get("/student-request/unhandled").then(res => {

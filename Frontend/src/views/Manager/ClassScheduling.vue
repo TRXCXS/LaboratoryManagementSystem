@@ -1,5 +1,9 @@
 <template>
     <div>
+        <el-card style="margin-bottom: 10px">
+            <el-button type="primary" @click="checkAll">查看全部申请</el-button>
+            <el-button type="primary" @click="checkUnhandled">查看未排课的申请</el-button>
+        </el-card>
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
             <el-table-column label="教师申请ID" prop="instructorRequestID" width="85px">
             </el-table-column>
@@ -32,9 +36,9 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab(scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType)">查看符合所有条件的教室
+                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab(scope.row.requestTime,scope.row.course,scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType)">查看符合所有条件的教室
                         <i class="el-icon-edit"></i></el-button>
-                    <el-button type="primary" @click="selectLab(scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek)">筛选教室<i class="el-icon-edit"></i></el-button>
+                    <el-button type="primary" @click="selectLab(scope.row.requestTime,scope.row.course,scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType)">筛选教室<i class="el-icon-edit"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -107,6 +111,64 @@ export default {
         this.load()
     },
     methods: {
+        checkAll(){
+            this.request.get("/instructor-request/all").then(res => {
+                console.log(res)
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].status ==='NOT_ARRANGED') {
+                        this.handledState = "未排课"
+                        res.data[i].status = "未排课"
+                    } else {
+                        this.handledState = "已排课"
+                        res.data[i].status = "已排课"
+                    }
+                    if (res.data[i].slot === "ONE_TO_TWO"){
+                        res.data[i].slot ="1-2"
+                    }else if (res.data[i].slot ==="THREE_TO_FIVE"){
+                        res.data[i].slot ="3-5"
+                    }else if (res.data[i].slot ==="SIX_TO_SEVEN"){
+                        res.data[i].slot ="6-7"
+                    }else if (res.data[i].slot ==="EIGHT_TO_NINE"){
+                        res.data[i].slot ="8-9"
+                    }else if (res.data[i].slot ==="TEN_TO_TWELVE"){
+                        res.data[i].slot ="10-12"
+                    }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
+                        res.data[i].slot ="13-15"
+                    }
+                    if (res.data[i].weekday ==='MONDAY') {
+                        res.data[i].weekday = "星期一"
+                    }else if(res.data[i].weekday ==='TUESDAY') {
+                        res.data[i].weekday = "星期二"
+                    }else if(res.data[i].weekday ==='WEDNESDAY') {
+                        res.data[i].weekday = "星期三"
+                    }else if(res.data[i].weekday ==='THURSDAY') {
+                        res.data[i].weekday = "星期四"
+                    }else if(res.data[i].weekday ==='FRIDAY') {
+                        res.data[i].weekday = "星期五"
+                    }else if(res.data[i].weekday ==='SATURDAY') {
+                        res.data[i].weekday = "星期六"
+                    }else if(res.data[i].weekday ==='SUNDAY') {
+                        res.data[i].weekday = "星期七"
+                    }
+                    if(res.data[i].labType === "SOFTWARE"){
+                        res.data[i].labType = "软件实验室"
+                    }else if (res.data[i].labType === "HARDWARE"){
+                        res.data[i].labType = "计算机硬件实验室"
+                    }else if (res.data[i].labType === "NETWORK"){
+                        res.data[i].labType = "计算机网络实验室"
+                    }else if (res.data[i].labType === "SYSTEM"){
+                        res.data[i].labType = "计算机系统实验室"
+                    }else if (res.data[i].labType === "IOT"){
+                        res.data[i].labType = "物联网实验室"
+                    }
+
+                }
+                this.tableData = res.data
+            })
+        },
+        checkUnhandled(){
+            this.load()
+        },
         load() {
             this.request.get("/instructor-request/unhandled").then(res => {
                 console.log(res)
@@ -210,7 +272,7 @@ export default {
         reset() {
             this.$message.success("已重置")
         },
-        checkAllEligibleLab(studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
+        checkAllEligibleLab(requestTime,course,studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
             this.$router.push("/Management/AllEligibleLab");
             if(labType === "软件实验室"){
                 labType = "SOFTWARE"
@@ -268,9 +330,20 @@ export default {
             this.$store.state.satisfyingEverythingInstructorRequest.weekday = weekday
             this.$store.state.satisfyingEverythingInstructorRequest.studentCount = studentCount
 
+            this.$store.state.beingArrangedRequest.instructorRequestID= instructorRequestID
+            this.$store.state.beingArrangedRequest.requestTime=requestTime
+            this.$store.state.beingArrangedRequest.course=course
+            this.$store.state.beingArrangedRequest.labType=labType
+            this.$store.state.beingArrangedRequest.weekday= weekday
+            this.$store.state.beingArrangedRequest.studentClass= studentClass
+            this.$store.state.beingArrangedRequest.studentCount= studentCount
+            this.$store.state.beingArrangedRequest.endWeek= endWeek
+            this.$store.state.beingArrangedRequest.slot= slot
+            this.$store.state.beingArrangedRequest.startWeek= startWeek
+
 
         },
-        selectLab(studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek) {
+        selectLab(requestTime,course,studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
             this.$router.push({
                 path:"/Management/AdminSelectLab",
             })
@@ -310,6 +383,19 @@ export default {
             this.$store.state.LongArrangement.endWeek = endWeek
             this.$store.state.LongArrangement.slot = slot
             this.$store.state.LongArrangement.startWeek = startWeek
+
+            this.$store.state.beingArrangedRequest.instructorRequestID= instructorRequestID
+            this.$store.state.beingArrangedRequest.requestTime=requestTime
+            this.$store.state.beingArrangedRequest.course=course
+            this.$store.state.beingArrangedRequest.labType=labType
+            this.$store.state.beingArrangedRequest.weekday= weekday
+            this.$store.state.beingArrangedRequest.studentClass= studentClass
+            this.$store.state.beingArrangedRequest.studentCount= studentCount
+            this.$store.state.beingArrangedRequest.endWeek= endWeek
+            this.$store.state.beingArrangedRequest.slot= slot
+            this.$store.state.beingArrangedRequest.startWeek= startWeek
+
+
         },
     }
 }

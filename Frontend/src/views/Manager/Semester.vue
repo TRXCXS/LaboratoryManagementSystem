@@ -3,13 +3,6 @@
         <div style="margin: 10px 0">
             <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
             <el-select v-model.number="chooseSemester" placeholder="请选择学期" style="padding-left: 10px" @change="change">
-<!--                <el-option label="2022-2023-1" value="2022-2023-1"></el-option>-->
-<!--                <el-option label="2022-2023-2" value="2022-2023-2"></el-option>-->
-<!--                <el-option label="2023-2024-1" value="2023-2024-1"></el-option>-->
-<!--                <el-option label="2023-2024-2" value="2023-2024-2"></el-option>-->
-<!--                <el-option label="2024-2025-1" value="2024-2025-1"></el-option>-->
-<!--                <el-option label="2024-2025-2" value="2024-2025-2"></el-option>-->
-
                 <el-option
                     v-for="option in options"
                     :key="option.value"
@@ -117,6 +110,14 @@ export default {
     created() {
         this.load()
     },
+    // 绑定监听事件
+    mounted() {
+        window.addEventListener('keydown', this.keyDown)
+    },
+    // 销毁事件
+    destroyed() {
+        window.removeEventListener('keydown', this.keyDown, false)
+    },
     methods: {
         load() {
             this.request.get("/semester/all").then(res => {
@@ -161,7 +162,12 @@ export default {
                 } else {
                     this.$message.error("添加失败")
                 }
-            })
+            }).catch(() => {
+                this.$message({
+                    type: 'error',
+                    message: '学期已存在！'
+                });
+            });
         },
         handleAdd() {
             this.dialogFormVisible = true;
@@ -172,6 +178,12 @@ export default {
                 console.log(res)
             })
         },
+        keyDown(e) {
+            // 回车则执行登录方法 enter键的ASCII是13
+            if (e.keyCode === 13) {
+                this.save() // 需要执行的方法方法
+            }
+        }
     }
 }
 </script>

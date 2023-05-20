@@ -1,9 +1,6 @@
 <template>
     <div class="block">
-        <el-card style="margin-bottom: 10px">
-            <el-button type="primary" @click="$router.push('/login')">返回登录</el-button>
-        </el-card>
-        <span class="demonstration"></span>
+
 
         <el-table
             :cell-class-name="setTextWeight"
