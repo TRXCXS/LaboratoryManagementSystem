@@ -15,6 +15,7 @@ import com.example.backend.utils.enumClasses.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -290,10 +291,10 @@ public class UserController {
      * @param table 1个.xls或者.xlsx文件
      * @param usertype 导入什么类型的用户
      */
-    @PostMapping("/batch")
+    @PostMapping(value = "/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public GeneralFormattedResponseBody<Object>
-    batchImport(@RequestParam(name="table", required = false) MultipartFile table,
-                @RequestParam(name="usertype", required = false) String usertype)
+    batchImport(@RequestParam(value="table", required = false) MultipartFile table,
+                @RequestParam(value="usertype", required = false) String usertype)
             throws IOException {
         File t = multipartToFile(table);
         userService.batchImport(t, checkFileType(t), usertype);
