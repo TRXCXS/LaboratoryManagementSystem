@@ -6,6 +6,7 @@ import com.example.backend.utils.enumClasses.model.LabType;
 import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
 import com.example.backend.utils.enumClasses.requestStatus.InstructorRequestStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
