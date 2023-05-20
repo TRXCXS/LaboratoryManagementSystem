@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -24,6 +26,7 @@ public class BatchImportUsers {
     private final InstructorMapper instructorMapper;
     private final StudentMapper studentMapper;
 
+    private static final Logger logger = LoggerFactory.getLogger(BatchImportUsers.class);
     @PostConstruct
     public void init() {
         batchImportUsers = this;
@@ -54,6 +57,7 @@ public class BatchImportUsers {
             Sheet sheet = workbook.getSheetAt(0);
             switch (userType) {
                 case "Administrator" -> {
+                    logger.info("arrived administrator tag");
                     for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
                         // 从第二行开始读
 
