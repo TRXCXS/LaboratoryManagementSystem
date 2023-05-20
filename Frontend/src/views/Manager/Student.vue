@@ -2,16 +2,25 @@
     <div>
         <el-card>
             <div style="display: flex;justify-content: space-around; margin: 10px 0">
+                <el-button type="primary" @click="handleAdd" style="margin-right: 10px">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
                 <h5 style="margin-top: 6px;">学生检索:</h5>
                 <el-input placeholder="请输入学生姓名" style="width: 200px" suffix-icon="el-icon-search"></el-input>
                 <!--                <el-input style="width: 200px" placeholder="请输入用户ID" suffix-icon="el-icon-star-off" class="ml-5"></el-input>-->
                 <el-button type="primary">搜索</el-button>
             </div>
         </el-card>
-
-        <div style="margin: 10px 0">
-            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-button type="primary">导入 <i class="el-icon-bottom"></i></el-button>
+        <div style="margin: 10px 0; width: 175px" >
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="http://localhost:8080/user/batch"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList"
+                :auto-upload="false">
+                <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
+                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
+            </el-upload>
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
@@ -39,17 +48,17 @@
 
         <el-dialog :visible.sync="dialogFormVisible" title="学生信息" width="30%">
             <el-form :label-width="formLabelWidth">
-                <el-form-item label="学生ID">
-                    <el-input v-model="student_id" autocomplete="off"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="学生ID">-->
+<!--                    <el-input v-model="student_id" autocomplete="off"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="姓名">
-                    <el-input v-model="student_name" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="专业">
-                    <el-input v-model="student_major" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.major" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="班级">
-                    <el-input v-model="student_class" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.clazz" autocomplete="off"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -70,6 +79,7 @@ export default {
     data() {
         return {
             tableData: [],
+            fileList:[],
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
             sideWidth: 200,
@@ -90,7 +100,23 @@ export default {
             resetPassword:{
                 newPassword:"123456",
                 userID:0
+            },
+
+
+            addUser:{
+                roles: [
+                    "ROLE_STUDENT"
+                ],
+                roleSpecificInfo: {
+                    studentID: 0,
+                    name:"",
+                    major:"",
+                    clazz:""
+                },
+                password: "123456",
+                loginID: 0
             }
+
         }
     },
     created() {
@@ -114,27 +140,24 @@ export default {
             this.resetDialog()
         },
         resetDialog() {
-            this.student_id = ""
-            this.student_name = ""
-            this.student_major = ""
-            this.student_class = ""
-            this.load()
+            this.addUser.roleSpecificInfo.name = ""
+            this.addUser.roleSpecificInfo.major = ""
+            this.addUser.roleSpecificInfo.clazz = ""
         },
         save() {
-            // this.request.post("/user/users?username="+this.username+"&password="+this.password+"&role="+this.role).then(res =>{
-            //     if (res) {
-            //         this.$message.success("添加成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()
-            //     } else {
-            //         this.$message.error("添加失败")
-            //     }
-            // })
+            this.request.post("/user/student",this.addUser).then(res =>{
+                if (res) {
+                    this.$message.success("添加成功")
+                    this.dialogFormVisible = false
+                    this.resetDialog()
+                    this.load()
+                } else {
+                    this.$message.error("添加失败")
+                }
+            })
         },
         handleAdd() {
             this.dialogFormVisible = true;
-            this.form = {}
         },
         del(id) {
             console.log(id)
@@ -167,10 +190,19 @@ export default {
             // console.log(this.resetPassword)
             this.request.put("/user/password?",this.resetPassword).then(res=>{
                 console.log(res)
-                this.tableData = res.data
                 this.$message.success("已重置")
             })
-        }
+        },
+        handlePreview(file){
+            console.log(file);
+        },
+        handleRemove(file,fileList){
+            console.log(file, fileList);
+        },
+        submitUpload(){
+            this.$refs.upload.submit();
+        },
+
     }
 }
 </script>

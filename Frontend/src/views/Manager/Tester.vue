@@ -36,14 +36,14 @@
 
         <el-dialog :visible.sync="dialogFormVisible" title="实验员信息" width="30%">
             <el-form :label-width="formLabelWidth">
-                <el-form-item label="实验员ID">
-                    <el-input v-model="tester_id" autocomplete="off"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="实验员ID">-->
+<!--                    <el-input v-model.number="addUser.roleSpecificInfo.technicianID" autocomplete="off"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="姓名">
-                    <el-input v-model="tester_name" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="职称">
-                    <el-input v-model="tester_title" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.title" autocomplete="off"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -86,6 +86,19 @@ export default {
             resetPassword:{
                 newPassword:"123456",
                 userID:0
+            },
+
+            addUser:{
+                roles: [
+                    "ROLE_TECHNICIAN"
+                ],
+                roleSpecificInfo: {
+                    technicianID: 0,
+                    name:"",
+                    title:""
+                },
+                password: "123456",
+                loginID: 0
             }
         }
     },
@@ -100,13 +113,12 @@ export default {
             })
         },
         resetDialog() {
-            this.tester_id = ""
-            this.tester_name = ""
-            this.tester_title = ""
-            this.load()
+            this.addUser.roleSpecificInfo.name = ""
+            this.addUser.roleSpecificInfo.title = ""
         },
         save() {
-            this.request.post("/user/admins?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
+            console.log(this.addUser)
+            this.request.post("/user/technician",this.addUser).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false
@@ -148,14 +160,13 @@ export default {
         },
         handleAdd() {
             this.dialogFormVisible = true;
-            this.form = {}
+            this.resetDialog()
         },
         reset(id) {
             this.resetPassword.userID = id
             // console.log(this.resetPassword)
             this.request.put("/user/password?",this.resetPassword).then(res=>{
                 console.log(res)
-                this.tableData = res.data
                 this.$message.success("已重置")
             })
         }

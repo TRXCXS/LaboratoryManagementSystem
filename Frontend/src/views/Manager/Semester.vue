@@ -40,6 +40,9 @@
                 <el-form-item label="学期第一学年" label-width="100px">
                     <el-input v-model.number="addSemester.firstHalfYear" autocomplete="off"></el-input>
                 </el-form-item>
+<!--                <el-form-item label="学期ID" label-width="100px">-->
+<!--                    <el-input v-model.number="addSemester.semesterID" autocomplete="off"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="学期第二学年" label-width="100px">
                     <el-input v-model.number="addSemester.secondHalfYear" autocomplete="off"></el-input>
                 </el-form-item>
@@ -135,7 +138,12 @@ export default {
             })
         },
         resetDialog() {
-            this.addSemester = {}
+            this.addSemester.semesterID =0
+            this.addSemester.firstHalfYear =""
+            this.addSemester.secondHalfYear =""
+            this.addSemester.season =""
+            this.addSemester.startDate =""
+            this.addSemester.weekCount =""
             this.load()
         },
         cancelAdd() {
@@ -144,7 +152,7 @@ export default {
         },
         save() {
             console.log(this.addSemester)
-            this.request.post("/semester").then(res => {
+            this.request.post("/semester",this.addSemester).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false
@@ -157,11 +165,12 @@ export default {
         },
         handleAdd() {
             this.dialogFormVisible = true;
-            this.addSemester = {}
+            this.resetDialog()
         },
-        change() {
-            this.$store.state.semester = this.chooseSemester
-            console.log(this.chooseSemester)
+        change(value) {
+            this.request.put("/semester/current",value).then(res => {
+                console.log(res)
+            })
         },
     }
 }

@@ -82,12 +82,11 @@ export default {
             },
 
             temp:{
-                startWeek: 25,
-                labType: "SOFTWARE",
-                weekday: "TUESDAY",
-                endWeek: 62,
+                endWeek: 18,
                 slot: "TEN_TO_TWELVE",
-                studentCount: 16
+                weekday: "SUNDAY",
+                labType: "SYSTEM",
+                startWeek: 1
             },
 
         }
@@ -113,11 +112,11 @@ export default {
                 this.satisfyingEverythingInstructorRequest.slot = "THIRTEEN_TO_FIFTEEN"
             }
             console.log(this.satisfyingEverythingInstructorRequest)
-            console.log(this.temp)
-            this.request.get("/laboratory/for-instructor-requests/satisfying-everything",this.temp).then(res => {
+            this.request.get("/laboratory/for-instructor-requests/satisfying-everything",this.satisfyingEverythingInstructorRequest).then(res => {
                 console.log(res)
                 this.tableData = res.data
             })
+
         },
         resetDialog() {
             this.load()
