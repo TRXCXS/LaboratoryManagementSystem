@@ -123,6 +123,7 @@ public class BatchImportUsers {
                         userRoleMapper.insert(userRole);
                     }
                 }
+                default -> System.out.println("用户类型不正确！");
             }
         } catch (Exception e) {
             throw new BatchImportUsersException("批量导入出错！");
