@@ -31,7 +31,7 @@
                     >
                         <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>
                     </el-popconfirm>
-                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.user_id)">删除 <i
+                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.instructorID)">删除 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
@@ -39,14 +39,14 @@
 
         <el-dialog :visible.sync="dialogFormVisible" title="教师信息" width="30%">
             <el-form :label-width="formLabelWidth">
-                <el-form-item label="教师ID">
-                    <el-input v-model="teacher_id" autocomplete="off"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="教师ID">-->
+<!--                    <el-input v-model="teacher_id" autocomplete="off"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="姓名">
-                    <el-input v-model="teacher_name" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="职称">
-                    <el-input v-model="teacher_title" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.roleSpecificInfo.title" autocomplete="off"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -89,6 +89,18 @@ export default {
             resetPassword:{
                 newPassword:"123456",
                 userID:0
+            },
+            addUser:{
+                roles: [
+                    "ROLE_INSTRUCTOR"
+                ],
+                roleSpecificInfo: {
+                    instructorID: 0,
+                    name:"",
+                    title:""
+                },
+                password: "123456",
+                loginID: 0
             }
         }
     },
@@ -103,17 +115,15 @@ export default {
             })
         },
         resetDialog() {
-            this.teacher_id = ""
-            this.teacher_name = ""
-            this.teacher_title = ""
-            this.load()
+            this.addUser.roleSpecificInfo.name = ""
+            this.addUser.roleSpecificInfo.title = ""
         },
         cancelAdd() {
             this.dialogFormVisible = false;
             this.resetDialog()
         },
         save() {
-            this.request.post("/user/users?username=" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
+            this.request.post("/user/instructor", this.addUser).then(res => {
                 if (res) {
                     this.$message.success("添加成功")
                     this.dialogFormVisible = false
@@ -126,7 +136,7 @@ export default {
         },
         handleAdd() {
             this.dialogFormVisible = true;
-            this.form = {}
+            this.resetDialog()
         },
         del(id) {
             console.log(id)
@@ -135,7 +145,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.request.delete("/user/users/" + id).then(res => {
+                this.request.delete("/user?userID=" + id).then(res => {
                     if (res) {
                         this.$message({
                             type: 'success',
@@ -156,10 +166,8 @@ export default {
 
         reset(id) {
             this.resetPassword.userID = id
-            // console.log(this.resetPassword)
             this.request.put("/user/password?",this.resetPassword).then(res=>{
                 console.log(res)
-                this.tableData = res.data
                 this.$message.success("已重置")
             })
         }
