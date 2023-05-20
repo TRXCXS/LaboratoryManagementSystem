@@ -153,4 +153,20 @@ public class StudentRequestServiceImpl implements StudentRequestService {
         List<StudentRequest> studentRequests = studentRequestMapper.selectList(queryWrapper);
         return studentRequests;
     }
+
+    @Override
+    public void denyStudentRequest(Integer studentRequestID, String adminMessage) {
+        if (!isEntityExists.isStudentRequestExists(studentRequestID)) {
+            throw new StudentRequestNotExistException("目标申请不存在，无法拒绝申请！");
+        }
+
+        UpdateWrapper<StudentRequest> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("studentRequestID", studentRequestID);
+
+        updateWrapper.set("status", StudentRequestStatus.DENIED);
+        updateWrapper.set("adminProcessTime", new Timestamp(System.currentTimeMillis()));
+        updateWrapper.set("adminMessage", adminMessage);
+
+        studentRequestMapper.update(null, updateWrapper);
+    }
 }

@@ -19,4 +19,6 @@ public interface StudentRequestService {
     List<StudentRequest> getAllStudentRequests();
 
     List<StudentRequest> getUnhandledStudentRequests();
+
+    void denyStudentRequest(Integer studentRequestID, String adminMessage);
 }

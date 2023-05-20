@@ -95,4 +95,17 @@ public class StudentRequestController {
                         .getUnhandledStudentRequests())
                 .build();
     }
+
+    @PutMapping
+    public GeneralFormattedResponseBody<Object>
+    denyStudentRequest(@RequestParam Integer studentRequestID,
+                       @RequestParam String adminMessage) {
+        studentRequestService.denyStudentRequest(studentRequestID, adminMessage);
+        return GeneralFormattedResponseBody
+                .<Object>builder()
+                .status(HttpStatus.NO_CONTENT.value())
+                .message("success")
+                .data(null)
+                .build();
+    }
 }
