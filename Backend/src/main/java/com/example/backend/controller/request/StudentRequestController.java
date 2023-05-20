@@ -96,7 +96,7 @@ public class StudentRequestController {
                 .build();
     }
 
-    @PutMapping
+    @PutMapping("/deny")
     public GeneralFormattedResponseBody<Object>
     denyStudentRequest(@RequestParam Integer studentRequestID,
                        @RequestParam String adminMessage) {
