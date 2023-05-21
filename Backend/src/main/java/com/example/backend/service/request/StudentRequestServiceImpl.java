@@ -6,6 +6,7 @@ import com.example.backend.controller.requestbody.StudentRequestRequestBody;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.exception.model.semesterException.SemesterNotExistedException;
 import com.example.backend.exception.otherException.NumberIllegalException;
+import com.example.backend.exception.request.studentRequestException.AdminMessageNullException;
 import com.example.backend.exception.request.studentRequestException.StudentRequestHasExistedException;
 import com.example.backend.exception.request.studentRequestException.StudentRequestNotExistException;
 import com.example.backend.exception.user.studentException.StudentNotExistException;
@@ -155,7 +156,11 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     }
 
     @Override
-    public void denyStudentRequest(Integer studentRequestID, String adminMessage) {
+    public void denyStudentRequest(Integer studentRequestID, @NotNull String adminMessage) {
+        if (adminMessage.equals("")) {
+            throw new AdminMessageNullException("拒绝申请必须填写理由");
+        }
+
         if (!isEntityExists.isStudentRequestExists(studentRequestID)) {
             throw new StudentRequestNotExistException("目标申请不存在，无法拒绝申请！");
         }
