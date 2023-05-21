@@ -5,38 +5,38 @@
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="申请ID" prop="studentRequestID">
+            <el-table-column label="申请ID" prop="studentRequestID" width="60px">
             </el-table-column>
             <el-table-column label="申请时间" prop="requestTime">
             </el-table-column>
             <el-table-column label="申请学期" prop="semesterID">
             </el-table-column>
-            <el-table-column label="申请周次" prop="week" width="100px">
+            <el-table-column label="申请周次" prop="week" width="80px">
             </el-table-column>
-            <el-table-column label="星期" prop="weekday" >
+            <el-table-column label="星期" prop="weekday" width="60px">
             </el-table-column>
-            <el-table-column label="申请节次" prop="slot" width="100px">
+            <el-table-column label="申请节次" prop="slot" width="80px">
             </el-table-column>
             <el-table-column label="申请实验室编号" prop="labID" >
             </el-table-column>
             <el-table-column label="申请原因" prop="reason" width="150px">
             </el-table-column>
-            <el-table-column label="状态" prop="status" width="100px">
+            <el-table-column label="状态" prop="status" width="80px">
 <!--                <el-popover>-->
 <!--                    <el-tag slot="reference" :type="status==='通过' ? 'success' : (status === '未审核' ? 'info' : (status === '驳回' ? 'danger' : 'success') )">-->
 <!--                        {{ this.status }}-->
 <!--                    </el-tag>-->
 <!--                </el-popover>-->
             </el-table-column>
-            <el-table-column label="审批时间" prop="adminProcessTime" width="150px">
+            <el-table-column label="审批时间" prop="adminProcessTime" width="80px">
             </el-table-column>
-            <el-table-column label="管理员留言" prop="adminMessage" width="150px">
+            <el-table-column label="管理员留言" prop="adminMessage" width="100px">
             </el-table-column>
-            <el-table-column align="center" label="操作" width="250px">
+            <el-table-column align="center" label="操作" width="200px">
                 <template slot-scope="scope">
-                    <el-button type="warning" @click="handleUpdate(scope.row.studentRequestID)">修改 <i class="el-icon-edit"></i>
+                    <el-button type="warning" @click="handleUpdate(scope.row.studentRequestID,scope.row.status)">修改 <i class="el-icon-edit"></i>
                     </el-button>
-                    <el-button type="primary" @click="confirm_finishUsing(scope.row.studentRequestID,scope.row.status)">确认使用完毕 <i
+                    <el-button type="primary" @click="confirm_finishUsing(scope.row.studentRequestID,scope.row.status)">使用完毕 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
@@ -205,6 +205,7 @@ export default {
             dialogFormVisible: false,
             dialogFormVisible1: false,
             multipleSelection: [],
+            checkStatus:"",
 
 
         }
@@ -289,7 +290,7 @@ export default {
                 }else {
                     this.$message({
                         type: 'error',
-                        message: '管理员未通过审核!'
+                        message: '管理员未通过审核、申请被驳回或实验室已使用完毕'
                     });
                 }
             }).catch(() => {
@@ -318,15 +319,24 @@ export default {
             })
         },
         save1() {
-            this.request.put("/student-request", this.modifyRequest).then(res =>{
-                if (res) {
-                    this.$message.success("修改成功")
-                    this.dialogFormVisible1 = false
-                    this.load()
-                } else {
-                    this.$message.error("修改失败")
-                }
-            })
+            if (this.status === "通过"){
+                this.$message.warning("申请已通过，无法修改！")
+            }else if (this.status === "使用完毕"){
+                this.$message.warning("使用完毕，无法修改！")
+            }else if (this.status === "驳回"){
+                this.$message.warning("申请被驳回，无法修改！请重新申请！")
+            }else {
+                this.request.put("/student-request", this.modifyRequest).then(res =>{
+                    if (res) {
+                        this.$message.success("修改成功")
+                        this.dialogFormVisible1 = false
+                        this.load()
+                    } else {
+                        this.$message.error("修改失败")
+                    }
+                })
+            }
+
         },
         handleChange() {
 
@@ -335,7 +345,8 @@ export default {
             this.dialogFormVisible = false;
             this.addRequest = {}
         },
-        handleUpdate(id) {
+        handleUpdate(id,status) {
+            this.status = status
             this.request.get("/student-request/student",{
                 params:{
                     studentID: 2,

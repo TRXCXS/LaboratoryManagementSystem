@@ -4,7 +4,7 @@
             <el-button type="primary" @click="checkAll">查看全部申请</el-button>
             <el-button type="primary" @click="checkUnhandled">查看未审核的申请</el-button>
         </el-card>
-        <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
+        <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe style="margin-bottom: 20px">
 
             <el-table-column label="申请ID" prop="studentRequestID">
             </el-table-column>
@@ -28,11 +28,25 @@
 
             <el-table-column align="center" label="操作" width="190px">
                 <template slot-scope="scope">
-                    <el-button type="success" @click="approve(scope.row.studentRequestID)">通过 <i class="el-icon-edit"></i>
+                    <el-button type="primary" @click="checkByTimeAndID(scope.row.weekday,scope.row.slot,scope.row.labID,scope.row.week)" style="margin-bottom: 5px">查询可用实验室</el-button>
+                    <el-button type="success" @click="approve(scope.row.studentRequestID)" style="margin-bottom: 5px">通过 <i class="el-icon-edit"></i>
                     </el-button>
                     <el-button type="danger" @click="disapprove(scope.row.studentRequestID)">不通过 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
+            </el-table-column>
+        </el-table>
+        <h3>可用实验室：</h3>
+        <el-table :data="checkAvailableTableData" :header-cell-class-name="headerBg" border >
+            <el-table-column label="实验室ID" prop="labID">
+            </el-table-column>
+            <el-table-column label="实验室房间号" prop="labNumber">
+            </el-table-column>
+            <el-table-column label="实验室名称" prop="name">
+            </el-table-column>
+            <el-table-column label="实验室类型" prop="labType" >
+            </el-table-column>
+            <el-table-column label="设备数量" prop="deviceCount" >
             </el-table-column>
         </el-table>
         <el-dialog :visible.sync="dialogFormVisible" title="确认驳回" width="32%">
@@ -57,6 +71,7 @@ export default {
         return {
             api: this.GLOBAL.BASE_URL,
             tableData:[],
+            checkAvailableTableData:[],
             // tableData: Array(10).fill(item),
             collapseBtnClass: 'el-icon-s-fold',
             isCollapse: false,
@@ -280,28 +295,18 @@ export default {
             this.dialogFormVisible = true
             this.disapproveID = id
             console.log(id)
-            // this.$confirm('确认不通过?', '提示', {
-            //     confirmButtonText: '确定',
-            //     cancelButtonText: '取消',
-            //     type: 'warning'
-            // }).then(() => {
-            //     this.request.put("/student-request?studentRequestID="+id+"&adminMessage="+this.message).then(res=>{
-            //         if (res) {
-            //             this.$message({
-            //                 type: 'success',
-            //                 message: '已驳回学生申请!'
-            //             });
-            //             this.load()
-            //         } else {
-            //             this.$message.error("处理失败")
-            //         }
-            //     })
-            // }).catch(() => {
-            //     this.$message({
-            //         type: 'info',
-            //         message: '已取消'
-            //     });
-            // });
+        },
+        checkByTimeAndID(weekday,slot,labID,week){
+            this.request.get("/laboratory/for-student-requests/time-and-id",{
+                params:{
+                    weekday:weekday,
+                    slot:slot,
+                    labID:labID,
+                    week:week,
+                }
+            }).then(res => {
+                this.checkAvailableTableData = res.data
+            })
         },
     },
 }

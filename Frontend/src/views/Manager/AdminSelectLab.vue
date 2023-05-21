@@ -27,6 +27,7 @@
         </el-table>
         <el-card style="margin-bottom: 10px">
             <div style="display: flex;justify-content: space-around; margin: 10px 0">
+                <el-button type="primary" @click="checkByTimeAndType">根据时间与类型查询</el-button>
                 <div style="display: flex">
                     <h5 style="margin-top: 6px;">实验室检索:</h5>
                     <el-select v-model="form.labType" placeholder="请选择实验室类型" style="padding-left: 10px"
@@ -239,19 +240,6 @@ export default {
         },
         confirmArrange(labID) {
             this.createLongArrangement.labID = labID
-            // if (this.createLongArrangement.slot === "1-2"){
-            //     this.createLongArrangement.slot = "ONE_TO_TWO"
-            // }else if (this.createLongArrangement.slot === "3-5"){
-            //     this.createLongArrangement.slot = "THREE_TO_FIVE"
-            // }else if (this.createLongArrangement.slot === "6-7"){
-            //     this.createLongArrangement.slot = "SIX_TO_SEVEN"
-            // }else if (this.createLongArrangement.slot === "8-9"){
-            //     this.createLongArrangement.slot = "EIGHT_TO_NINE"
-            // }else if (this.createLongArrangement.slot === "10-12"){
-            //     this.createLongArrangement.slot = "TEN_TO_TWELVE"
-            // }else if (this.createLongArrangement.slot === "13-15"){
-            //     this.createLongArrangement.slot = "THIRTEEN_TO_FIFTEEN"
-            // }
             console.log(this.createLongArrangement)
             this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
                 if (res) {
@@ -263,6 +251,46 @@ export default {
                 } else {
                     this.$message.error("排课失败")
                 }
+            })
+        },
+        checkByTimeAndType(){
+            this.request.get("/laboratory/for-instructor-requests/time-and-type",{
+                params:{
+                    slot: this.$store.state.beingArrangedRequest.slot,
+                    labType: this.$store.state.beingArrangedRequest.labType,
+                    startWeek:this.$store.state.beingArrangedRequest.startWeek,
+                    weekday: this.$store.state.beingArrangedRequest.weekday,
+                    endWeek: this.$store.state.beingArrangedRequest.endWeek
+                }
+            }).then(res => {
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].slot === "ONE_TO_TWO"){
+                        res.data[i].slot ="1-2"
+                    }else if (res.data[i].slot ==="THREE_TO_FIVE"){
+                        res.data[i].slot ="3-5"
+                    }else if (res.data[i].slot ==="SIX_TO_SEVEN"){
+                        res.data[i].slot ="6-7"
+                    }else if (res.data[i].slot ==="EIGHT_TO_NINE"){
+                        res.data[i].slot ="8-9"
+                    }else if (res.data[i].slot ==="TEN_TO_TWELVE"){
+                        res.data[i].slot ="10-12"
+                    }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
+                        res.data[i].slot ="13-15"
+                    }
+                    if(res.data[i].labType === "SOFTWARE"){
+                        res.data[i].labType = "软件实验室"
+                    }else if (res.data[i].labType === "HARDWARE"){
+                        res.data[i].labType = "计算机硬件实验室"
+                    }else if (res.data[i].labType === "NETWORK"){
+                        res.data[i].labType = "计算机网络实验室"
+                    }else if (res.data[i].labType === "SYSTEM"){
+                        res.data[i].labType = "计算机系统实验室"
+                    }else if (res.data[i].labType === "IOT"){
+                        res.data[i].labType = "物联网实验室"
+                    }
+                }
+                this.tableData = res.data
+
             })
         },
     }

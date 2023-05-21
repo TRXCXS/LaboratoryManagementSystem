@@ -34,7 +34,7 @@
                     >
                         <el-button slot="reference" type="warning" style="margin-bottom: 5px">维修中 <i class="el-icon-setting"></i></el-button>
                     </el-popconfirm>
-                    <el-button style="margin-left: 5px" type="success" @click="handleMaintenance(scope.row.repairRequestID)">维修完成 <i
+                    <el-button style="margin-left: 5px" type="success" @click="handleMaintenance(scope.row.repairRequestID,scope.row.status)">维修完成 <i
                             class="el-icon-circle-check"></i></el-button>
                 </template>
             </el-table-column>
@@ -76,6 +76,8 @@ export default {
             password: "",
             dialogFormVisible: false,
             multipleSelection: [],
+
+            checkStatus:"",
         }
     },
     created() {
@@ -108,21 +110,16 @@ export default {
             this.load()
         },
         save(id) {
-            // this.request.post("/user/admins?username="+this.username+"&password="+this.password+"&role="+this.role).then(res =>{
-            //     if (res) {
-            //         this.$message.success("添加成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()
-            //     } else {
-            //         this.$message.error("添加失败")
-            //     }
-            // })
-            this.request.put("/repair-request/repaired?repairRequestID="+this.tempRepairRequestID+"&message="+this.description).then(res => {
-                this.dialogFormVisible = false;
-                this.$message.success("已设置")
-                this.load()
-            })
+            if (this.checkStatus === "未维修"){
+                this.$message.warning("请先点击'维修中'进行维修！")
+            }else {
+                this.request.put("/repair-request/repaired?repairRequestID="+this.tempRepairRequestID+"&message="+this.description).then(res => {
+                    this.dialogFormVisible = false;
+                    this.$message.success("已设置")
+                    this.load()
+                })
+            }
+
         },
         del(id) {
             console.log(id)
@@ -149,10 +146,11 @@ export default {
                 });
             });
         },
-        handleMaintenance(id) {
+        handleMaintenance(id,status) {
             this.dialogFormVisible = true;
             this.description = ""
             this.tempRepairRequestID = id
+            this.checkStatus = status
         },
         setRepairing(id,status) {
             // this.request.put("/repair-request/repairing",{
