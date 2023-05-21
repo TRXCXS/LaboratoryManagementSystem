@@ -39,6 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createTechnician(@NotNull UserRequestBody technicianInfo) {
+        if (isEntityExists.isUserExistsByLoginID(technicianInfo.getLoginID())) {
+            throw new UserHasExistedException("LoginID已存在，无法创建！");
+        }
+
         User user = new User(null, technicianInfo.getLoginID(), technicianInfo.getPassword(), null);
         userMapper.insert(user);
         Technician technician = new Technician(user.getUserID(), technicianInfo.getRoleSpecificInfo().get("name"), technicianInfo.getRoleSpecificInfo().get("title"));
@@ -58,6 +62,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createInstructor(@NotNull UserRequestBody instructorInfo) {
+        if (isEntityExists.isUserExistsByLoginID(instructorInfo.getLoginID())) {
+            throw new UserHasExistedException("LoginID已存在，无法创建！");
+        }
+
         User user = new User(null, instructorInfo.getLoginID(), instructorInfo.getPassword(), null);
         userMapper.insert(user);
         Instructor instructor = new Instructor(user.getUserID(), instructorInfo.getRoleSpecificInfo().get("name"), instructorInfo.getRoleSpecificInfo().get("title"));
@@ -76,6 +84,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createStudent(@NotNull UserRequestBody studentInfo) {
+        if (isEntityExists.isUserExistsByLoginID(studentInfo.getLoginID())) {
+            throw new UserHasExistedException("LoginID已存在，无法创建！");
+        }
+
         User user = new User(null, studentInfo.getLoginID(), studentInfo.getPassword(), null);
         userMapper.insert(user);
         Student student = new Student(user.getUserID(), studentInfo.getRoleSpecificInfo().get("name"), studentInfo.getRoleSpecificInfo().get("major"), studentInfo.getRoleSpecificInfo().get("clazz"));
@@ -165,6 +177,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(@NotNull UserRequestBody userInfo) {
+        if (isEntityExists.isUserExistsByLoginID(userInfo.getLoginID())){
+            throw new UserHasExistedException("LoginID已存在，无法创建！");
+        }
+
         checkRolesAndInfo(userInfo);
 
         // loginID已存在，无法创建
