@@ -23,6 +23,11 @@ const routes = [
                 component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/ClassScheduling.vue')
             },
             {
+                path: '/Management/manager',
+                name: '管理员管理',
+                component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Manager.vue')
+            },
+            {
                 path: '/Management/tester',
                 name: '实验员管理',
                 component: () => import(/* webpackChunkName: "about" */ '@/views/Manager/Tester.vue')

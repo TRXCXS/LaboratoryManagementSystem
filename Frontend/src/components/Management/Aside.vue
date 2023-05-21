@@ -35,6 +35,10 @@
                     <i class="el-icon-user"></i>
                     <span slot="title">用户管理</span>
                 </template>
+                <el-menu-item index="/Management/manager">
+                    <i class="el-icon-s-custom"></i>
+                    <span slot="title">管理员管理</span>
+                </el-menu-item>
                 <el-menu-item index="/Management/tester">
                     <i class="el-icon-s-custom"></i>
                     <span slot="title">实验员管理</span>
