@@ -2,6 +2,7 @@ package com.example.backend.utils.utilClasses;
 
 import com.example.backend.entity.user.*;
 import com.example.backend.exception.otherException.BatchImportUsersException;
+import com.example.backend.exception.user.userException.UserNotExistException;
 import com.example.backend.mapper.user.*;
 import com.example.backend.utils.enumClasses.model.Role;
 import jakarta.annotation.PostConstruct;
@@ -25,8 +26,10 @@ public class BatchImportUsers {
     private final TechnicianMapper technicianMapper;
     private final InstructorMapper instructorMapper;
     private final StudentMapper studentMapper;
+    private final IsEntityExists isEntityExists;
 
     private static final Logger logger = LoggerFactory.getLogger(BatchImportUsers.class);
+
     @PostConstruct
     public void init() {
         batchImportUsers = this;
@@ -70,6 +73,10 @@ public class BatchImportUsers {
                             strings[j] = cell.getStringCellValue();
                         }
 
+                        if (isEntityExists.isUserExistsByLoginID(strings[1])) {
+                            throw new UserNotExistException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
+                        }
+
                         User user = new User(null, strings[1], strings[2], null);
                         userMapper.insert(user);
                         Administrator administrator = new Administrator(user.getUserID(), strings[0]);
@@ -87,6 +94,10 @@ public class BatchImportUsers {
                             Cell cell = row.getCell(j);
                             cell.setCellType(CellType.STRING);
                             strings[j] = cell.getStringCellValue();
+                        }
+
+                        if (isEntityExists.isUserExistsByLoginID(strings[2])) {
+                            throw new UserNotExistException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
                         User user = new User(null, strings[2], strings[3], null);
@@ -113,6 +124,10 @@ public class BatchImportUsers {
                             Cell cell = row.getCell(j);
                             cell.setCellType(CellType.STRING);
                             strings[j] = cell.getStringCellValue();
+                        }
+
+                        if (isEntityExists.isUserExistsByLoginID(strings[3])) {
+                            throw new UserNotExistException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
                         User user = new User(null, strings[3], strings[4], null);
