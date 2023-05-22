@@ -2,6 +2,7 @@ package com.example.backend.utils.utilClasses;
 
 import com.example.backend.entity.user.*;
 import com.example.backend.exception.otherException.BatchImportUsersException;
+import com.example.backend.exception.user.userException.UserHasExistedException;
 import com.example.backend.exception.user.userException.UserNotExistException;
 import com.example.backend.mapper.user.*;
 import com.example.backend.utils.enumClasses.model.Role;
@@ -74,7 +75,7 @@ public class BatchImportUsers {
                         }
 
                         if (isEntityExists.isUserExistsByLoginID(strings[1])) {
-                            throw new UserNotExistException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
+                            throw new UserHasExistedException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
                         User user = new User(null, strings[1], strings[2], null);
@@ -97,7 +98,7 @@ public class BatchImportUsers {
                         }
 
                         if (isEntityExists.isUserExistsByLoginID(strings[2])) {
-                            throw new UserNotExistException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
+                            throw new UserHasExistedException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
                         User user = new User(null, strings[2], strings[3], null);
@@ -127,7 +128,7 @@ public class BatchImportUsers {
                         }
 
                         if (isEntityExists.isUserExistsByLoginID(strings[3])) {
-                            throw new UserNotExistException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
+                            throw new UserHasExistedException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
                         User user = new User(null, strings[3], strings[4], null);
