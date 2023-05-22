@@ -8,6 +8,7 @@ import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class LaboratoryController {
     private final LaboratoryService laboratoryService;
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/general/type")
     public GeneralFormattedResponseBody<List<Laboratory>>
     getLabsByType(@RequestParam String labType) {
@@ -31,6 +33,7 @@ public class LaboratoryController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/general/capacity")
     public GeneralFormattedResponseBody<List<Laboratory>>
     getLabsByCapacity(@RequestParam Integer studentCount) {
@@ -46,6 +49,7 @@ public class LaboratoryController {
      * 获得全部实验室数据用于表格展示
      * 按实验室类型分类
      */
+
     @GetMapping("/for-table/group-by-type")
     public GeneralFormattedResponseBody<Map<LabType, List<Laboratory>>>
     getLabsGroupByType() {
@@ -57,6 +61,7 @@ public class LaboratoryController {
     }
 
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/for-instructor-requests/time-and-type")
     public GeneralFormattedResponseBody<List<Laboratory>>
     getLabsByTimeAndType(@RequestParam Integer startWeek,
