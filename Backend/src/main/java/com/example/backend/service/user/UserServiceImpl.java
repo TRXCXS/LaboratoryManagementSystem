@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
 
         // loginID已存在，无法创建
         if (isEntityExists.isUserExistsByLoginID(userInfo.getLoginID())) {
-            throw new UserNotExistException("loginID已存在，无法更新！");
+            throw new UserHasExistedException("loginID已存在，无法更新！");
         }
 
         List<Role> roles = userInfo.getRoles();
@@ -239,7 +239,7 @@ public class UserServiceImpl implements UserService {
 
             // loginID已存在，无法更新
             if (isEntityExists.isUserExistsByLoginID(userUpdate.getLoginID())) {
-                throw new UserNotExistException("loginID已存在，无法更新！");
+                throw new UserHasExistedException("loginID已存在，无法更新！");
             }
 
             // 更新loginID
@@ -293,7 +293,7 @@ public class UserServiceImpl implements UserService {
 
             // loginID已存在，无法更新
             if (isEntityExists.isUserExistsByLoginID(userUpdate.getLoginID())) {
-                throw new UserNotExistException("loginID已存在，无法更新！");
+                throw new UserHasExistedException("loginID已存在，无法更新！");
             }
 
             // 更新loginID

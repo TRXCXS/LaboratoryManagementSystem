@@ -29,10 +29,9 @@ class BackendApplicationTests {
                 UserRequestBody.builder()
                         .loginID("003")
                         .password("456")
-                        .roles(List.of(Role.ROLE_ADMIN, Role.ROLE_INSTRUCTOR))
+                        .roles(List.of(Role.ROLE_ADMIN))
                         .roleSpecificInfo(Map.ofEntries(
-                                Map.entry("name", "super"),
-                                Map.entry("title", "some title")
+                                Map.entry("name", "super")
                         ))
                         .build()
         );
@@ -43,7 +42,7 @@ class BackendApplicationTests {
         userService.createTechnician(
                 UserRequestBody.builder()
                         .loginID("002")
-                        .password("852")
+                        .password("456")
                         .roles(List.of(Role.ROLE_TECHNICIAN))
                         .roleSpecificInfo(Map.ofEntries(
                                 Map.entry("name", "tech"),

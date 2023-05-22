@@ -7,6 +7,7 @@ import com.example.backend.service.arrangement.ShortArrangementService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ShortArrangementController {
     private final ShortArrangementService shortArrangementService;
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createShortArrangement(
@@ -34,6 +36,7 @@ public class ShortArrangementController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/all")
     public GeneralFormattedResponseBody<List<ShortArrangement>>
     getAllShortArrangements() {

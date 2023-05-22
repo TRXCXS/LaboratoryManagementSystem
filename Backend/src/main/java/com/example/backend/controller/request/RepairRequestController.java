@@ -7,6 +7,7 @@ import com.example.backend.service.request.RepairRequestService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class RepairRequestController {
     private final RepairRequestService repairRequestService;
 
+    @Secured({"ROLE_ADMIN", "ROLE_TECHNICIAN"})
     @GetMapping("/all")
     public GeneralFormattedResponseBody<List<RepairRequest>>
     getAllRepairRequests() {
@@ -33,6 +35,7 @@ public class RepairRequestController {
      * RepairRequestsByInstructor
      * 给教师查看自己提交过的保修
      */
+    @Secured({"ROLE_INSTRUCTOR"})
     @GetMapping("/instructor")
     public GeneralFormattedResponseBody<List<RepairRequest>>
     getRepairRequestsByInstructor(@RequestParam Integer instructorID) {
@@ -44,6 +47,7 @@ public class RepairRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_INSTRUCTOR"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createRepairRequest(
@@ -61,30 +65,28 @@ public class RepairRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_TECHNICIAN"})
     @PutMapping("/repairing")
     public GeneralFormattedResponseBody<Object>
-    setRepairing(@RequestParam Integer repairRequestID,
-                 HttpServletResponse response) {
+    setRepairing(@RequestParam Integer repairRequestID) {
         repairRequestService.setRepairing(repairRequestID);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
     }
 
+    @Secured({"ROLE_TECHNICIAN"})
     @PutMapping("/repaired")
     public GeneralFormattedResponseBody<Object>
     setRepaired(@RequestParam Integer repairRequestID,
-                @RequestParam String message,
-                HttpServletResponse response) {
+                @RequestParam String message) {
         repairRequestService.setRepaired(repairRequestID, message);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -94,6 +96,7 @@ public class RepairRequestController {
      * RepairRequestsByTechnician
      * 让实验员查看自己负责的实验室的保修
      */
+    @Secured({"ROLE_TECHNICIAN"})
     @GetMapping("/technician")
     public GeneralFormattedResponseBody<List<RepairRequest>>
     getRepairRequestsByTechnician(@RequestParam Integer technicianID) {

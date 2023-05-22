@@ -7,6 +7,7 @@ import com.example.backend.service.request.StudentRequestService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class StudentRequestController {
     private final StudentRequestService studentRequestService;
 
+    @Secured({"ROLE_STUDENT"})
     @GetMapping("/student")
     public GeneralFormattedResponseBody<List<StudentRequest>>
     getStudentRequestsByStudent(@RequestParam Integer studentID) {
@@ -30,6 +32,7 @@ public class StudentRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_STUDENT"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createStudentRequest(
@@ -47,38 +50,37 @@ public class StudentRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_STUDENT"})
     @PutMapping
     public GeneralFormattedResponseBody<Object>
     updateStudentRequest(
             @RequestBody
-            StudentRequestRequestBody updatedStudentRequestInfo,
-            HttpServletResponse response) {
+            StudentRequestRequestBody updatedStudentRequestInfo) {
         studentRequestService
                 .updateStudentRequest(updatedStudentRequestInfo);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
     }
 
+    @Secured({"ROLE_STUDENT"})
     @PutMapping("/use-complete")
     public GeneralFormattedResponseBody<Object>
-    setUseComplete(@RequestParam Integer studentRequestID,
-                   HttpServletResponse response) {
+    setUseComplete(@RequestParam Integer studentRequestID) {
         studentRequestService
                 .setUseComplete(studentRequestID);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/all")
     public GeneralFormattedResponseBody<List<StudentRequest>>
     getAllStudentRequests() {
@@ -91,6 +93,7 @@ public class StudentRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/unhandled")
     public GeneralFormattedResponseBody<List<StudentRequest>>
     getUnhandledStudentRequests() {
@@ -103,16 +106,15 @@ public class StudentRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/deny")
     public GeneralFormattedResponseBody<Object>
     denyStudentRequest(@RequestParam Integer studentRequestID,
-                       @RequestParam String adminMessage,
-                       HttpServletResponse response) {
+                       @RequestParam String adminMessage) {
         studentRequestService.denyStudentRequest(studentRequestID, adminMessage);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
