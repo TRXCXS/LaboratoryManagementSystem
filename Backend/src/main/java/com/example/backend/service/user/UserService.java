@@ -6,11 +6,13 @@ import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
 import com.example.backend.entity.user.Instructor;
 import com.example.backend.entity.user.Student;
 import com.example.backend.entity.user.Technician;
+import com.example.backend.utils.enumClasses.model.Role;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -116,4 +118,6 @@ public interface UserService {
     List<Student> getStudentsByName(String name);
 
     void batchImport(File table, boolean isXls, String userType) throws FileNotFoundException;
+
+    Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID);
 }

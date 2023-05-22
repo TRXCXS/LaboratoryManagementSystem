@@ -8,6 +8,10 @@ import com.example.backend.controller.requestbody.UserRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
 import com.example.backend.entity.user.*;
 import com.example.backend.exception.enumException.RoleTypeNotExistException;
+import com.example.backend.exception.user.administratorException.AdministratorNotExistException;
+import com.example.backend.exception.user.instructorException.InstructorNotExistException;
+import com.example.backend.exception.user.studentException.StudentNotExistException;
+import com.example.backend.exception.user.technicianException.TechnicianNotExistException;
 import com.example.backend.exception.user.userException.*;
 import com.example.backend.mapper.user.*;
 import com.example.backend.utils.enumClasses.model.Role;
@@ -16,12 +20,14 @@ import com.example.backend.utils.utilClasses.IsEntityExists;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +42,7 @@ public class UserServiceImpl implements UserService {
     private final IsEntityExists isEntityExists;
     private final BatchImportUsers batchImportUsers;
     private final AdministratorMapper administratorMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void createTechnician(@NotNull UserRequestBody technicianInfo) {
@@ -43,7 +50,7 @@ public class UserServiceImpl implements UserService {
             throw new UserHasExistedException("LoginID已存在，无法创建！");
         }
 
-        User user = new User(null, technicianInfo.getLoginID(), technicianInfo.getPassword(), null);
+        User user = new User(null, technicianInfo.getLoginID(), passwordEncoder.encode(technicianInfo.getPassword()), null);
         userMapper.insert(user);
         Technician technician = new Technician(user.getUserID(), technicianInfo.getRoleSpecificInfo().get("name"), technicianInfo.getRoleSpecificInfo().get("title"));
         technicianMapper.insert(technician);
@@ -66,7 +73,7 @@ public class UserServiceImpl implements UserService {
             throw new UserHasExistedException("LoginID已存在，无法创建！");
         }
 
-        User user = new User(null, instructorInfo.getLoginID(), instructorInfo.getPassword(), null);
+        User user = new User(null, instructorInfo.getLoginID(), passwordEncoder.encode(instructorInfo.getPassword()), null);
         userMapper.insert(user);
         Instructor instructor = new Instructor(user.getUserID(), instructorInfo.getRoleSpecificInfo().get("name"), instructorInfo.getRoleSpecificInfo().get("title"));
         instructorMapper.insert(instructor);
@@ -88,7 +95,7 @@ public class UserServiceImpl implements UserService {
             throw new UserHasExistedException("LoginID已存在，无法创建！");
         }
 
-        User user = new User(null, studentInfo.getLoginID(), studentInfo.getPassword(), null);
+        User user = new User(null, studentInfo.getLoginID(), passwordEncoder.encode(studentInfo.getPassword()), null);
         userMapper.insert(user);
         Student student = new Student(user.getUserID(), studentInfo.getRoleSpecificInfo().get("name"), studentInfo.getRoleSpecificInfo().get("major"), studentInfo.getRoleSpecificInfo().get("clazz"));
         studentMapper.insert(student);
@@ -138,7 +145,7 @@ public class UserServiceImpl implements UserService {
     public void resetPassword(@NotNull ResetPasswordRequestBody resetPasswordRequestInfo) {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("userID", resetPasswordRequestInfo.getUserID());
-        updateWrapper.set("password", resetPasswordRequestInfo.getNewPassword());
+        updateWrapper.set("password", passwordEncoder.encode(resetPasswordRequestInfo.getNewPassword()));
         userMapper.update(null, updateWrapper);
     }
 
@@ -191,7 +198,7 @@ public class UserServiceImpl implements UserService {
         List<Role> roles = userInfo.getRoles();
         Map<String, String> roleSpecificInfo = userInfo.getRoleSpecificInfo();
 
-        User user = new User(null, userInfo.getLoginID(), userInfo.getPassword(), null);
+        User user = new User(null, userInfo.getLoginID(), passwordEncoder.encode(userInfo.getPassword()), null);
         userMapper.insert(user);
 
         if (roles.contains(Role.ROLE_ADMIN)) {
@@ -374,5 +381,35 @@ public class UserServiceImpl implements UserService {
     public void batchImport(File table, boolean isXls, String userType) throws FileNotFoundException {
         InputStream inputStream = new FileInputStream(table);
         batchImportUsers.readAndImport(inputStream, isXls, userType);
+    }
+
+    @Override
+    public Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID) {
+        Map<String, String> ret = new HashMap<>();
+        if(roles.contains(Role.ROLE_ADMIN)) {
+            Administrator a = administratorMapper.selectById(userID);
+            if(a == null) throw new AdministratorNotExistException("找不到管理员用户信息");
+            ret.put("name", a.getName());
+        }
+        if(roles.contains(Role.ROLE_INSTRUCTOR)) {
+            Instructor i = instructorMapper.selectById(userID);
+            if(i == null) throw new InstructorNotExistException("找不到教师用户信息");
+            ret.put("name", i.getName());
+            ret.put("instructorTitle", i.getTitle());
+        }
+        if(roles.contains(Role.ROLE_TECHNICIAN)) {
+            Technician t = technicianMapper.selectById(userID);
+            if(t == null) throw new TechnicianNotExistException("找不到实验员用户信息");
+            ret.put("name", t.getName());
+            ret.put("technicianTitle", t.getTitle());
+        }
+        if(roles.contains(Role.ROLE_STUDENT)) {
+            Student s = studentMapper.selectById(userID);
+            if(s == null) throw new StudentNotExistException("找不到学生用户信息");
+            ret.put("name", s.getName());
+            ret.put("class", s.getClazz());
+            ret.put("major", s.getMajor());
+        }
+        return ret;
     }
 }

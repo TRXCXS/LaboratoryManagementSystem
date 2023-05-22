@@ -11,3 +11,9 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 设置取消下划线到驼峰命名的映射
     map-underscore-to-camel-case: false
+
+application:
+  security:
+    jwt:
+      secret-key: 6E327235753778214125442A472D4B6150645367566B59703373367639792F42
+      expiration: 6000000

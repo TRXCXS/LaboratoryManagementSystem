@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -28,6 +29,7 @@ public class BatchImportUsers {
     private final InstructorMapper instructorMapper;
     private final StudentMapper studentMapper;
     private final IsEntityExists isEntityExists;
+    private final PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(BatchImportUsers.class);
 
@@ -78,7 +80,7 @@ public class BatchImportUsers {
                             throw new UserHasExistedException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
-                        User user = new User(null, strings[1], strings[2], null);
+                        User user = new User(null, strings[1], passwordEncoder.encode(strings[2]), null);
                         userMapper.insert(user);
                         Administrator administrator = new Administrator(user.getUserID(), strings[0]);
                         administratorMapper.insert(administrator);
@@ -101,7 +103,7 @@ public class BatchImportUsers {
                             throw new UserHasExistedException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
-                        User user = new User(null, strings[2], strings[3], null);
+                        User user = new User(null, strings[2], passwordEncoder.encode(strings[3]), null);
                         userMapper.insert(user);
                         if (userType.equals("Technician")) {
                             Technician technician = new Technician(user.getUserID(), strings[0], strings[1]);
@@ -131,7 +133,7 @@ public class BatchImportUsers {
                             throw new UserHasExistedException("Excel第" + i + "条数据，由于loginID已存在，无法继续导入！");
                         }
 
-                        User user = new User(null, strings[3], strings[4], null);
+                        User user = new User(null, strings[3], passwordEncoder.encode(strings[4]), null);
                         userMapper.insert(user);
                         Student student = new Student(user.getUserID(), strings[0], strings[1], strings[2]);
                         studentMapper.insert(student);
