@@ -8,6 +8,7 @@ import com.example.backend.service.arrangement.LongArrangementService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public class LongArrangementController {
     private final LongArrangementService longArrangementService;
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createLongArrangement(
@@ -35,6 +37,7 @@ public class LongArrangementController {
                 .build();
     }
 
+
     @GetMapping("/table")
     public GeneralFormattedResponseBody<List<LongArrangementResponseDataForDisplay>>
     getTableData() {
@@ -45,6 +48,7 @@ public class LongArrangementController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/all")
     public GeneralFormattedResponseBody<List<LongArrangement>>
     getAllLongArrangements() {

@@ -49,7 +49,6 @@ public class LaboratoryController {
      * 获得全部实验室数据用于表格展示
      * 按实验室类型分类
      */
-
     @GetMapping("/for-table/group-by-type")
     public GeneralFormattedResponseBody<Map<LabType, List<Laboratory>>>
     getLabsGroupByType() {
@@ -82,6 +81,7 @@ public class LaboratoryController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/for-student-requests/time-and-id")
     public GeneralFormattedResponseBody<Laboratory>
     getLabByTimeAndID(@RequestParam Integer week,
@@ -100,6 +100,7 @@ public class LaboratoryController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/for-instructor-requests/satisfying-everything")
     public GeneralFormattedResponseBody<List<Laboratory>>
     getLabsSatisfyingEverything(@RequestParam Integer startWeek,

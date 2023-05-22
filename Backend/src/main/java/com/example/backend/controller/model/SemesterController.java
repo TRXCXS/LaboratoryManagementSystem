@@ -6,6 +6,7 @@ import com.example.backend.service.model.SemesterService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class SemesterController {
     private final SemesterService semesterService;
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/all")
     public GeneralFormattedResponseBody<List<Semester>>
     getAllSemesters() {
@@ -31,6 +33,7 @@ public class SemesterController {
      * 创建新学期
      * @param newSemester 其中的semesterID无意义，填0即可
      */
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createNewSemester(@RequestBody Semester newSemester,
@@ -45,6 +48,7 @@ public class SemesterController {
     }
 
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/current")
     public GeneralFormattedResponseBody<Object>
     setCurrentSemester(@RequestBody Integer semesterID,
