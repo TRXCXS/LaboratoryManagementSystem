@@ -149,7 +149,7 @@ export default {
         }else if(this.$store.state.beingArrangedRequest.weekday ==='SATURDAY') {
             this.$store.state.beingArrangedRequest.weekday = "星期六"
         }else if(this.$store.state.beingArrangedRequest.weekday ==='SUNDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期七"
+            this.$store.state.beingArrangedRequest.weekday = "星期日"
         }
         if(this.$store.state.beingArrangedRequest.labType === "SOFTWARE"){
             this.$store.state.beingArrangedRequest.labType = "软件实验室"
@@ -254,6 +254,57 @@ export default {
             })
         },
         checkByTimeAndType(){
+            if (this.$store.state.beingArrangedRequest.slot === "1-2"){
+                this.$store.state.beingArrangedRequest.slot ="ONE_TO_TWO"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="3-5"){
+                this.$store.state.beingArrangedRequest.slot ="THREE_TO_FIVE"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="6-7"){
+                this.$store.state.beingArrangedRequest.slot ="SIX_TO_SEVEN"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="8-9"){
+                this.$store.state.beingArrangedRequest.slot ="EIGHT_TO_NINE"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="10-12"){
+                this.$store.state.beingArrangedRequest.slot ="TEN_TO_TWELVE"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="13-15"){
+                this.$store.state.beingArrangedRequest.slot ="THIRTEEN_TO_FIFTEEN"
+            }
+            if (this.$store.state.beingArrangedRequest.weekday ==='星期一') {
+                this.$store.state.beingArrangedRequest.weekday = "MONDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期二') {
+                this.$store.state.beingArrangedRequest.weekday = "TUESDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期三') {
+                this.$store.state.beingArrangedRequest.weekday = "WEDNESDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期四') {
+                this.$store.state.beingArrangedRequest.weekday = "THURSDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期五') {
+                this.$store.state.beingArrangedRequest.weekday = "FRIDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期六') {
+                this.$store.state.beingArrangedRequest.weekday = "SATURDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期日') {
+                this.$store.state.beingArrangedRequest.weekday = "SUNDAY"
+            }
+            if(this.$store.state.beingArrangedRequest.labType === "SOFTWARE"){
+                this.$store.state.beingArrangedRequest.labType = "软件实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "HARDWARE"){
+                this.$store.state.beingArrangedRequest.labType = "计算机硬件实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "NETWORK"){
+                this.$store.state.beingArrangedRequest.labType = "计算机网络实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "SYSTEM"){
+                this.$store.state.beingArrangedRequest.labType = "计算机系统实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "IOT"){
+                this.$store.state.beingArrangedRequest.labType = "物联网实验室"
+            }
+            if(this.$store.state.beingArrangedRequest.labType === "软件实验室"){
+                this.$store.state.beingArrangedRequest.labType = "SOFTWARE"
+            }else if (this.$store.state.beingArrangedRequest.labType === "计算机硬件实验室"){
+                this.$store.state.beingArrangedRequest.labType = "HARDWARE"
+            }else if (this.$store.state.beingArrangedRequest.labType === "计算机网络实验室"){
+                this.$store.state.beingArrangedRequest.labType = "NETWORK"
+            }else if (this.$store.state.beingArrangedRequest.labType === "计算机系统实验室"){
+                this.$store.state.beingArrangedRequest.labType = "SYSTEM"
+            }else if (this.$store.state.beingArrangedRequest.labType === "物联网实验室"){
+                this.$store.state.beingArrangedRequest.labType = "IOT"
+            }
+
             this.request.get("/laboratory/for-instructor-requests/time-and-type",{
                 params:{
                     slot: this.$store.state.beingArrangedRequest.slot,

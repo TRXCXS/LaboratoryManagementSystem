@@ -40,22 +40,12 @@
             <el-table-column label="设备数量" prop="deviceCount">
             </el-table-column>
             <el-table-column align="center" label="操作">
-                <el-button style="margin-bottom: 5px" type="primary" @click="confirmArrange">排课 <i
+                <template slot-scope="scope">
+                    <el-button style="margin-bottom: 5px" type="primary" @click="confirmArrange(scope.row.labID)">排课 <i
                         class="el-icon-edit"></i></el-button>
+                </template>
             </el-table-column>
         </el-table>
-
-        <el-dialog :visible.sync="dialogFormVisible" title="确认维修" width="30%">
-            <el-form :label-width="formLabelWidth">
-                <el-form-item label="维修情况说明">
-                    <el-input v-model="description" autocomplete="off" type="textarea"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="save">确 定</el-button>
-            </div>
-        </el-dialog>
     </div>
 </template>
 
@@ -153,7 +143,7 @@ export default {
         }else if(this.$store.state.beingArrangedRequest.weekday ==='SATURDAY') {
             this.$store.state.beingArrangedRequest.weekday = "星期六"
         }else if(this.$store.state.beingArrangedRequest.weekday ==='SUNDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期七"
+            this.$store.state.beingArrangedRequest.weekday = "星期日"
         }
         if(this.$store.state.beingArrangedRequest.labType === "SOFTWARE"){
             this.$store.state.beingArrangedRequest.labType = "软件实验室"
@@ -174,12 +164,12 @@ export default {
             console.log(this.satisfyingEverythingInstructorRequest)
             this.request.get("/laboratory/for-instructor-requests/satisfying-everything",{
                 params:{
-                    endWeek: 18,
-                    weekday: "WEDNESDAY",
-                    labType: "SYSTEM",
-                    studentCount: 60,
-                    startWeek: 1,
-                    slot: "TEN_TO_TWELVE"
+                    endWeek: this.satisfyingEverythingInstructorRequest.endWeek,
+                    weekday: this.satisfyingEverythingInstructorRequest.weekday,
+                    labType: this.satisfyingEverythingInstructorRequest.labType,
+                    studentCount: this.satisfyingEverythingInstructorRequest.studentCount,
+                    startWeek: this.satisfyingEverythingInstructorRequest.startWeek,
+                    slot: this.satisfyingEverythingInstructorRequest.slot
                 }
             }).then(res => {
                 console.log(res)
@@ -235,17 +225,20 @@ export default {
         reset() {
             this.$message.success("已设置")
         },
-        confirmArrange() {
-            // this.request.post("/long-arrangement" + this.username + "&password=" + this.password + "&role=" + this.role).then(res => {
-            //     if (res) {
-            //         this.$message.success("排课成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()6
-            //     } else {
-            //         this.$message.error("排课失败")
-            //     }
-            // })
+        confirmArrange(labID) {
+            this.createLongArrangement.labID = labID
+            console.log(this.createLongArrangement)
+            this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
+                if (res) {
+                    this.$message.success("排课成功")
+                    this.dialogFormVisible = false
+                    this.resetDialog()
+                    this.load()
+                    this.$router.push("/Management/classScheduling")
+                } else {
+                    this.$message.error("排课失败")
+                }
+            })
         },
     }
 }

@@ -36,9 +36,9 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab(scope.row.requestTime,scope.row.course,scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType)">查看符合所有条件的教室
+                    <el-button style="margin-bottom: 5px" type="success" @click="checkAllEligibleLab(scope.row.requestTime,scope.row.course,scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType,scope.row.status)">查看符合所有条件的教室
                         <i class="el-icon-edit"></i></el-button>
-                    <el-button type="primary" @click="selectLab(scope.row.requestTime,scope.row.course,scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType)">筛选教室<i class="el-icon-edit"></i></el-button>
+                    <el-button type="primary" @click="selectLab(scope.row.requestTime,scope.row.course,scope.row.studentClass,scope.row.weekday,scope.row.studentCount,scope.row.instructorRequestID,scope.row.endWeek,scope.row.slot,scope.row.startWeek,scope.row.labType,scope.row.status)">筛选教室<i class="el-icon-edit"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -148,7 +148,7 @@ export default {
                     }else if(res.data[i].weekday ==='SATURDAY') {
                         res.data[i].weekday = "星期六"
                     }else if(res.data[i].weekday ==='SUNDAY') {
-                        res.data[i].weekday = "星期七"
+                        res.data[i].weekday = "星期日"
                     }
                     if(res.data[i].labType === "SOFTWARE"){
                         res.data[i].labType = "软件实验室"
@@ -206,7 +206,7 @@ export default {
                     }else if(res.data[i].weekday ==='SATURDAY') {
                         res.data[i].weekday = "星期六"
                     }else if(res.data[i].weekday ==='SUNDAY') {
-                        res.data[i].weekday = "星期七"
+                        res.data[i].weekday = "星期日"
                     }
                     if(res.data[i].labType === "SOFTWARE"){
                         res.data[i].labType = "软件实验室"
@@ -272,130 +272,136 @@ export default {
         reset() {
             this.$message.success("已重置")
         },
-        checkAllEligibleLab(requestTime,course,studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
-            this.$router.push("/Management/AllEligibleLab");
-            if(labType === "软件实验室"){
-                labType = "SOFTWARE"
-            }else if (labType === "计算机硬件实验室"){
-                labType = "HARDWARE"
-            }else if (labType === "计算机网络实验室"){
-                labType = "NETWORK"
-            }else if (labType === "计算机系统实验室"){
-                labType = "SYSTEM"
-            }else if (labType === "物联网实验室"){
-                labType = "IOT"
+        checkAllEligibleLab(requestTime,course,studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType,status) {
+            if (status === "已排课"){
+                this.$message.error("已经排完课啦！")
+            }else {
+                this.$router.push("/Management/AllEligibleLab");
+                if(labType === "软件实验室"){
+                    labType = "SOFTWARE"
+                }else if (labType === "计算机硬件实验室"){
+                    labType = "HARDWARE"
+                }else if (labType === "计算机网络实验室"){
+                    labType = "NETWORK"
+                }else if (labType === "计算机系统实验室"){
+                    labType = "SYSTEM"
+                }else if (labType === "物联网实验室"){
+                    labType = "IOT"
+                }
+                if (slot === "1-2"){
+                    slot ="ONE_TO_TWO"
+                }else if (slot ==="3-5"){
+                    slot ="THREE_TO_FIVE"
+                }else if (slot ==="6-7"){
+                    slot ="SIX_TO_SEVEN"
+                }else if (slot ==="8-9"){
+                    slot ="EIGHT_TO_NINE"
+                }else if (slot ==="10-12"){
+                    slot ="TEN_TO_TWELVE"
+                }else if (slot ==="13-15"){
+                    slot ="THIRTEEN_TO_FIFTEEN"
+                }
+                if (weekday ==='星期一') {
+                    weekday = "MONDAY"
+                }else if(weekday ==='星期二') {
+                    weekday = "TUESDAY"
+                }else if(weekday ==='星期三') {
+                    weekday = "WEDNESDAY"
+                }else if(weekday ==='星期四') {
+                    weekday = "THURSDAY"
+                }else if(weekday ==='星期五') {
+                    weekday = "FRIDAY"
+                }else if(weekday ==='星期六') {
+                    weekday = "SATURDAY"
+                }else if(weekday ==='星期日') {
+                    weekday = "SUNDAY"
+                }
+
+
+                this.$store.state.LongArrangement.studentClass = studentClass
+                this.$store.state.LongArrangement.weekday = weekday
+                this.$store.state.LongArrangement.studentCount = studentCount
+                this.$store.state.LongArrangement.instructorRequestID = instructorRequestID
+                this.$store.state.LongArrangement.endWeek = endWeek
+                this.$store.state.LongArrangement.slot = slot
+                this.$store.state.LongArrangement.startWeek = startWeek
+
+                this.$store.state.satisfyingEverythingInstructorRequest.endWeek = endWeek
+                this.$store.state.satisfyingEverythingInstructorRequest.slot = slot
+                this.$store.state.satisfyingEverythingInstructorRequest.labType = labType
+                this.$store.state.satisfyingEverythingInstructorRequest.startWeek = startWeek
+                this.$store.state.satisfyingEverythingInstructorRequest.weekday = weekday
+                this.$store.state.satisfyingEverythingInstructorRequest.studentCount = studentCount
+
+                this.$store.state.beingArrangedRequest.instructorRequestID= instructorRequestID
+                this.$store.state.beingArrangedRequest.requestTime=requestTime
+                this.$store.state.beingArrangedRequest.course=course
+                this.$store.state.beingArrangedRequest.labType=labType
+                this.$store.state.beingArrangedRequest.weekday= weekday
+                this.$store.state.beingArrangedRequest.studentClass= studentClass
+                this.$store.state.beingArrangedRequest.studentCount= studentCount
+                this.$store.state.beingArrangedRequest.endWeek= endWeek
+                this.$store.state.beingArrangedRequest.slot= slot
+                this.$store.state.beingArrangedRequest.startWeek= startWeek
             }
-            if (slot === "1-2"){
-                slot ="ONE_TO_TWO"
-            }else if (slot ==="3-5"){
-                slot ="THREE_TO_FIVE"
-            }else if (slot ==="6-7"){
-                slot ="SIX_TO_SEVEN"
-            }else if (slot ==="8-9"){
-                slot ="EIGHT_TO_NINE"
-            }else if (slot ==="10-12"){
-                slot ="TEN_TO_TWELVE"
-            }else if (slot ==="13-15"){
-                slot ="THIRTEEN_TO_FIFTEEN"
-            }
-            if (weekday ==='星期一') {
-                weekday = "MONDAY"
-            }else if(weekday ==='星期二') {
-                weekday = "TUESDAY"
-            }else if(weekday ==='星期三') {
-                weekday = "WEDNESDAY"
-            }else if(weekday ==='星期四') {
-                weekday = "THURSDAY"
-            }else if(weekday ==='星期五') {
-                weekday = "FRIDAY"
-            }else if(weekday ==='星期六') {
-                weekday = "SATURDAY"
-            }else if(weekday ==='星期七') {
-                weekday = "SUNDAY"
-            }
-
-
-            this.$store.state.LongArrangement.studentClass = studentClass
-            this.$store.state.LongArrangement.weekday = weekday
-            this.$store.state.LongArrangement.studentCount = studentCount
-            this.$store.state.LongArrangement.instructorRequestID = instructorRequestID
-            this.$store.state.LongArrangement.endWeek = endWeek
-            this.$store.state.LongArrangement.slot = slot
-            this.$store.state.LongArrangement.startWeek = startWeek
-
-            this.$store.state.satisfyingEverythingInstructorRequest.endWeek = endWeek
-            this.$store.state.satisfyingEverythingInstructorRequest.slot = slot
-            this.$store.state.satisfyingEverythingInstructorRequest.labType = labType
-            this.$store.state.satisfyingEverythingInstructorRequest.startWeek = startWeek
-            this.$store.state.satisfyingEverythingInstructorRequest.weekday = weekday
-            this.$store.state.satisfyingEverythingInstructorRequest.studentCount = studentCount
-
-            this.$store.state.beingArrangedRequest.instructorRequestID= instructorRequestID
-            this.$store.state.beingArrangedRequest.requestTime=requestTime
-            this.$store.state.beingArrangedRequest.course=course
-            this.$store.state.beingArrangedRequest.labType=labType
-            this.$store.state.beingArrangedRequest.weekday= weekday
-            this.$store.state.beingArrangedRequest.studentClass= studentClass
-            this.$store.state.beingArrangedRequest.studentCount= studentCount
-            this.$store.state.beingArrangedRequest.endWeek= endWeek
-            this.$store.state.beingArrangedRequest.slot= slot
-            this.$store.state.beingArrangedRequest.startWeek= startWeek
 
 
         },
-        selectLab(requestTime,course,studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType) {
-            this.$router.push({
-                path:"/Management/AdminSelectLab",
-            })
-            if (slot === "1-2"){
-                slot ="ONE_TO_TWO"
-            }else if (slot ==="3-5"){
-                slot ="THREE_TO_FIVE"
-            }else if (slot ==="6-7"){
-                slot ="SIX_TO_SEVEN"
-            }else if (slot ==="8-9"){
-                slot ="EIGHT_TO_NINE"
-            }else if (slot ==="10-12"){
-                slot ="TEN_TO_TWELVE"
-            }else if (slot ==="13-15"){
-                slot ="THIRTEEN_TO_FIFTEEN"
+        selectLab(requestTime,course,studentClass,weekday,studentCount,instructorRequestID,endWeek,slot,startWeek,labType,status) {
+            if (status === "已排课"){
+                this.$message.error("已经排完课啦！")
+            }else {
+                this.$router.push({
+                    path:"/Management/AdminSelectLab",
+                })
+                if (slot === "1-2"){
+                    slot ="ONE_TO_TWO"
+                }else if (slot ==="3-5"){
+                    slot ="THREE_TO_FIVE"
+                }else if (slot ==="6-7"){
+                    slot ="SIX_TO_SEVEN"
+                }else if (slot ==="8-9"){
+                    slot ="EIGHT_TO_NINE"
+                }else if (slot ==="10-12"){
+                    slot ="TEN_TO_TWELVE"
+                }else if (slot ==="13-15"){
+                    slot ="THIRTEEN_TO_FIFTEEN"
+                }
+                if (weekday ==='星期一') {
+                    weekday = "MONDAY"
+                }else if(weekday ==='星期二') {
+                    weekday = "TUESDAY"
+                }else if(weekday ==='星期三') {
+                    weekday = "WEDNESDAY"
+                }else if(weekday ==='星期四') {
+                    weekday = "THURSDAY"
+                }else if(weekday ==='星期五') {
+                    weekday = "FRIDAY"
+                }else if(weekday ==='星期六') {
+                    weekday = "SATURDAY"
+                }else if(weekday ==='星期日') {
+                    weekday = "SUNDAY"
+                }
+
+                this.$store.state.LongArrangement.studentClass = studentClass
+                this.$store.state.LongArrangement.weekday = weekday
+                this.$store.state.LongArrangement.studentCount = studentCount
+                this.$store.state.LongArrangement.instructorRequestID = instructorRequestID
+                this.$store.state.LongArrangement.endWeek = endWeek
+                this.$store.state.LongArrangement.slot = slot
+                this.$store.state.LongArrangement.startWeek = startWeek
+
+                this.$store.state.beingArrangedRequest.instructorRequestID= instructorRequestID
+                this.$store.state.beingArrangedRequest.requestTime=requestTime
+                this.$store.state.beingArrangedRequest.course=course
+                this.$store.state.beingArrangedRequest.labType=labType
+                this.$store.state.beingArrangedRequest.weekday= weekday
+                this.$store.state.beingArrangedRequest.studentClass= studentClass
+                this.$store.state.beingArrangedRequest.studentCount= studentCount
+                this.$store.state.beingArrangedRequest.endWeek= endWeek
+                this.$store.state.beingArrangedRequest.slot= slot
+                this.$store.state.beingArrangedRequest.startWeek= startWeek
             }
-            if (weekday ==='星期一') {
-                weekday = "MONDAY"
-            }else if(weekday ==='星期二') {
-                weekday = "TUESDAY"
-            }else if(weekday ==='星期三') {
-                weekday = "WEDNESDAY"
-            }else if(weekday ==='星期四') {
-                weekday = "THURSDAY"
-            }else if(weekday ==='星期五') {
-                weekday = "FRIDAY"
-            }else if(weekday ==='星期六') {
-                weekday = "SATURDAY"
-            }else if(weekday ==='星期七') {
-                weekday = "SUNDAY"
-            }
-
-            this.$store.state.LongArrangement.studentClass = studentClass
-            this.$store.state.LongArrangement.weekday = weekday
-            this.$store.state.LongArrangement.studentCount = studentCount
-            this.$store.state.LongArrangement.instructorRequestID = instructorRequestID
-            this.$store.state.LongArrangement.endWeek = endWeek
-            this.$store.state.LongArrangement.slot = slot
-            this.$store.state.LongArrangement.startWeek = startWeek
-
-            this.$store.state.beingArrangedRequest.instructorRequestID= instructorRequestID
-            this.$store.state.beingArrangedRequest.requestTime=requestTime
-            this.$store.state.beingArrangedRequest.course=course
-            this.$store.state.beingArrangedRequest.labType=labType
-            this.$store.state.beingArrangedRequest.weekday= weekday
-            this.$store.state.beingArrangedRequest.studentClass= studentClass
-            this.$store.state.beingArrangedRequest.studentCount= studentCount
-            this.$store.state.beingArrangedRequest.endWeek= endWeek
-            this.$store.state.beingArrangedRequest.slot= slot
-            this.$store.state.beingArrangedRequest.startWeek= startWeek
-
-
         },
     }
 }
