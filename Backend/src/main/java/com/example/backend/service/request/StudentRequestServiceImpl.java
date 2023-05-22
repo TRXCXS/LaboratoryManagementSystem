@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.controller.requestbody.StudentRequestRequestBody;
 import com.example.backend.entity.request.StudentRequest;
+import com.example.backend.exception.model.semesterException.SemesterIDNotMatchException;
 import com.example.backend.exception.model.semesterException.SemesterNotExistedException;
 import com.example.backend.exception.otherException.NumberIllegalException;
 import com.example.backend.exception.request.studentRequestException.AdminMessageNullException;
@@ -42,6 +43,10 @@ public class StudentRequestServiceImpl implements StudentRequestService {
 
     @Override
     public void createStudentRequest(@NotNull StudentRequestRequestBody newStudentRequestInfo) {
+        if (newStudentRequestInfo.getSemesterID() != currentSemesterService.getCurrentSemester().getSemesterID()) {
+            throw new SemesterIDNotMatchException("提交的申请的学期ID并非当前学期ID！");
+        }
+
         if (newStudentRequestInfo.getWeek() <= 0) {
             throw new NumberIllegalException("week<=0！");
         }

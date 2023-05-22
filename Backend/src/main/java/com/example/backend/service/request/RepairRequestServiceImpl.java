@@ -3,10 +3,13 @@ package com.example.backend.service.request;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.controller.requestbody.RepairRequestRequestBody;
+import com.example.backend.entity.model.ResponsibleFor;
 import com.example.backend.entity.request.RepairRequest;
 import com.example.backend.exception.model.laboratoryException.LabIsRepairingException;
 import com.example.backend.exception.request.repairRequestException.RepairRequestNotExistException;
 import com.example.backend.exception.user.instructorException.InstructorNotExistException;
+import com.example.backend.exception.user.technicianException.TechnicianNotExistException;
+import com.example.backend.mapper.model.ResponsibleForMapper;
 import com.example.backend.mapper.request.RepairRequestMapper;
 import com.example.backend.utils.enumClasses.requestStatus.RepairRequestStatus;
 import com.example.backend.utils.utilClasses.ExceptionUtil;
@@ -16,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +28,7 @@ public class RepairRequestServiceImpl implements RepairRequestService {
     private final RepairRequestMapper repairRequestMapper;
     private final IsEntityExists isEntityExists;
     private final ExceptionUtil exceptionUtil;
+    private final ResponsibleForMapper responsibleForMapper;
 
     @Override
     public List<RepairRequest> getAllRepairRequests() {
@@ -117,6 +122,26 @@ public class RepairRequestServiceImpl implements RepairRequestService {
 
     @Override
     public List<RepairRequest> getRepairRequestsByTechnician(Integer technicianID) {
-        return null;
+        List<RepairRequest> list = new ArrayList<>();
+
+        if (!isEntityExists.isTechnicianExists(technicianID)) {
+            throw new TechnicianNotExistException("Technician不存在！");
+        }
+
+        QueryWrapper<ResponsibleFor> responsibleForQueryWrapper = new QueryWrapper<>();
+        responsibleForQueryWrapper.eq("technicianID", technicianID);
+        List<ResponsibleFor> responsibleForList = responsibleForMapper.selectList(responsibleForQueryWrapper);
+
+        for (ResponsibleFor responsibleFor : responsibleForList) {
+            QueryWrapper<RepairRequest> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("labID", responsibleFor.getLabID());
+            List<RepairRequest> tempList = repairRequestMapper.selectList(queryWrapper);
+
+            for (RepairRequest repairRequest : tempList) {
+                list.add(repairRequest);
+            }
+        }
+
+        return list;
     }
 }
