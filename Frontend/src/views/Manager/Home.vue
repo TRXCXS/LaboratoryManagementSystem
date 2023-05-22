@@ -203,7 +203,7 @@ export default {
                 {
                     day: "星期一",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",
@@ -434,7 +434,7 @@ export default {
                 {
                     day: "星期二",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",
@@ -665,7 +665,7 @@ export default {
                 {
                     day: "星期三",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",
@@ -896,7 +896,7 @@ export default {
                 {
                     day: "星期四",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",
@@ -1127,7 +1127,7 @@ export default {
                 {
                     day: "星期五",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",
@@ -1358,7 +1358,7 @@ export default {
                 {
                     day: "星期六",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",
@@ -1589,7 +1589,7 @@ export default {
                 {
                     day: "星期日",
                     room: "计算机硬件实验室",
-                    room_num: 709,
+                    room_num: 703,
                     section1_2: "             ",
                     section3_5: "             ",
                     section6_7: "             ",

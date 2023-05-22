@@ -51,12 +51,10 @@ public class SemesterController {
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/current")
     public GeneralFormattedResponseBody<Object>
-    setCurrentSemester(@RequestBody Integer semesterID,
-                       HttpServletResponse response) {
+    setCurrentSemester(@RequestBody Integer semesterID) {
         semesterService.setCurrentSemester(semesterID);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody.<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();

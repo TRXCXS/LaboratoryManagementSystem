@@ -68,13 +68,11 @@ public class RepairRequestController {
     @Secured({"ROLE_TECHNICIAN"})
     @PutMapping("/repairing")
     public GeneralFormattedResponseBody<Object>
-    setRepairing(@RequestParam Integer repairRequestID,
-                 HttpServletResponse response) {
+    setRepairing(@RequestParam Integer repairRequestID) {
         repairRequestService.setRepairing(repairRequestID);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -84,13 +82,11 @@ public class RepairRequestController {
     @PutMapping("/repaired")
     public GeneralFormattedResponseBody<Object>
     setRepaired(@RequestParam Integer repairRequestID,
-                @RequestParam String message,
-                HttpServletResponse response) {
+                @RequestParam String message) {
         repairRequestService.setRepaired(repairRequestID, message);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();

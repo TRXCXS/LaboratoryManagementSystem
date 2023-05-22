@@ -55,14 +55,12 @@ public class StudentRequestController {
     public GeneralFormattedResponseBody<Object>
     updateStudentRequest(
             @RequestBody
-            StudentRequestRequestBody updatedStudentRequestInfo,
-            HttpServletResponse response) {
+            StudentRequestRequestBody updatedStudentRequestInfo) {
         studentRequestService
                 .updateStudentRequest(updatedStudentRequestInfo);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -71,14 +69,12 @@ public class StudentRequestController {
     @Secured({"ROLE_STUDENT"})
     @PutMapping("/use-complete")
     public GeneralFormattedResponseBody<Object>
-    setUseComplete(@RequestParam Integer studentRequestID,
-                   HttpServletResponse response) {
+    setUseComplete(@RequestParam Integer studentRequestID) {
         studentRequestService
                 .setUseComplete(studentRequestID);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -114,13 +110,11 @@ public class StudentRequestController {
     @PutMapping("/deny")
     public GeneralFormattedResponseBody<Object>
     denyStudentRequest(@RequestParam Integer studentRequestID,
-                       @RequestParam String adminMessage,
-                       HttpServletResponse response) {
+                       @RequestParam String adminMessage) {
         studentRequestService.denyStudentRequest(studentRequestID, adminMessage);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();

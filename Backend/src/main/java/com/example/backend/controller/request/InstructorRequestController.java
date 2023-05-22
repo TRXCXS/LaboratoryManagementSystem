@@ -79,14 +79,12 @@ public class InstructorRequestController {
     public GeneralFormattedResponseBody<Object>
     updateInstructorRequest(
             @RequestBody
-            InstructorRequestRequestBody updatedInstructorRequestInfo,
-            HttpServletResponse response) {
+            InstructorRequestRequestBody updatedInstructorRequestInfo) {
         instructorRequestService
                 .updateInstructorRequest(updatedInstructorRequestInfo);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();

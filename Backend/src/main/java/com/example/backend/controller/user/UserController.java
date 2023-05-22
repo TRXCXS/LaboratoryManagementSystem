@@ -140,15 +140,11 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping
     public GeneralFormattedResponseBody<Object>
-    deleteUser(
-            @RequestParam Integer userID,
-            HttpServletResponse response
-    ) {
+    deleteUser(@RequestParam Integer userID) {
         userService.deleteUser(userID);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -157,13 +153,11 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/password")
     public GeneralFormattedResponseBody<Object>
-    resetPassword(@RequestBody ResetPasswordRequestBody resetPasswordRequestInfo,
-                  HttpServletResponse response) {
+    resetPassword(@RequestBody ResetPasswordRequestBody resetPasswordRequestInfo) {
         userService.resetPassword(resetPasswordRequestInfo);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -194,16 +188,14 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/technician")
     public GeneralFormattedResponseBody<Object>
-    updateTechnician(@RequestBody UserRequestBodyForUpdate userUpdate,
-                     HttpServletResponse response) {
+    updateTechnician(@RequestBody UserRequestBodyForUpdate userUpdate) {
         if (!userUpdate.getRoles().contains(Role.ROLE_TECHNICIAN)) {
             throw new MultipleRoleException("该接口只接受实验员信息更改");
         }
         userService.updateTechnician(userUpdate);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -212,16 +204,14 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/instructor")
     public GeneralFormattedResponseBody<Object>
-    updateInstructor(@RequestBody UserRequestBodyForUpdate userUpdate,
-                     HttpServletResponse response) {
+    updateInstructor(@RequestBody UserRequestBodyForUpdate userUpdate) {
         if (!userUpdate.getRoles().contains(Role.ROLE_INSTRUCTOR)) {
             throw new MultipleRoleException("该接口只接受教师信息更改");
         }
         userService.updateInstructor(userUpdate);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();
@@ -230,17 +220,14 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/student")
     public GeneralFormattedResponseBody<Object>
-    updateStudent(@RequestBody UserRequestBodyForUpdate userUpdate,
-                  HttpServletResponse response
-                  ) {
+    updateStudent(@RequestBody UserRequestBodyForUpdate userUpdate) {
         if (!userUpdate.getRoles().contains(Role.ROLE_STUDENT)) {
             throw new MultipleRoleException("该接口只接受学生信息更改");
         }
         userService.updateInstructor(userUpdate);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
-                .status(HttpStatus.NO_CONTENT.value())
+                .status(HttpStatus.OK.value())
                 .message("success")
                 .data(null)
                 .build();

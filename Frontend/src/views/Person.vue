@@ -1,20 +1,27 @@
 <template>
     <div>
         <el-card>
-            <el-descriptions :column="3" :size="size" border class="margin-top" title="个人中心">
+            <el-descriptions :column="3"  border class="margin-top" title="个人中心">
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-user"></i>
                         用户ID
                     </template>
-                    {{ user_id }}
+                    {{ userID }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-user"></i>
+                        登录ID
+                    </template>
+                    {{ loginID }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-user"></i>
                         用户名
                     </template>
-                    {{ user_name }}
+                    {{ userName }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
@@ -26,9 +33,9 @@
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-mobile-phone"></i>
-                        信用分
+                        职称
                     </template>
-                    {{ credit }}
+                    {{ title }}
                 </el-descriptions-item>
             </el-descriptions>
         </el-card>
@@ -41,18 +48,31 @@ export default {
     data() {
         return {
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-            user_id: "",
-            user_name: "",
+            userID: "",
+            userName: "",
             role: "",
-            credit: ""
+            loginID: "",
+            title: "",
 
         }
     },
     created() {
-        this.user_id = this.user.user_id
-        this.user_name = this.user.username
+        this.userID = this.user.userID
+        this.userName = this.user.roleSpecificInfo.name
         this.role = this.user.role
-        this.credit = this.user.credit
+        for (let i = 0; i < this.user.role.length; i++) {
+            if (this.role[i] === "ROLE_ADMIN"){
+                this.role = "管理员"
+            }else if (this.role[i] === "ROLE_INSTRUCTOR"){
+                this.role = "教师"
+            }else if (this.role[i] === "ROLE_TECHNICIAN"){
+                this.role = "实验员"
+            }else if (this.role[i] === "ROLE_STUDENT"){
+                this.role = "学生"
+            }
+        }
+        this.loginID = this.user.loginID
+        this.title = this.user.roleSpecificInfo.instructorTitle
     }
 }
 </script>

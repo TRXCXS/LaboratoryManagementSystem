@@ -235,9 +235,10 @@ export default {
     },
     methods: {
         load() {
+            // console.log(this.user.userID)
             this.request.get("/instructor-request/instructor",{
                 params:{
-                    instructorID: 1,
+                    instructorID: this.user.userID ,
                 }
             } ).then(res => {
                 console.log(res)
@@ -353,7 +354,8 @@ export default {
             this.form.slot=""
         },
         save() {
-            console.log(this.form)
+            // console.log(this.form)
+            this.addApplication.instructorID = this.user.userID
             this.request.post("/instructor-request",this.addApplication).then(res =>{
                 console.log(res)
                 if(res){
