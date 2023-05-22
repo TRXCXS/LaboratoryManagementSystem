@@ -32,6 +32,9 @@ import com.example.backend.exception.user.studentException.StudentHasExistedExce
 import com.example.backend.exception.user.studentException.StudentNotExistException;
 import com.example.backend.exception.user.technicianException.TechnicianHasExistedException;
 import com.example.backend.exception.user.technicianException.TechnicianNotExistException;
+import com.example.backend.exception.user.userException.*;
+import com.example.backend.exception.user.userRequestException.MultipleRoleException;
+import com.example.backend.exception.user.userRequestException.RoleSpecificInfoNotFoundException;
 import com.example.backend.exception.user.userRoleException.UserRoleHasExistedException;
 import com.example.backend.exception.user.userRoleException.UserRoleNotExistException;
 import org.springframework.http.HttpStatus;
@@ -59,7 +62,8 @@ public class GlobalExceptionHandler
             InstructorHasExistedException.class,
             StudentHasExistedException.class,
             TechnicianHasExistedException.class,
-            UserRoleHasExistedException.class
+            UserRoleHasExistedException.class,
+            UserHasExistedException.class
     })
     protected ResponseEntity<GeneralFormattedResponseBody<Object>>
     handleConflict(RuntimeException ex, WebRequest request) {
@@ -84,7 +88,8 @@ public class GlobalExceptionHandler
             InstructorNotExistException.class,
             StudentNotExistException.class,
             TechnicianNotExistException.class,
-            UserRoleNotExistException.class
+            UserRoleNotExistException.class,
+            UserNotExistException.class
     })
     protected ResponseEntity<GeneralFormattedResponseBody<Object>>
     handleNotFound(RuntimeException ex, WebRequest request) {
@@ -117,7 +122,8 @@ public class GlobalExceptionHandler
             SeasonTypeNotExistException.class,
             SlotTypeNotExistException.class,
             StudentRequestStatusTypeNotExistException.class,
-            WeekdayTypeNotExistException.class
+            WeekdayTypeNotExistException.class,
+            UserRoleConflictException.class
     })
     protected ResponseEntity<GeneralFormattedResponseBody<Object>>
     handleUnprocessableEntity(RuntimeException ex, WebRequest request) {
@@ -145,7 +151,14 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = {
             NumberIllegalException.class,
             AdminMessageNullException.class,
-            StudentCountIllegalException.class
+            StudentCountIllegalException.class,
+            MultipleRoleException.class,
+            RoleSpecificInfoNotFoundException.class,
+            NoClazzException.class,
+            NoMajorException.class,
+            NoNameException.class,
+            NoTitleException.class,
+            NoUserRoleException.class,
     })
     protected ResponseEntity<GeneralFormattedResponseBody<Object>>
     handleBadRequest(RuntimeException ex, WebRequest request) {
