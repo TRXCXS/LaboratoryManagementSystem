@@ -4,6 +4,7 @@ import com.example.backend.controller.requestbody.InstructorRequestRequestBody;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.service.request.InstructorRequestService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +56,11 @@ public class InstructorRequestController {
     public GeneralFormattedResponseBody<Object>
     createInstructorRequest(
             @RequestBody
-            InstructorRequestRequestBody newInstructorRequestInfo) {
+            InstructorRequestRequestBody newInstructorRequestInfo,
+            HttpServletResponse response) {
         instructorRequestService
                 .createInstructorRequest(newInstructorRequestInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -70,9 +73,11 @@ public class InstructorRequestController {
     public GeneralFormattedResponseBody<Object>
     updateInstructorRequest(
             @RequestBody
-            InstructorRequestRequestBody updatedInstructorRequestInfo) {
+            InstructorRequestRequestBody updatedInstructorRequestInfo,
+            HttpServletResponse response) {
         instructorRequestService
                 .updateInstructorRequest(updatedInstructorRequestInfo);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())

@@ -4,6 +4,7 @@ import com.example.backend.controller.requestbody.RepairRequestRequestBody;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.request.RepairRequest;
 import com.example.backend.service.request.RepairRequestService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -47,9 +48,11 @@ public class RepairRequestController {
     public GeneralFormattedResponseBody<Object>
     createRepairRequest(
             @RequestBody
-            RepairRequestRequestBody newRepairRequestInfo) {
+            RepairRequestRequestBody newRepairRequestInfo,
+            HttpServletResponse response) {
         repairRequestService
                 .createRepairRequest(newRepairRequestInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -60,8 +63,10 @@ public class RepairRequestController {
 
     @PutMapping("/repairing")
     public GeneralFormattedResponseBody<Object>
-    setRepairing(@RequestParam Integer repairRequestID) {
+    setRepairing(@RequestParam Integer repairRequestID,
+                 HttpServletResponse response) {
         repairRequestService.setRepairing(repairRequestID);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -73,8 +78,10 @@ public class RepairRequestController {
     @PutMapping("/repaired")
     public GeneralFormattedResponseBody<Object>
     setRepaired(@RequestParam Integer repairRequestID,
-                @RequestParam String message) {
+                @RequestParam String message,
+                HttpServletResponse response) {
         repairRequestService.setRepaired(repairRequestID, message);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())

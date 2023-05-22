@@ -4,6 +4,7 @@ import com.example.backend.controller.requestbody.StudentRequestRequestBody;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.service.request.StudentRequestService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,11 @@ public class StudentRequestController {
     public GeneralFormattedResponseBody<Object>
     createStudentRequest(
             @RequestBody
-            StudentRequestRequestBody newStudentRequestInfo) {
+            StudentRequestRequestBody newStudentRequestInfo,
+            HttpServletResponse response) {
         studentRequestService
                 .createStudentRequest(newStudentRequestInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -48,9 +51,11 @@ public class StudentRequestController {
     public GeneralFormattedResponseBody<Object>
     updateStudentRequest(
             @RequestBody
-            StudentRequestRequestBody updatedStudentRequestInfo) {
+            StudentRequestRequestBody updatedStudentRequestInfo,
+            HttpServletResponse response) {
         studentRequestService
                 .updateStudentRequest(updatedStudentRequestInfo);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -61,9 +66,11 @@ public class StudentRequestController {
 
     @PutMapping("/use-complete")
     public GeneralFormattedResponseBody<Object>
-    setUseComplete(@RequestParam Integer studentRequestID) {
+    setUseComplete(@RequestParam Integer studentRequestID,
+                   HttpServletResponse response) {
         studentRequestService
                 .setUseComplete(studentRequestID);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -99,8 +106,10 @@ public class StudentRequestController {
     @PutMapping("/deny")
     public GeneralFormattedResponseBody<Object>
     denyStudentRequest(@RequestParam Integer studentRequestID,
-                       @RequestParam String adminMessage) {
+                       @RequestParam String adminMessage,
+                       HttpServletResponse response) {
         studentRequestService.denyStudentRequest(studentRequestID, adminMessage);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())

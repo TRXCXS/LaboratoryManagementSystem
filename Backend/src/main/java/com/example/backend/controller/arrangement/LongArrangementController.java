@@ -5,6 +5,7 @@ import com.example.backend.controller.responsebody.LongArrangementResponseDataFo
 import com.example.backend.entity.arrangement.LongArrangement;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.service.arrangement.LongArrangementService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,11 @@ public class LongArrangementController {
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createLongArrangement(
-            @RequestBody LongArrangement newLongArrangement) {
+            @RequestBody LongArrangement newLongArrangement,
+            HttpServletResponse response) {
         longArrangementService
                 .createLongArrangement(newLongArrangement);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())

@@ -12,6 +12,7 @@ import com.example.backend.exception.user.userRequestException.MultipleRoleExcep
 import com.example.backend.exception.user.userRequestException.RoleSpecificInfoNotFoundException;
 import com.example.backend.service.user.UserService;
 import com.example.backend.utils.enumClasses.model.Role;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,8 @@ public class UserController {
     @PostMapping("/technician")
     public GeneralFormattedResponseBody<Object>
     createTechnician(
-            @RequestBody UserRequestBody technicianInfo
+            @RequestBody UserRequestBody technicianInfo,
+            HttpServletResponse response
     ) {
         if (technicianInfo.getRoles().size() != 1
                 || technicianInfo.getRoles().get(0) != Role.ROLE_TECHNICIAN) {
@@ -55,6 +57,7 @@ public class UserController {
             );
         }
         userService.createTechnician(technicianInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -71,7 +74,8 @@ public class UserController {
     @PostMapping("/instructor")
     public GeneralFormattedResponseBody<Object>
     createInstructor(
-            @RequestBody UserRequestBody instructorInfo
+            @RequestBody UserRequestBody instructorInfo,
+            HttpServletResponse response
     ) {
         if (instructorInfo.getRoles().size() != 1
                 || instructorInfo.getRoles().get(0) != Role.ROLE_INSTRUCTOR) {
@@ -85,6 +89,7 @@ public class UserController {
             );
         }
         userService.createInstructor(instructorInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -102,7 +107,8 @@ public class UserController {
     @PostMapping("/student")
     public GeneralFormattedResponseBody<Object>
     createStudent(
-            @RequestBody UserRequestBody studentInfo
+            @RequestBody UserRequestBody studentInfo,
+            HttpServletResponse response
     ) {
         if (studentInfo.getRoles().size() != 1
                 || studentInfo.getRoles().get(0) != Role.ROLE_STUDENT) {
@@ -118,6 +124,7 @@ public class UserController {
             );
         }
         userService.createStudent(studentInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -129,8 +136,12 @@ public class UserController {
 
     @DeleteMapping
     public GeneralFormattedResponseBody<Object>
-    deleteUser(@RequestParam Integer userID) {
+    deleteUser(
+            @RequestParam Integer userID,
+            HttpServletResponse response
+    ) {
         userService.deleteUser(userID);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -141,8 +152,10 @@ public class UserController {
 
     @PutMapping("/password")
     public GeneralFormattedResponseBody<Object>
-    resetPassword(@RequestBody ResetPasswordRequestBody resetPasswordRequestInfo) {
+    resetPassword(@RequestBody ResetPasswordRequestBody resetPasswordRequestInfo,
+                  HttpServletResponse response) {
         userService.resetPassword(resetPasswordRequestInfo);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -158,10 +171,12 @@ public class UserController {
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createUser(
-            @RequestBody UserRequestBody userInfo
+            @RequestBody UserRequestBody userInfo,
+            HttpServletResponse response
     ) {
         userService.checkRolesAndInfo(userInfo);
         userService.createUser(userInfo);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
@@ -172,11 +187,13 @@ public class UserController {
 
     @PutMapping("/technician")
     public GeneralFormattedResponseBody<Object>
-    updateTechnician(UserRequestBodyForUpdate userUpdate) {
+    updateTechnician(@RequestBody UserRequestBodyForUpdate userUpdate,
+                     HttpServletResponse response) {
         if (!userUpdate.getRoles().contains(Role.ROLE_TECHNICIAN)) {
             throw new MultipleRoleException("该接口只接受实验员信息更改");
         }
         userService.updateTechnician(userUpdate);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -187,11 +204,13 @@ public class UserController {
 
     @PutMapping("/instructor")
     public GeneralFormattedResponseBody<Object>
-    updateInstructor(UserRequestBodyForUpdate userUpdate) {
+    updateInstructor(@RequestBody UserRequestBodyForUpdate userUpdate,
+                     HttpServletResponse response) {
         if (!userUpdate.getRoles().contains(Role.ROLE_INSTRUCTOR)) {
             throw new MultipleRoleException("该接口只接受教师信息更改");
         }
         userService.updateInstructor(userUpdate);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -202,11 +221,14 @@ public class UserController {
 
     @PutMapping("/student")
     public GeneralFormattedResponseBody<Object>
-    updateStudent(UserRequestBodyForUpdate userUpdate) {
+    updateStudent(@RequestBody UserRequestBodyForUpdate userUpdate,
+                  HttpServletResponse response
+                  ) {
         if (!userUpdate.getRoles().contains(Role.ROLE_STUDENT)) {
             throw new MultipleRoleException("该接口只接受学生信息更改");
         }
         userService.updateInstructor(userUpdate);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.NO_CONTENT.value())
@@ -294,11 +316,13 @@ public class UserController {
     @PostMapping(value = "/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public GeneralFormattedResponseBody<Object>
     batchImport(@RequestParam(value="table", required = false) MultipartFile table,
-                @RequestParam(value="usertype", required = false) String usertype)
+                @RequestParam(value="usertype", required = false) String usertype,
+                HttpServletResponse response)
             throws IOException {
         File t = multipartToFile(table);
         userService.batchImport(t, checkFileType(t), usertype);
         t.delete();
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())

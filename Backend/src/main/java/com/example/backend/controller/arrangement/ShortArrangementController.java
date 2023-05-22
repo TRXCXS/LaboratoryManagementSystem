@@ -4,6 +4,7 @@ import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
 import com.example.backend.entity.arrangement.LongArrangement;
 import com.example.backend.entity.arrangement.ShortArrangement;
 import com.example.backend.service.arrangement.ShortArrangementService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,11 @@ public class ShortArrangementController {
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createShortArrangement(
-            @RequestBody ShortArrangement newShortArrangement) {
+            @RequestBody ShortArrangement newShortArrangement,
+            HttpServletResponse response) {
         shortArrangementService
                 .createShortArrangement(newShortArrangement);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.CREATED.value())
