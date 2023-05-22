@@ -7,6 +7,7 @@ import com.example.backend.service.request.InstructorRequestService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class InstructorRequestController {
     private final InstructorRequestService instructorRequestService;
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/all")
     public GeneralFormattedResponseBody<List<InstructorRequest>>
     getAllInstructorRequests() {
@@ -29,6 +31,7 @@ public class InstructorRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/unhandled")
     public GeneralFormattedResponseBody<List<InstructorRequest>>
     getUnhandledInstructorRequests() {
@@ -40,6 +43,7 @@ public class InstructorRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_INSTRUCTOR"})
     @GetMapping("/instructor")
     public GeneralFormattedResponseBody<List<InstructorRequest>>
     getInstructorRequestsByInstructor(@RequestParam Integer instructorID) {
@@ -52,6 +56,7 @@ public class InstructorRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_INSTRUCTOR"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createInstructorRequest(
@@ -69,6 +74,7 @@ public class InstructorRequestController {
                 .build();
     }
 
+    @Secured({"ROLE_INSTRUCTOR"})
     @PutMapping
     public GeneralFormattedResponseBody<Object>
     updateInstructorRequest(

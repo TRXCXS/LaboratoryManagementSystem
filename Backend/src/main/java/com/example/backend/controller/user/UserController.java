@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +40,7 @@ public class UserController {
      * 该接口只接受单角色实验员用户
      * 要求在角色特定信息roleSpecificInfo里填写name和title
      */
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/technician")
     public GeneralFormattedResponseBody<Object>
     createTechnician(
@@ -71,6 +73,7 @@ public class UserController {
      * 单角色用户创建
      * 要求在角色特定信息roleSpecificInfo里填写name和title
      */
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/instructor")
     public GeneralFormattedResponseBody<Object>
     createInstructor(
@@ -104,6 +107,7 @@ public class UserController {
      * 要求在角色特定信息（roleSpecificInfo）里填写
      * name和major和clazz
      */
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/student")
     public GeneralFormattedResponseBody<Object>
     createStudent(
@@ -133,7 +137,7 @@ public class UserController {
                 .build();
     }
 
-
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping
     public GeneralFormattedResponseBody<Object>
     deleteUser(
@@ -150,6 +154,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/password")
     public GeneralFormattedResponseBody<Object>
     resetPassword(@RequestBody ResetPasswordRequestBody resetPasswordRequestInfo,
@@ -168,6 +173,7 @@ public class UserController {
      * 创建用户，可以是多角色用户
      * @param userInfo 带有想要的角色类型和对应的完整角色信息
      */
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public GeneralFormattedResponseBody<Object>
     createUser(
@@ -185,6 +191,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/technician")
     public GeneralFormattedResponseBody<Object>
     updateTechnician(@RequestBody UserRequestBodyForUpdate userUpdate,
@@ -202,6 +209,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/instructor")
     public GeneralFormattedResponseBody<Object>
     updateInstructor(@RequestBody UserRequestBodyForUpdate userUpdate,
@@ -219,6 +227,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/student")
     public GeneralFormattedResponseBody<Object>
     updateStudent(@RequestBody UserRequestBodyForUpdate userUpdate,
@@ -237,6 +246,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/technician/all")
     public GeneralFormattedResponseBody<List<Technician>>
     getAllTechnicians() {
@@ -248,6 +258,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/instructor/all")
     public GeneralFormattedResponseBody<List<Instructor>>
     getAllInstructors() {
@@ -259,7 +270,7 @@ public class UserController {
                 .build();
     }
 
-
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/student/all")
     public GeneralFormattedResponseBody<List<Student>>
     getAllStudents() {
@@ -271,7 +282,7 @@ public class UserController {
                 .build();
     }
 
-
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/technician/name")
     public GeneralFormattedResponseBody<List<Technician>>
     getTechniciansByName(@RequestParam String name) {
@@ -283,6 +294,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/instructor/name")
     public GeneralFormattedResponseBody<List<Instructor>>
     getInstructorsByName(@RequestParam String name) {
@@ -294,6 +306,7 @@ public class UserController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/student/name")
     public GeneralFormattedResponseBody<List<Student>>
     getStudentsByName(@RequestParam String name) {
@@ -313,6 +326,7 @@ public class UserController {
      * @param table 1个.xls或者.xlsx文件
      * @param usertype 导入什么类型的用户
      */
+    @Secured({"ROLE_ADMIN"})
     @PostMapping(value = "/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public GeneralFormattedResponseBody<Object>
     batchImport(@RequestParam(value="table", required = false) MultipartFile table,
