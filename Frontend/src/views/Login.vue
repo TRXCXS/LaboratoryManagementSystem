@@ -9,8 +9,8 @@
         <div style="margin: 0px auto; background-color: rgba(225,255,225,0.76); width: 350px; height: 300px; padding: 20px; border-radius: 10px">
             <div style="margin: 20px 0; text-align: center; font-size: 24px"><b>登 录</b></div>
             <el-form ref="userForm" :model="user" :rules="rules">
-                <el-form-item prop="username">
-                    <el-input v-model="user.username" prefix-icon="el-icon-user" size="medium"
+                <el-form-item prop="loginID">
+                    <el-input v-model="user.loginID" prefix-icon="el-icon-user" size="medium"
                               style="margin: 10px 0"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
@@ -37,8 +37,8 @@ export default {
             url: "https://www.scau.edu.cn/_upload/tpl/00/68/104/template104/images/logo.png",
             user: {},
             rules: {
-                username: [
-                    {required: true, message: '请输入用户名', trigger: 'blur'},
+                loginID: [
+                    {required: true, message: '请输入登录ID', trigger: 'blur'},
                     {min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur'}
                 ],
                 password: [
@@ -59,23 +59,21 @@ export default {
     methods: {
         login() {
             this.$refs['userForm'].validate((valid) => {
-                if (valid) {  // 表单校验合法
+                // if (valid) {  // 表单校验合法
+                    console.log(this.user)
                     this.request.post("/auth/login", this.user).then(res => {
-                        if (res.role === "ROLE_USER") {
+                        if (res.role[0] === "ROLE_STUDENT") {
                             this.$router.push("/Student/home")
-                        } else if (res.role === "ROLE_ADMIN" || res.role === "ROLE_SUPER_ADMIN") {
+                        } else{
                             this.$router.push("/Management/home")
-                        } else if (res.role === "ROLE_SCANNER") {
-                            this.$router.push("/chooseScanner")
                         }
                         localStorage.setItem("user", JSON.stringify(res))  // 存储用户信息到浏览器
                         this.$message.success("登录成功")
-                        // this.flag ="1"
                     }).catch(error => {
                         console.log(error)
                         this.$message.error("用户名或密码错误")
                     })
-                }
+                // }
             });
         },
         keyDown(e) {

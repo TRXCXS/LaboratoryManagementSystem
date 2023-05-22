@@ -57,6 +57,9 @@
                 <el-form-item label="姓名">
                     <el-input v-model="addUser.roleSpecificInfo.name" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="登录ID">
+                    <el-input v-model.number="addUser.loginID" autocomplete="off"></el-input>
+                </el-form-item>
                 <el-form-item label="专业">
                     <el-input v-model="addUser.roleSpecificInfo.major" autocomplete="off"></el-input>
                 </el-form-item>
@@ -119,7 +122,7 @@ export default {
                     clazz:""
                 },
                 password: "123456",
-                loginID: 0
+                loginID: ""
             }
 
         }
@@ -191,15 +194,15 @@ export default {
                 type: 'warning'
             }).then(() => {
                 this.request.delete("/user?userID="+id).then(res=>{
-                    if (res) {
+                    // if (res) {
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
                         });
                         this.load()
-                    } else {
-                        this.$message.error("删除失败")
-                    }
+                    // } else {
+                    //     this.$message.error("删除失败")
+                    // }
                 })
             }).catch(() => {
                 this.$message({
