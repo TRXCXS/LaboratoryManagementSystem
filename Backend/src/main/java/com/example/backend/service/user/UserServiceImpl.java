@@ -281,6 +281,14 @@ public class UserServiceImpl implements UserService {
                 instructorMapper.update(null, updateWrapper_instructor);
             }
         }
+
+        if ((roleSpecificInfo.containsKey("technicianTitle")) && (!roleSpecificInfo.get("technicianTitle").equals(technician.getTitle()))) {
+            // 更新title
+            UpdateWrapper<Technician> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("technicianID", user.getUserID());
+            updateWrapper.set("title", roleSpecificInfo.get("technicianTitle"));
+            technicianMapper.update(null, updateWrapper);
+        }
     }
 
     @Override
@@ -334,6 +342,14 @@ public class UserServiceImpl implements UserService {
                 updateWrapper.set("name", roleSpecificInfo.get("name"));
                 technicianMapper.update(null, updateWrapper);
             }
+        }
+
+        if ((roleSpecificInfo.containsKey("instructorTitle")) && (!roleSpecificInfo.get("instructorTitle").equals(instructor.getTitle()))) {
+            // 更新title
+            UpdateWrapper<Instructor> updateWrapper_instructor = new UpdateWrapper<>();
+            updateWrapper_instructor.eq("instructorID", user.getUserID());
+            updateWrapper_instructor.set("title", roleSpecificInfo.get("instructorTitle"));
+            instructorMapper.update(null, updateWrapper_instructor);
         }
     }
 
