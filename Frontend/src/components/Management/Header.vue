@@ -53,14 +53,14 @@ export default {
     },
     methods: {
         logout() {
-            // this.request.post("/auth/logout").then(res => {
-            //     this.$router.push("/login")
-            //     localStorage.removeItem("user")
-            //     this.$message.success("退出成功")
-            // })
-            this.$router.push("/login")
-            localStorage.removeItem("user")
-            this.$message.success("退出成功")
+            this.request.post("/auth/logout").then(res => {
+                this.$router.push("/login")
+                localStorage.removeItem("user")
+                this.$message.success("退出成功")
+            })
+            // this.$router.push("/login")
+            // localStorage.removeItem("user")
+            // this.$message.success("退出成功")
         },
         personCenter() {
             this.$router.push("/Management/Person")
