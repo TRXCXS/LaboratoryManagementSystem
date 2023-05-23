@@ -166,10 +166,12 @@ public class UserServiceImpl implements UserService {
             throw new NoNameException("没有name，无法创建！");
         }
 
-        if (roles.contains(Role.ROLE_TECHNICIAN) || roles.contains(Role.ROLE_INSTRUCTOR)) {
-            if (!roleSpecificInfo.containsKey("title")) {
+        if (roles.contains(Role.ROLE_TECHNICIAN) && !roleSpecificInfo.containsKey("technicianTitle")) {
+                throw new NoTitleException("缺少technicianTitle，无法创建！");
+        }
+
+        if (roles.contains(Role.ROLE_TECHNICIAN) && !roleSpecificInfo.containsKey("instructorTitle")) {
                 throw new NoTitleException("缺少title，无法创建！");
-            }
         }
 
         if (roles.contains(Role.ROLE_STUDENT)) {
@@ -208,13 +210,13 @@ public class UserServiceImpl implements UserService {
             userRoleMapper.insert(userRole);
         }
         if (roles.contains(Role.ROLE_TECHNICIAN)) {
-            Technician technician = new Technician(user.getUserID(), roleSpecificInfo.get("name"), roleSpecificInfo.get("title"));
+            Technician technician = new Technician(user.getUserID(), roleSpecificInfo.get("name"), roleSpecificInfo.get("technicianTitle"));
             technicianMapper.insert(technician);
             UserRole userRole = new UserRole(null, user.getUserID(), Role.ROLE_TECHNICIAN);
             userRoleMapper.insert(userRole);
         }
         if (roles.contains(Role.ROLE_INSTRUCTOR)) {
-            Instructor instructor = new Instructor(user.getUserID(), roleSpecificInfo.get("name"), roleSpecificInfo.get("title"));
+            Instructor instructor = new Instructor(user.getUserID(), roleSpecificInfo.get("name"), roleSpecificInfo.get("instructorTitle"));
             instructorMapper.insert(instructor);
             UserRole userRole = new UserRole(null, user.getUserID(), Role.ROLE_INSTRUCTOR);
             userRoleMapper.insert(userRole);
