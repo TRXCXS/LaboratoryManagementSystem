@@ -119,7 +119,8 @@ public class StudentRequestServiceImpl implements StudentRequestService {
         updateWrapper.set("reason", updatedStudentRequestInfo.getReason());
 
         // TODO: 2023/5/14 这里没有办法更新adminMessage，因为方法参数updatedStudentRequestInfo没有这两个属性
-        updateWrapper.set("adminProcessTime", new Timestamp(System.currentTimeMillis()));
+        // 这个接口，只用于让学生在借用申请未被审核前修改申请内容，无需修改admin的审核时间和留言
+        // updateWrapper.set("adminProcessTime", new Timestamp(System.currentTimeMillis()));
 
         updateWrapper.set("labID", updatedStudentRequestInfo.getLabID());
         updateWrapper.set("semesterID", updatedStudentRequestInfo.getSemesterID());

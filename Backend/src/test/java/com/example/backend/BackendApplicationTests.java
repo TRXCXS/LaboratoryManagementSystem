@@ -39,11 +39,11 @@ class BackendApplicationTests {
 
     @Test
     void testAuthentication2() {
-        userService.createTechnician(
+        userService.createInstructor(
                 UserRequestBody.builder()
                         .loginID("002")
-                        .password("456")
-                        .roles(List.of(Role.ROLE_TECHNICIAN))
+                        .password("123456")
+                        .roles(List.of(Role.ROLE_INSTRUCTOR))
                         .roleSpecificInfo(Map.ofEntries(
                                 Map.entry("name", "tech"),
                                 Map.entry("title", "some title")
