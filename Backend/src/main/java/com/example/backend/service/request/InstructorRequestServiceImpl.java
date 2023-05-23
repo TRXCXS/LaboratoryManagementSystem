@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.controller.requestbody.InstructorRequestRequestBody;
 import com.example.backend.entity.request.InstructorRequest;
+import com.example.backend.exception.model.semesterException.SemesterIDNotMatchException;
 import com.example.backend.exception.model.semesterException.SemesterNotExistedException;
 import com.example.backend.exception.request.instructorRequestException.InstructorRequestHasExistedException;
 import com.example.backend.exception.request.instructorRequestException.InstructorRequestNotExistException;
@@ -61,6 +62,10 @@ public class InstructorRequestServiceImpl implements InstructorRequestService {
 
     @Override
     public void createInstructorRequest(@NotNull InstructorRequestRequestBody newInstructorRequestInfo) {
+        if (newInstructorRequestInfo.getSemesterID() != currentSemesterService.getCurrentSemester().getSemesterID()) {
+            throw new SemesterIDNotMatchException("提交的申请的学期ID并非当前学期ID！");
+        }
+
         exceptionUtil.WeekException(newInstructorRequestInfo.getStartWeek(), newInstructorRequestInfo.getEndWeek());
         exceptionUtil.TypeException(newInstructorRequestInfo.getWeekday(), newInstructorRequestInfo.getSlot(), newInstructorRequestInfo.getLabType());
         exceptionUtil.StudentCountException(newInstructorRequestInfo.getStudentCount());
