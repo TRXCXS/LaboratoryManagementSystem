@@ -58,7 +58,7 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                    <el-button style="margin-bottom: 5px" type="primary" @click="confirmArrange(scope.row.labID)">排课 <i
+                    <el-button style="margin-bottom: 5px" type="primary" @click="confirmArrange(scope.row.labID,scope.row.name,scope.row.deviceCount)">排课 <i
                         class="el-icon-edit"></i></el-button>
                 </template>
             </el-table-column>
@@ -123,48 +123,92 @@ export default {
     created() {
         this.load()
         this.createLongArrangement = this.$store.state.LongArrangement
-        if (this.$store.state.beingArrangedRequest.slot === "ONE_TO_TWO"){
-            this.$store.state.beingArrangedRequest.slot ="1-2"
-        }else if (this.$store.state.beingArrangedRequest.slot ==="THREE_TO_FIVE"){
-            this.$store.state.beingArrangedRequest.slot ="3-5"
-        }else if (this.$store.state.beingArrangedRequest.slot ==="SIX_TO_SEVEN"){
-            this.$store.state.beingArrangedRequest.slot ="6-7"
-        }else if (this.$store.state.beingArrangedRequest.slot ==="EIGHT_TO_NINE"){
-            this.$store.state.beingArrangedRequest.slot ="8-9"
-        }else if (this.$store.state.beingArrangedRequest.slot ==="TEN_TO_TWELVE"){
-            this.$store.state.beingArrangedRequest.slot ="10-12"
-        }else if (this.$store.state.beingArrangedRequest.slot ==="THIRTEEN_TO_FIFTEEN"){
-            this.$store.state.beingArrangedRequest.slot ="13-15"
-        }
-        if (this.$store.state.beingArrangedRequest.weekday ==='MONDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期一"
-        }else if(this.$store.state.beingArrangedRequest.weekday ==='TUESDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期二"
-        }else if(this.$store.state.beingArrangedRequest.weekday ==='WEDNESDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期三"
-        }else if(this.$store.state.beingArrangedRequest.weekday ==='THURSDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期四"
-        }else if(this.$store.state.beingArrangedRequest.weekday ==='FRIDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期五"
-        }else if(this.$store.state.beingArrangedRequest.weekday ==='SATURDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期六"
-        }else if(this.$store.state.beingArrangedRequest.weekday ==='SUNDAY') {
-            this.$store.state.beingArrangedRequest.weekday = "星期日"
-        }
-        if(this.$store.state.beingArrangedRequest.labType === "SOFTWARE"){
-            this.$store.state.beingArrangedRequest.labType = "软件实验室"
-        }else if (this.$store.state.beingArrangedRequest.labType === "HARDWARE"){
-            this.$store.state.beingArrangedRequest.labType = "计算机硬件实验室"
-        }else if (this.$store.state.beingArrangedRequest.labType === "NETWORK"){
-            this.$store.state.beingArrangedRequest.labType = "计算机网络实验室"
-        }else if (this.$store.state.beingArrangedRequest.labType === "SYSTEM"){
-            this.$store.state.beingArrangedRequest.labType = "计算机系统实验室"
-        }else if (this.$store.state.beingArrangedRequest.labType === "IOT"){
-            this.$store.state.beingArrangedRequest.labType = "物联网实验室"
-        }
+        this.switchToEasyWayToSee()
         this.BeingArrangedTableData[0] = this.$store.state.beingArrangedRequest
     },
     methods: {
+        switchToEasyWayToSee(){
+            if (this.$store.state.beingArrangedRequest.slot === "ONE_TO_TWO"){
+                this.$store.state.beingArrangedRequest.slot ="1-2"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="THREE_TO_FIVE"){
+                this.$store.state.beingArrangedRequest.slot ="3-5"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="SIX_TO_SEVEN"){
+                this.$store.state.beingArrangedRequest.slot ="6-7"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="EIGHT_TO_NINE"){
+                this.$store.state.beingArrangedRequest.slot ="8-9"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="TEN_TO_TWELVE"){
+                this.$store.state.beingArrangedRequest.slot ="10-12"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="THIRTEEN_TO_FIFTEEN"){
+                this.$store.state.beingArrangedRequest.slot ="13-15"
+            }
+            if (this.$store.state.beingArrangedRequest.weekday ==='MONDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期一"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='TUESDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期二"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='WEDNESDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期三"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='THURSDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期四"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='FRIDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期五"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='SATURDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期六"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='SUNDAY') {
+                this.$store.state.beingArrangedRequest.weekday = "星期日"
+            }
+            if(this.$store.state.beingArrangedRequest.labType === "SOFTWARE"){
+                this.$store.state.beingArrangedRequest.labType = "软件实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "HARDWARE"){
+                this.$store.state.beingArrangedRequest.labType = "计算机硬件实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "NETWORK"){
+                this.$store.state.beingArrangedRequest.labType = "计算机网络实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "SYSTEM"){
+                this.$store.state.beingArrangedRequest.labType = "计算机系统实验室"
+            }else if (this.$store.state.beingArrangedRequest.labType === "IOT"){
+                this.$store.state.beingArrangedRequest.labType = "物联网实验室"
+            }
+        },
+        switchToParams(){
+            if (this.$store.state.beingArrangedRequest.slot === "1-2"){
+                this.$store.state.beingArrangedRequest.slot ="ONE_TO_TWO"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="3-5"){
+                this.$store.state.beingArrangedRequest.slot ="THREE_TO_FIVE"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="6-7"){
+                this.$store.state.beingArrangedRequest.slot ="SIX_TO_SEVEN"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="8-9"){
+                this.$store.state.beingArrangedRequest.slot ="EIGHT_TO_NINE"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="10-12"){
+                this.$store.state.beingArrangedRequest.slot ="TEN_TO_TWELVE"
+            }else if (this.$store.state.beingArrangedRequest.slot ==="13-15"){
+                this.$store.state.beingArrangedRequest.slot ="THIRTEEN_TO_FIFTEEN"
+            }
+            if (this.$store.state.beingArrangedRequest.weekday ==='星期一') {
+                this.$store.state.beingArrangedRequest.weekday = "MONDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期二') {
+                this.$store.state.beingArrangedRequest.weekday = "TUESDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期三') {
+                this.$store.state.beingArrangedRequest.weekday = "WEDNESDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期四') {
+                this.$store.state.beingArrangedRequest.weekday = "THURSDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期五') {
+                this.$store.state.beingArrangedRequest.weekday = "FRIDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期六') {
+                this.$store.state.beingArrangedRequest.weekday = "SATURDAY"
+            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期日') {
+                this.$store.state.beingArrangedRequest.weekday = "SUNDAY"
+            }
+            if(this.$store.state.beingArrangedRequest.labType === "软件实验室"){
+                this.$store.state.beingArrangedRequest.labType = "SOFTWARE"
+            }else if (this.$store.state.beingArrangedRequest.labType === "计算机硬件实验室"){
+                this.$store.state.beingArrangedRequest.labType = "HARDWARE"
+            }else if (this.$store.state.beingArrangedRequest.labType === "计算机网络实验室"){
+                this.$store.state.beingArrangedRequest.labType = "NETWORK"
+            }else if (this.$store.state.beingArrangedRequest.labType === "计算机系统实验室"){
+                this.$store.state.beingArrangedRequest.labType = "SYSTEM"
+            }else if (this.$store.state.beingArrangedRequest.labType === "物联网实验室"){
+                this.$store.state.beingArrangedRequest.labType = "IOT"
+            }
+        },
         load() {
             // this.request.get("/user/admins").then(res => {
             //     console.log(res)
@@ -238,73 +282,30 @@ export default {
                 this.tableData = res.data
             })
         },
-        confirmArrange(labID) {
+        confirmArrange(labID,name,deviceCount) {
             this.createLongArrangement.labID = labID
-            console.log(this.createLongArrangement)
-            this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
-                if (res) {
-                    this.$message.success("排课成功")
-                    this.dialogFormVisible = false
-                    this.resetDialog()
-                    this.load()
-                    this.$router.push("/Management/classScheduling")
-                } else {
-                    this.$message.error("排课失败")
-                }
-            })
-        },
-        checkByTimeAndType(){
-            if (this.$store.state.beingArrangedRequest.slot === "1-2"){
-                this.$store.state.beingArrangedRequest.slot ="ONE_TO_TWO"
-            }else if (this.$store.state.beingArrangedRequest.slot ==="3-5"){
-                this.$store.state.beingArrangedRequest.slot ="THREE_TO_FIVE"
-            }else if (this.$store.state.beingArrangedRequest.slot ==="6-7"){
-                this.$store.state.beingArrangedRequest.slot ="SIX_TO_SEVEN"
-            }else if (this.$store.state.beingArrangedRequest.slot ==="8-9"){
-                this.$store.state.beingArrangedRequest.slot ="EIGHT_TO_NINE"
-            }else if (this.$store.state.beingArrangedRequest.slot ==="10-12"){
-                this.$store.state.beingArrangedRequest.slot ="TEN_TO_TWELVE"
-            }else if (this.$store.state.beingArrangedRequest.slot ==="13-15"){
-                this.$store.state.beingArrangedRequest.slot ="THIRTEEN_TO_FIFTEEN"
-            }
-            if (this.$store.state.beingArrangedRequest.weekday ==='星期一') {
-                this.$store.state.beingArrangedRequest.weekday = "MONDAY"
-            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期二') {
-                this.$store.state.beingArrangedRequest.weekday = "TUESDAY"
-            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期三') {
-                this.$store.state.beingArrangedRequest.weekday = "WEDNESDAY"
-            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期四') {
-                this.$store.state.beingArrangedRequest.weekday = "THURSDAY"
-            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期五') {
-                this.$store.state.beingArrangedRequest.weekday = "FRIDAY"
-            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期六') {
-                this.$store.state.beingArrangedRequest.weekday = "SATURDAY"
-            }else if(this.$store.state.beingArrangedRequest.weekday ==='星期日') {
-                this.$store.state.beingArrangedRequest.weekday = "SUNDAY"
-            }
-            if(this.$store.state.beingArrangedRequest.labType === "SOFTWARE"){
-                this.$store.state.beingArrangedRequest.labType = "软件实验室"
-            }else if (this.$store.state.beingArrangedRequest.labType === "HARDWARE"){
-                this.$store.state.beingArrangedRequest.labType = "计算机硬件实验室"
-            }else if (this.$store.state.beingArrangedRequest.labType === "NETWORK"){
-                this.$store.state.beingArrangedRequest.labType = "计算机网络实验室"
-            }else if (this.$store.state.beingArrangedRequest.labType === "SYSTEM"){
-                this.$store.state.beingArrangedRequest.labType = "计算机系统实验室"
-            }else if (this.$store.state.beingArrangedRequest.labType === "IOT"){
-                this.$store.state.beingArrangedRequest.labType = "物联网实验室"
-            }
-            if(this.$store.state.beingArrangedRequest.labType === "软件实验室"){
-                this.$store.state.beingArrangedRequest.labType = "SOFTWARE"
-            }else if (this.$store.state.beingArrangedRequest.labType === "计算机硬件实验室"){
-                this.$store.state.beingArrangedRequest.labType = "HARDWARE"
-            }else if (this.$store.state.beingArrangedRequest.labType === "计算机网络实验室"){
-                this.$store.state.beingArrangedRequest.labType = "NETWORK"
-            }else if (this.$store.state.beingArrangedRequest.labType === "计算机系统实验室"){
-                this.$store.state.beingArrangedRequest.labType = "SYSTEM"
-            }else if (this.$store.state.beingArrangedRequest.labType === "物联网实验室"){
-                this.$store.state.beingArrangedRequest.labType = "IOT"
+            // console.log(this.createLongArrangement)
+            // console.log(this.BeingArrangedTableData[0])
+            // console.log(name)
+            if (name === this.BeingArrangedTableData[0].labType && this.BeingArrangedTableData[0].studentCount === deviceCount){
+                this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
+                    if (res) {
+                        this.$message.success("排课成功")
+                        this.dialogFormVisible = false
+                        this.resetDialog()
+                        this.load()
+                        this.$router.push("/Management/classScheduling")
+                    } else {
+                        this.$message.error("排课失败")
+                    }
+                })
+            }else{
+                this.$message.error("排课失败,请检查排课")
             }
 
+        },
+        checkByTimeAndType(){
+            this.switchToParams()
             this.request.get("/laboratory/for-instructor-requests/time-and-type",{
                 params:{
                     slot: this.$store.state.beingArrangedRequest.slot,
@@ -328,20 +329,10 @@ export default {
                     }else if (res.data[i].slot ==="THIRTEEN_TO_FIFTEEN"){
                         res.data[i].slot ="13-15"
                     }
-                    if(res.data[i].labType === "SOFTWARE"){
-                        res.data[i].labType = "软件实验室"
-                    }else if (res.data[i].labType === "HARDWARE"){
-                        res.data[i].labType = "计算机硬件实验室"
-                    }else if (res.data[i].labType === "NETWORK"){
-                        res.data[i].labType = "计算机网络实验室"
-                    }else if (res.data[i].labType === "SYSTEM"){
-                        res.data[i].labType = "计算机系统实验室"
-                    }else if (res.data[i].labType === "IOT"){
-                        res.data[i].labType = "物联网实验室"
-                    }
                 }
+                console.log(res)
                 this.tableData = res.data
-
+                this.switchToEasyWayToSee()
             })
         },
     }

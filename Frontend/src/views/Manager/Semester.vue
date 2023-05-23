@@ -176,6 +176,7 @@ export default {
         change(value) {
             this.request.put("/semester/current",value).then(res => {
                 console.log(res)
+                this.$store.state.semester = value
             })
         },
         keyDown(e) {

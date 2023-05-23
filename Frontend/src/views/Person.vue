@@ -57,9 +57,11 @@ export default {
         }
     },
     created() {
+        console.log(this.user)
         this.userID = this.user.userID
         this.userName = this.user.roleSpecificInfo.name
         this.role = this.user.role
+        console.log(this.role)
         for (let i = 0; i < this.user.role.length; i++) {
             if (this.role[i] === "ROLE_ADMIN"){
                 this.role = "管理员"
@@ -72,7 +74,12 @@ export default {
             }
         }
         this.loginID = this.user.loginID
-        this.title = this.user.roleSpecificInfo.instructorTitle
+        // if (this.role.length === 1){
+        //     this.title = this.user.roleSpecificInfo.studentTitle
+        // }else {
+        //     this.title = this.user.roleSpecificInfo.instructorTitle
+        // }
+
     }
 }
 </script>

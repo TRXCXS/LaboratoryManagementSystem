@@ -78,7 +78,7 @@ export default {
             password: "",
             dialogFormVisible: false,
             multipleSelection: [],
-
+            user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
             repair:{
                 status: "",
                 requestTime: "",
@@ -107,7 +107,7 @@ export default {
         load() {
             this.request.get("/repair-request/instructor",{
                 params:{
-                    instructorID: 1,
+                    instructorID: this.user.userID,
                 }
             }).then(res => {
                 for (let i = 0; i < res.data.length; i++) {
@@ -133,10 +133,11 @@ export default {
         resetDialog() {
              this.addRepairRequest.repairRequestID= 0
              this.addRepairRequest.requestDescription= ""
-             this.addRepairRequest.instructorID=1
+             this.addRepairRequest.instructorID=this.user.userID
              this.addRepairRequest.labID= ""
         },
         save() {
+            this.addRepairRequest.instructorID = this.user.userID
             console.log(this.addRepairRequest)
             this.request.post("/repair-request",this.addRepairRequest).then(res => {
                 if (res) {
@@ -147,6 +148,9 @@ export default {
                 } else {
                     this.$message.error("申请失败")
                 }
+            }).catch(error => {
+                // console.log(error)
+                this.$message.error("实验室编号不存在！")
             })
         },
         del(id) {

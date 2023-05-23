@@ -18,7 +18,7 @@
             <h1>管理端</h1>
         </div>
 
-        <el-dropdown style="width: 150px; cursor: pointer;text-align: right">
+        <el-dropdown style="width: 150px; cursor: pointer;text-align: right"  trigger="click">
             <span>{{ user.roleSpecificInfo.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px;"></i>
             <el-dropdown-menu style="width: 100px; text-align: center">
                 <el-dropdown-item style="font-size: 14px; padding: 5px 0">
@@ -53,11 +53,14 @@ export default {
     },
     methods: {
         logout() {
-            this.request.post("/auth/logout").then(res => {
-                this.$router.push("/login")
-                localStorage.removeItem("user")
-                this.$message.success("退出成功")
-            })
+            // this.request.post("/auth/logout").then(res => {
+            //     this.$router.push("/login")
+            //     localStorage.removeItem("user")
+            //     this.$message.success("退出成功")
+            // })
+            this.$router.push("/login")
+            localStorage.removeItem("user")
+            this.$message.success("退出成功")
         },
         personCenter() {
             this.$router.push("/Management/Person")

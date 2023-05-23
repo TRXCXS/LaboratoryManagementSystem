@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         currentPathName: '',
-        semester: '',
+        semester: 1,
         LongArrangement:{
             longArrangementID: 0,
             labID: 0,

@@ -29,7 +29,7 @@
             <el-table-column align="center" label="操作" width="190px">
                 <template slot-scope="scope">
                     <el-button type="primary" @click="checkByTimeAndID(scope.row.weekday,scope.row.slot,scope.row.labID,scope.row.week,scope.row.status)" style="margin-bottom: 5px">查询可用实验室</el-button>
-                    <el-button type="success" @click="approve(scope.row.studentRequestID,scope.row.status)" style="margin-bottom: 5px">通过 <i class="el-icon-edit"></i>
+                    <el-button type="success" @click="approve(scope.row.studentRequestID,scope.row.status,scope.row.labID,scope.row.weekday,scope.row.week,scope.row.slot)" style="margin-bottom: 5px">通过 <i class="el-icon-edit"></i>
                     </el-button>
                     <el-button type="danger" @click="disapprove(scope.row.studentRequestID,scope.row.status)">不通过 <i
                             class="el-icon-remove-outline"></i></el-button>
@@ -89,7 +89,7 @@ export default {
                 memorandum: "",
             },
 
-
+            user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
             studentRequestID: "",
             week: 0,
             weekday: "",
@@ -151,6 +151,7 @@ export default {
         },
         checkAll(){
             this.request.get("/student-request/all").then(res => {
+                console.log(res)
                 for (let i = 0; i < res.data.length; i++) {
                     // let origin_appeal_time = res[i].appeal_time
                     // let date1 = new Date(origin_appeal_time);
@@ -246,29 +247,47 @@ export default {
                 this.tableData = res.data
             })
         },
-        approve(id,status) {
+        approve(id,status,labID,weekday,week,slot) {
             if (status === "未审核"){
-                this.request.get("/student-request/student",{
-                    params:{
-                        studentID:2
-                    }
-                }).then(res => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        if (res.data[i].studentRequestID === id){
-                            this.shortArrangement.slot = res.data[i].slot
-                            this.shortArrangement.studentRequestID = res.data[i].studentRequestID
-                            this.shortArrangement.week = res.data[i].week
-                            this.shortArrangement.labID = res.data[i].labID
-                            this.shortArrangement.weekday = res.data[i].weekday
-                        }
-                    }
-                })
+                if (slot === "1-2"){
+                    slot ="ONE_TO_TWO"
+                }else if (slot ==="3-5"){
+                    slot ="THREE_TO_FIVE"
+                }else if (slot ==="6-7"){
+                    slot ="SIX_TO_SEVEN"
+                }else if (slot ==="8-9"){
+                    slot ="EIGHT_TO_NINE"
+                }else if (slot ==="10-12"){
+                    slot ="TEN_TO_TWELVE"
+                }else if (slot ==="13-15"){
+                    slot ="THIRTEEN_TO_FIFTEEN"
+                }
+                if (weekday ==='星期一') {
+                    weekday = "MONDAY"
+                }else if(weekday ==='星期二') {
+                    weekday = "TUESDAY"
+                }else if(weekday ==='星期三') {
+                    weekday = "WEDNESDAY"
+                }else if(weekday ==='星期四') {
+                    weekday = "THURSDAY"
+                }else if(weekday ==='星期五') {
+                    weekday = "FRIDAY"
+                }else if(weekday ==='星期六') {
+                    weekday = "SATURDAY"
+                }else if(weekday ==='星期日') {
+                    weekday = "SUNDAY"
+                }
+                this.shortArrangement.slot = slot
+                this.shortArrangement.studentRequestID = id
+                this.shortArrangement.week = week
+                this.shortArrangement.labID = labID
+                this.shortArrangement.weekday = weekday
                 this.$confirm('确认通过?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    // console.log(this.shortArrangement)
+                    console.log(this.shortArrangement)
                     this.request.post("/short-arrangement", this.shortArrangement).then(res=>{
                         if (res) {
                             this.$message({

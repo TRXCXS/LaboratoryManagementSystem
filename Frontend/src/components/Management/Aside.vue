@@ -19,7 +19,7 @@
         </el-menu-item>
 
 
-        <el-submenu :disabled="ManagerPortVisible" index="2">
+        <el-submenu :disabled="ManagerPortVisible" index="2" >
             <template slot="title">
                 <i class="el-icon-user-solid"></i>
                 <span slot="title">管理员端</span>
@@ -114,8 +114,41 @@ export default {
         }
     },
     created() {
-        if (this.user.role === "ROLE_ADMIN") {
-            this.dialogFormVisible = true
+        console.log(this.user)
+        if (this.user.role.length === 3) {
+            this.ManagerPortVisible = false
+            this.TeacherPortVisible = false
+            this.TesterPortVisible = false
+        }else if (this.user.role.length === 1){
+            if (this.user.role[0] === "ROLE_ADMIN"){
+                this.ManagerPortVisible = false
+                this.TeacherPortVisible = true
+                this.TesterPortVisible = true
+            }else if (this.user.role[0] === "ROLE_INSTRUCTOR"){
+                this.ManagerPortVisible = true
+                this.TeacherPortVisible = false
+                this.TesterPortVisible = true
+            }else if (this.user.role[0] === "ROLE_TECHNICIAN"){
+                this.ManagerPortVisible = true
+                this.TeacherPortVisible = true
+                this.TesterPortVisible = false
+            }
+        }else if (this.user.role.length === 2){
+            console.log("sss???")
+            // console.log(this.user.role)
+            if (this.user.role[0] === "ROLE_ADMIN" && this.user.role[1] === "ROLE_INSTRUCTOR" || this.user.role[1] === "ROLE_ADMIN" && this.user.role[0] === "ROLE_INSTRUCTOR"){
+                this.ManagerPortVisible = false
+                this.TeacherPortVisible = false
+                this.TesterPortVisible = true
+            }else if (this.user.role[0] === "ROLE_ADMIN" && this.user.role[1] === "ROLE_TECHNICIAN" || this.user.role[1] === "ROLE_ADMIN" && this.user.role[0] === "ROLE_TECHNICIAN"){
+                this.ManagerPortVisible = false
+                this.TeacherPortVisible = true
+                this.TesterPortVisible = false
+            }else if (this.user.role[0] === "ROLE_TECHNICIAN" && this.user.role[1] === "ROLE_INSTRUCTOR" || this.user.role[1] === "ROLE_TECHNICIAN" && this.user.role[0] === "ROLE_INSTRUCTOR"){
+                this.ManagerPortVisible = true
+                this.TeacherPortVisible = false
+                this.TesterPortVisible = false
+            }
         }
     },
     props: {

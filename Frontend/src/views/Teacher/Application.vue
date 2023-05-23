@@ -46,7 +46,7 @@
                     <el-input v-model="addApplication.course" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="学生人数">
-                    <el-input v-model="addApplication.studentCount" autocomplete="off"></el-input>
+                    <el-input v-model.number="addApplication.studentCount" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="学生班级">
                     <el-input v-model="addApplication.studentClass" autocomplete="off"></el-input>
@@ -102,7 +102,7 @@
                     <el-input v-model="form.course" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="学生人数">
-                    <el-input v-model="form.studentCount" autocomplete="off"></el-input>
+                    <el-input v-model.number="form.studentCount" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="学生班级">
                     <el-input v-model="form.studentClass" autocomplete="off"></el-input>
@@ -195,7 +195,7 @@ export default {
                 weekday: "",
                 startWeek: 1,
                 studentClass: "",
-                studentCount: -1,
+                studentCount: "",
                 semesterID: 1,
                 instructorID: 1,
                 instructorRequestID: 1,
@@ -332,7 +332,7 @@ export default {
             this.addApplication.weekday =  ""
             this.addApplication.startWeek= 1
             this.addApplication.studentClass= ""
-            this.addApplication.studentCount= -1
+            this.addApplication.studentCount= ""
             this.addApplication.semesterID= 1
             this.addApplication.instructorID= 1
             this.addApplication.instructorRequestID= 1
@@ -345,7 +345,7 @@ export default {
             this.form.weekday =  ""
             this.form.startWeek= 1
             this.form.studentClass= ""
-            this.form.studentCount= -1
+            this.form.studentCount= ""
             this.form.semesterID= 1
             this.form.instructorID= 1
             this.form.instructorRequestID= 1
@@ -401,7 +401,7 @@ export default {
             this.checkStatus = status
             this.request.get("/instructor-request/instructor",{
                 params:{
-                    instructorID: 1,
+                    instructorID: this.user.userID,
                 }
             } ).then(res => {
                 for (let i = 0; i < res.data.length; i++) {

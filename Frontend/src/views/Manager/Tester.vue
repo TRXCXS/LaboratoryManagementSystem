@@ -13,12 +13,16 @@
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                accept=".xls,.xlsx,.csv"
+                accept=".xls,.xlsx"
                 :action="api"
+                :headers="headers"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
                 :on-change="handleChange"
+                :on-error = "handleError"
+                :on-success = "handleSuccess"
                 :file-list="fileList"
+                :limit="1"
                 name="table"
                 :auto-upload="false">
                 <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
@@ -101,6 +105,9 @@ export default {
     data() {
         return {
             api:this.GLOBAL.BASE_URL+"/user/batch?usertype=Technician",
+            headers:{
+                Authorization: "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken
+            },
             value:"",
             tableData: [],
             fileList:[],
@@ -185,16 +192,16 @@ export default {
                 type: 'warning'
             }).then(() => {
                 this.request.delete("/user?userID=" + id).then(res => {
-                    // console.log(res)
-                    // if (res) {
+                    console.log(res)
+                    if (res) {
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
                         });
                         this.load()
-                    // } else {
-                    //     this.$message.error("删除失败")
-                    // }
+                    } else {
+                        this.$message.error("删除失败")
+                    }
                 })
             }).catch(() => {
                 this.$message({
@@ -240,13 +247,19 @@ export default {
                 console.log(this.fileList)
             }
         },
+        handleError(err,file,fileList){
+            console.log(err)
+            this.$message.error("导入失败！导入数据与原有数据冲突！")
+        },
+        handleSuccess(){
+            this.$message.success("导入成功！")
+            this.load()
+        },
         submitUpload(){
             if (this.fileList.length === 0) {
                 return this.$message.warning("请选取文件后再上传");
             }
             this.$refs.upload.submit();
-            this.load()
-            this.$message.success("导入成功！")
         },
         keyDown(e) {
             // 回车则执行登录方法 enter键的ASCII是13

@@ -44,9 +44,9 @@
 
         <el-dialog :visible.sync="dialogFormVisible" title="填写借用信息" width="32%">
             <el-form :label-width="formLabelWidth">
-                <el-form-item label="申请学生">
-                    <el-input v-model="addRequest.studentID" autocomplete="off" ></el-input>
-                </el-form-item>
+<!--                <el-form-item label="申请学生">-->
+<!--                    <el-input v-model="addRequest.studentID" autocomplete="off" ></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="申请周次">
                     <el-input-number v-model="addRequest.week" :max="20" :min="1" label="选择周次"
                                      @change="handleChange"></el-input-number>
@@ -88,9 +88,9 @@
 
         <el-dialog :visible.sync="dialogFormVisible1" title="修改申请信息" width="32%">
             <el-form :label-width="formLabelWidth">
-                <el-form-item label="申请学生">
-                    <el-input v-model="modifyRequest.studentID" autocomplete="off" disabled></el-input>
-                </el-form-item>
+<!--                <el-form-item label="申请学生">-->
+<!--                    <el-input v-model="modifyRequest.studentID" autocomplete="off" disabled></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="申请周次">
                     <el-input-number v-model="modifyRequest.week" :max="20" :min="1" label="选择周次"
                                      @change="handleChange"></el-input-number>
@@ -117,7 +117,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="申请实验室编号">
-                    <el-input v-model="modifyRequest.labID" autocomplete="off"></el-input>
+                    <el-input v-model.number="modifyRequest.labID" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="申请原因">
                     <el-input v-model="modifyRequest.reason" autocomplete="off" type="textarea"></el-input>
@@ -157,7 +157,7 @@ export default {
                 adminProcessTime: "",
                 adminMessage: "",
                 useCompleteTime: "",
-                labID: 0,
+                labID: "",
                 semesterID: 0,
                 studentID: 0,
             },
@@ -168,7 +168,7 @@ export default {
                 weekday: "",
                 slot: "",
                 reason: "",
-                labID: 0,
+                labID: "",
                 semesterID: 1,
                 studentID: 0,
             },
@@ -179,7 +179,7 @@ export default {
                 weekday: "",
                 slot: "",
                 reason: "",
-                labID: 0,
+                labID: "",
                 semesterID: 1,
                 studentID: 0,
             },
@@ -194,7 +194,7 @@ export default {
             adminProcessTime: "",
             adminMessage: "",
             useCompleteTime: "",
-            labID: 0,
+            labID: "",
             semesterID: 0,
             studentID: 0,
 
@@ -218,7 +218,7 @@ export default {
         load() {
             this.request.get("/student-request/student",{
                 params:{
-                    studentID:"2"
+                    studentID:this.user.userID
                 }
             }).then(res => {
                 console.log(res)
@@ -307,7 +307,10 @@ export default {
         },
         save() {
             // console.log(this.addRequest)
+            this.addRequest.studentID = this.user.userID
+            this.addRequest.semesterID = this.$store.state.semester
             this.request.post("/student-request", this.addRequest).then(res =>{
+                console.log(res)
                 if (res) {
                     this.$message.success("申请成功")
                     this.dialogFormVisible = false
@@ -316,6 +319,8 @@ export default {
                 } else {
                     this.$message.error("申请失败")
                 }
+            }).catch(error => {
+                this.$message.error("申请失败!实验室不存在")
             })
         },
         save1() {
@@ -326,7 +331,11 @@ export default {
             }else if (this.status === "驳回"){
                 this.$message.warning("申请被驳回，无法修改！请重新申请！")
             }else {
+                this.modifyRequest.studentID = this.user.userID
+                this.modifyRequest.semesterID = this.$store.state.semester
+                console.log(this.modifyRequest)
                 this.request.put("/student-request", this.modifyRequest).then(res =>{
+                    console.log(res)
                     if (res) {
                         this.$message.success("修改成功")
                         this.dialogFormVisible1 = false
@@ -334,6 +343,8 @@ export default {
                     } else {
                         this.$message.error("修改失败")
                     }
+                }).catch(error => {
+                    this.$message.error("修改失败!实验室不存在")
                 })
             }
 
@@ -349,7 +360,7 @@ export default {
             this.status = status
             this.request.get("/student-request/student",{
                 params:{
-                    studentID: 2,
+                    studentID: this.user.userID,
                 }
             } ).then(res => {
                 console.log(res)

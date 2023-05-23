@@ -1745,7 +1745,7 @@ export default {
                 for (let i = 0; i < res.data.length; i++) {
                     if(res.data[i].slot === "ONE_TO_TWO"){
                         res.data[i].slot = "1-2"
-                    }else if (res.data[i].slot === "THERE_TO_FIVE"){
+                    }else if (res.data[i].slot === "THREE_TO_FIVE"){
                         res.data[i].slot = "3-5"
                     }else if (res.data[i].slot === "SIX_TO_SEVEN"){
                         res.data[i].slot = "6-7"
