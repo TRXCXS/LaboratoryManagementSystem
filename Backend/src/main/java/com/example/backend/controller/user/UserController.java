@@ -225,7 +225,7 @@ public class UserController {
         if (!userUpdate.getRoles().contains(Role.ROLE_STUDENT)) {
             throw new MultipleRoleException("该接口只接受学生信息更改");
         }
-        userService.updateInstructor(userUpdate);
+        userService.updateStudent(userUpdate);
         return GeneralFormattedResponseBody
                 .<Object>builder()
                 .status(HttpStatus.OK.value())

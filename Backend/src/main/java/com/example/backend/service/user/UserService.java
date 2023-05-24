@@ -123,4 +123,6 @@ public interface UserService {
     Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID);
 
     UserData getUserByID(Integer userID);
+
+    void updateStudent(UserRequestBodyForUpdate userUpdate);
 }
