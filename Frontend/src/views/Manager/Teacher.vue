@@ -32,13 +32,15 @@
             </el-upload>
         </div>
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="教师ID" prop="instructorID">
+            <el-table-column label="教师ID" prop="userID">
             </el-table-column>
-            <el-table-column label="教师姓名" prop="name">
+            <el-table-column label="工号" prop="loginID">
             </el-table-column>
-            <el-table-column label="职称" prop="title">
+            <el-table-column label="教师姓名" prop="roleSpecificInfo.name">
             </el-table-column>
-            <el-table-column align="center" label="操作">
+            <el-table-column label="职称" prop="roleSpecificInfo.instructorTitle">
+            </el-table-column>
+            <el-table-column align="center" label="操作" width="300px">
                 <template slot-scope="scope">
                     <el-button style="margin-right: 5px" type="primary" @click="handleUpdate(scope.row.instructorID)">修改 <i
                             class="el-icon-edit"></i></el-button>

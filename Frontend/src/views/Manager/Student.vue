@@ -31,15 +31,17 @@
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
-            <el-table-column label="学生账号" prop="studentID" width="200px">
+            <el-table-column label="学生ID" prop="userID">
             </el-table-column>
-            <el-table-column label="学生姓名" prop="name" width="200px">
+            <el-table-column label="学号" prop="loginID" >
             </el-table-column>
-            <el-table-column label="专业" prop="major" width="200px">
+            <el-table-column label="学生姓名" prop="roleSpecificInfo.name" >
             </el-table-column>
-            <el-table-column label="班级" prop="clazz" width="200px">
+            <el-table-column label="专业" prop="roleSpecificInfo.major" >
             </el-table-column>
-            <el-table-column align="center" label="操作">
+            <el-table-column label="班级" prop="roleSpecificInfo.class" >
+            </el-table-column>
+            <el-table-column align="center" label="操作" width="300px">
                 <template slot-scope="scope">
                     <el-button style="margin-right: 5px" type="primary" @click="handleUpdate(scope.row.studentID)">修改 <i
                         class="el-icon-edit"></i></el-button>
@@ -195,7 +197,6 @@ export default {
     },
     methods: {
         load() {
-            console.log("23232323")
             this.request.get("/user/student/all").then(res=>{
                 console.log(res)
                 this.tableData = res.data
