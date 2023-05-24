@@ -194,4 +194,16 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
         return map;
     }
+
+    @Override
+    public Integer convertLabNumberToLabID(String labNumber) {
+        Laboratory l = laboratoryMapper.selectOne(new QueryWrapper<Laboratory>().eq("labNumber", labNumber));
+        if(l == null) throw new LabTypeNotExistException("查询实验室不存在");
+        return l.getLabID();
+    }
+
+    @Override
+    public List<Laboratory> getAllLaboratories() {
+        return laboratoryMapper.selectList(null);
+    }
 }

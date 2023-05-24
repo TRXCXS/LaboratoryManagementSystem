@@ -32,4 +32,8 @@ public interface LaboratoryService {
      * 每个key的value是一个链表，包含所有这个类型的实验室，不包含其他类型的实验室
      */
     Map<LabType, List<Laboratory>> getLabsGroupByType();
+
+    Integer convertLabNumberToLabID(String labNumber);
+
+    List<Laboratory> getAllLaboratories();
 }
