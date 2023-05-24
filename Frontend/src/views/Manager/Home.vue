@@ -1747,6 +1747,7 @@ export default {
                 temp = "1"
             }
             this.label = first + "-" + second + "-" + temp +"实验排课表"
+            this.$store.state.semester = res.data.semesterID
         })
     },
     mounted() {
