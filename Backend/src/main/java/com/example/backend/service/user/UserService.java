@@ -103,22 +103,30 @@ public interface UserService {
 
     void updateInstructor(UserRequestBodyForUpdate userUpdate);
 
-    List<Technician> getAllTechnicians();
+    /**
+     * 返回值的每个元素中，要填写userID，loginID
+     * role这一属性，调用getRolesByID填写上去
+     * roleSpecificInfo，也调getRoleSpecificInfo填写上去，
+     * 一下5个接口同理
+     */
+    List<UserData> getAllTechnicians();
 
-    List<Instructor> getAllInstructors();
+    List<UserData> getAllInstructors();
 
-    List<Student> getAllStudents();
+    List<UserData> getAllStudents();
 
     /**
      * 用like进行模糊查询
      */
-    List<Technician> getTechniciansByName(String name);
+    List<UserData> getTechniciansByName(String name);
 
-    List<Instructor> getInstructorsByName(String name);
+    List<UserData> getInstructorsByName(String name);
 
-    List<Student> getStudentsByName(String name);
+    List<UserData> getStudentsByName(String name);
 
     void batchImport(File table, boolean isXls, String userType) throws FileNotFoundException;
+
+    Role[] getRolesByID(Integer userID);
 
     Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID);
 

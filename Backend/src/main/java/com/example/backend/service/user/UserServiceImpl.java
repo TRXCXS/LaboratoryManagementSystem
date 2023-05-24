@@ -21,7 +21,6 @@ import com.example.backend.utils.utilClasses.IsEntityExists;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -170,11 +169,11 @@ public class UserServiceImpl implements UserService {
         }
 
         if (roles.contains(Role.ROLE_TECHNICIAN) && !roleSpecificInfo.containsKey("technicianTitle")) {
-                throw new NoTitleException("缺少technicianTitle，无法创建！");
+            throw new NoTitleException("缺少technicianTitle，无法创建！");
         }
 
         if (roles.contains(Role.ROLE_TECHNICIAN) && !roleSpecificInfo.containsKey("instructorTitle")) {
-                throw new NoTitleException("缺少title，无法创建！");
+            throw new NoTitleException("缺少title，无法创建！");
         }
 
         if (roles.contains(Role.ROLE_STUDENT)) {
@@ -189,7 +188,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(@NotNull UserRequestBody userInfo) {
-        if (isEntityExists.isUserExistsByLoginID(userInfo.getLoginID())){
+        if (isEntityExists.isUserExistsByLoginID(userInfo.getLoginID())) {
             throw new UserHasExistedException("LoginID已存在，无法创建！");
         }
 
@@ -357,45 +356,143 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Technician> getAllTechnicians() {
-        return technicianMapper.selectList(null);
+    public List<UserData> getAllTechnicians() {
+        List<UserData> list = new ArrayList<>();
+
+        List<Technician> technicianList = technicianMapper.selectList(null);
+        for (Technician technician : technicianList) {
+            UserData userData = new UserData();
+
+            userData.setUserID(technician.getTechnicianID());
+            User user = userMapper.selectById(technician.getTechnicianID());
+            userData.setLoginID(user.getLoginID());
+
+            userData.setRole(getRolesByID(technician.getTechnicianID()));
+            userData.setRoleSpecificInfo(getRoleSpecificInfo(List.of(userData.getRole()), technician.getTechnicianID()));
+
+            list.add(userData);
+        }
+
+        return list;
     }
 
     @Override
-    public List<Instructor> getAllInstructors() {
-        return instructorMapper.selectList(null);
+    public List<UserData> getAllInstructors() {
+        List<UserData> list = new ArrayList<>();
+
+        List<Instructor> instructorList = instructorMapper.selectList(null);
+        for (Instructor instructor : instructorList) {
+            UserData userData = new UserData();
+
+            userData.setUserID(instructor.getInstructorID());
+            User user = userMapper.selectById(instructor.getInstructorID());
+            userData.setLoginID(user.getLoginID());
+
+            userData.setRole(getRolesByID(instructor.getInstructorID()));
+            userData.setRoleSpecificInfo(getRoleSpecificInfo(List.of(userData.getRole()), instructor.getInstructorID()));
+
+            list.add(userData);
+        }
+
+        return list;
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return studentMapper.selectList(null);
+    public List<UserData> getAllStudents() {
+        List<UserData> list = new ArrayList<>();
+
+        List<Student> studentList = studentMapper.selectList(null);
+        for (Student student : studentList) {
+            UserData userData = new UserData();
+
+            userData.setUserID(student.getStudentID());
+            User user = userMapper.selectById(student.getStudentID());
+            userData.setLoginID(user.getLoginID());
+
+            userData.setRole(getRolesByID(student.getStudentID()));
+            userData.setRoleSpecificInfo(getRoleSpecificInfo(List.of(userData.getRole()), student.getStudentID()));
+
+            list.add(userData);
+        }
+
+        return list;
     }
 
     @Override
-    public List<Technician> getTechniciansByName(String name) {
+    public List<UserData> getTechniciansByName(String name) {
         QueryWrapper<Technician> queryWrapper = new QueryWrapper<>();
         // 如果传的参数name是空字符串，会查询所有
         // Backend/src/test/java/com/example/backend/testRepository/user/User/BackendApplicationTests.java中做了测试，看起来没有问题
         // 模糊查询是：like %name%
         queryWrapper.like(StringUtils.isNotBlank(name), "name", name);
         List<Technician> technicianList = technicianMapper.selectList(queryWrapper);
-        return technicianList;
+
+        List<UserData> list = new ArrayList<>();
+
+        for (Technician technician : technicianList) {
+            UserData userData = new UserData();
+
+            userData.setUserID(technician.getTechnicianID());
+            User user = userMapper.selectById(technician.getTechnicianID());
+            userData.setLoginID(user.getLoginID());
+
+            userData.setRole(getRolesByID(technician.getTechnicianID()));
+            userData.setRoleSpecificInfo(getRoleSpecificInfo(List.of(userData.getRole()), technician.getTechnicianID()));
+
+            list.add(userData);
+        }
+
+        return list;
     }
 
     @Override
-    public List<Instructor> getInstructorsByName(String name) {
+    public List<UserData> getInstructorsByName(String name) {
         QueryWrapper<Instructor> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(name), "name", name);
         List<Instructor> instructorList = instructorMapper.selectList(queryWrapper);
-        return instructorList;
+
+        List<UserData> list = new ArrayList<>();
+
+
+        for (Instructor instructor : instructorList) {
+            UserData userData = new UserData();
+
+            userData.setUserID(instructor.getInstructorID());
+            User user = userMapper.selectById(instructor.getInstructorID());
+            userData.setLoginID(user.getLoginID());
+
+            userData.setRole(getRolesByID(instructor.getInstructorID()));
+            userData.setRoleSpecificInfo(getRoleSpecificInfo(List.of(userData.getRole()), instructor.getInstructorID()));
+
+            list.add(userData);
+        }
+
+        return list;
     }
 
     @Override
-    public List<Student> getStudentsByName(String name) {
+    public List<UserData> getStudentsByName(String name) {
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(name), "name", name);
         List<Student> studentList = studentMapper.selectList(queryWrapper);
-        return studentList;
+
+        List<UserData> list = new ArrayList<>();
+
+
+        for (Student student : studentList) {
+            UserData userData = new UserData();
+
+            userData.setUserID(student.getStudentID());
+            User user = userMapper.selectById(student.getStudentID());
+            userData.setLoginID(user.getLoginID());
+
+            userData.setRole(getRolesByID(student.getStudentID()));
+            userData.setRoleSpecificInfo(getRoleSpecificInfo(List.of(userData.getRole()), student.getStudentID()));
+
+            list.add(userData);
+        }
+
+        return list;
     }
 
     @Override
@@ -405,28 +502,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Role[] getRolesByID(Integer userID) {
+        User u = userMapper.selectById(userID);
+        if (u == null) throw new UserNotExistException("用户不存在");
+        List<UserRole> userRoleList = userRoleMapper.selectList(new QueryWrapper<UserRole>()
+                .eq("userID", userID));
+        Role[] roles = new Role[userRoleList.size()];
+        for (int i = 0; i < userRoleList.size(); i++) roles[i] = userRoleList.get(i).getRole();
+        return roles;
+    }
+
+    @Override
     public Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID) {
         Map<String, String> ret = new HashMap<>();
-        if(roles.contains(Role.ROLE_ADMIN)) {
+        if (roles.contains(Role.ROLE_ADMIN)) {
             Administrator a = administratorMapper.selectById(userID);
-            if(a == null) throw new AdministratorNotExistException("找不到管理员用户信息");
+            if (a == null) throw new AdministratorNotExistException("找不到管理员用户信息");
             ret.put("name", a.getName());
         }
-        if(roles.contains(Role.ROLE_INSTRUCTOR)) {
+        if (roles.contains(Role.ROLE_INSTRUCTOR)) {
             Instructor i = instructorMapper.selectById(userID);
-            if(i == null) throw new InstructorNotExistException("找不到教师用户信息");
+            if (i == null) throw new InstructorNotExistException("找不到教师用户信息");
             ret.put("name", i.getName());
             ret.put("instructorTitle", i.getTitle());
         }
-        if(roles.contains(Role.ROLE_TECHNICIAN)) {
+        if (roles.contains(Role.ROLE_TECHNICIAN)) {
             Technician t = technicianMapper.selectById(userID);
-            if(t == null) throw new TechnicianNotExistException("找不到实验员用户信息");
+            if (t == null) throw new TechnicianNotExistException("找不到实验员用户信息");
             ret.put("name", t.getName());
             ret.put("technicianTitle", t.getTitle());
         }
-        if(roles.contains(Role.ROLE_STUDENT)) {
+        if (roles.contains(Role.ROLE_STUDENT)) {
             Student s = studentMapper.selectById(userID);
-            if(s == null) throw new StudentNotExistException("找不到学生用户信息");
+            if (s == null) throw new StudentNotExistException("找不到学生用户信息");
             ret.put("name", s.getName());
             ret.put("class", s.getClazz());
             ret.put("major", s.getMajor());
@@ -437,13 +545,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserData getUserByID(Integer userID) {
         User u = userMapper.selectById(userID);
-        if(u == null) throw new UserNotExistException("用户不存在");
+        if (u == null) throw new UserNotExistException("用户不存在");
         List<UserRole> userRoleList = userRoleMapper.selectList(new QueryWrapper<UserRole>()
                 .eq("userID", userID));
         List<Role> roleList = new ArrayList<>();
-        for(UserRole ur: userRoleList) roleList.add(ur.getRole());
+        for (UserRole ur : userRoleList) roleList.add(ur.getRole());
         Role[] roles = new Role[roleList.size()];
-        for(int i = 0; i < roleList.size(); i++) roles[i] = roleList.get(i);
+        for (int i = 0; i < roleList.size(); i++) roles[i] = roleList.get(i);
         u.setRole(roles);
         Map<String, String> roleSpecificInfo = getRoleSpecificInfo(roleList, u.getUserID());
         return UserData.builder()
