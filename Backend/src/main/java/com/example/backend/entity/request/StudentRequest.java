@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
 import com.example.backend.utils.enumClasses.requestStatus.StudentRequestStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,14 @@ public class StudentRequest {
     private Slot slot;
 
     private String reason;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp requestTime;  // 工单产生时间
     private StudentRequestStatus status;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp adminProcessTime; // 管理员更新status的时间
     private String adminMessage; // 管理员留言
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp useCompleteTime;  // 使用完毕时间
 
     // 外键约束属性

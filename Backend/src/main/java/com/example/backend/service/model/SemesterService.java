@@ -12,4 +12,6 @@ public interface SemesterService {
     void createNewSemester(Semester newSemester);
 
     void setCurrentSemester(Integer semesterID);
+
+    Semester getCurrentSemester();
 }
