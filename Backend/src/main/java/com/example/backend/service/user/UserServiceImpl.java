@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.backend.controller.requestbody.ResetPasswordRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
+import com.example.backend.controller.responsebody.UserData;
 import com.example.backend.entity.user.*;
 import com.example.backend.exception.enumException.RoleTypeNotExistException;
 import com.example.backend.exception.user.administratorException.AdministratorNotExistException;
@@ -20,6 +21,7 @@ import com.example.backend.utils.utilClasses.IsEntityExists;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -429,5 +432,25 @@ public class UserServiceImpl implements UserService {
             ret.put("major", s.getMajor());
         }
         return ret;
+    }
+
+    @Override
+    public UserData getUserByID(Integer userID) {
+        User u = userMapper.selectById(userID);
+        if(u == null) throw new UserNotExistException("用户不存在");
+        List<UserRole> userRoleList = userRoleMapper.selectList(new QueryWrapper<UserRole>()
+                .eq("userID", userID));
+        List<Role> roleList = new ArrayList<>();
+        for(UserRole ur: userRoleList) roleList.add(ur.getRole());
+        Role[] roles = new Role[roleList.size()];
+        for(int i = 0; i < roleList.size(); i++) roles[i] = roleList.get(i);
+        u.setRole(roles);
+        Map<String, String> roleSpecificInfo = getRoleSpecificInfo(roleList, u.getUserID());
+        return UserData.builder()
+                .userID(u.getUserID())
+                .loginID(u.getLoginID())
+                .role(u.getRole())
+                .roleSpecificInfo(roleSpecificInfo)
+                .build();
     }
 }
