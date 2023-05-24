@@ -183,7 +183,7 @@ export default {
                     }else if(res.data[i].weekday ==='SATURDAY') {
                         res.data[i].weekday = "星期六"
                     }else if(res.data[i].weekday ==='SUNDAY') {
-                        res.data[i].weekday = "星期七"
+                        res.data[i].weekday = "星期日"
                     }
                     if (res.data[i].status ==='NOT_VIEWED') {
                         res.data[i].status = "未审核"
@@ -231,7 +231,7 @@ export default {
                     }else if(res.data[i].weekday ==='SATURDAY') {
                         res.data[i].weekday = "星期六"
                     }else if(res.data[i].weekday ==='SUNDAY') {
-                        res.data[i].weekday = "星期七"
+                        res.data[i].weekday = "星期日"
                     }
                     if (res.data[i].status ==='NOT_VIEWED') {
                         res.data[i].status = "未审核"
@@ -335,7 +335,7 @@ export default {
                 weekday = "FRIDAY"
             }else if(weekday ==='星期六') {
                 weekday = "SATURDAY"
-            }else if(weekday ==='星期七') {
+            }else if(weekday ==='星期日') {
                 weekday = "SUNDAY"
             }
             if (slot === "1-2"){

@@ -262,7 +262,7 @@ export default {
                     }else if(res.data[i].weekday ==='SATURDAY') {
                         res.data[i].weekday = "星期六"
                     }else if(res.data[i].weekday ==='SUNDAY') {
-                        res.data[i].weekday = "星期七"
+                        res.data[i].weekday = "星期日"
                     }
                 }
                 this.tableData = res.data

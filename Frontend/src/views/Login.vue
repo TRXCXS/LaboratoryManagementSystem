@@ -10,19 +10,19 @@
             <div style="margin: 20px 0; text-align: center; font-size: 24px"><b>登 录</b></div>
             <el-form ref="userForm" :model="user" :rules="rules">
                 <el-form-item prop="loginID">
-                    <el-input v-model="user.loginID" prefix-icon="el-icon-user" size="medium"
+                    <el-input v-model="user.loginID" prefix-icon="el-icon-user" size="medium" placeholder="请输入您的登录ID"
                               style="margin: 10px 0"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input v-model="user.password" prefix-icon="el-icon-lock" show-password size="medium"
+                    <el-input v-model="user.password" prefix-icon="el-icon-lock" show-password size="medium" placeholder="请输入您的密码"
                               style="margin: 10px 0"></el-input>
                 </el-form-item>
                 <el-form-item style="margin: 10px 0; text-align: right;">
                     <el-link :underline="false" href="/TimeTable/home" style="margin-right: 60px">游客模式查看课程表
                     </el-link>
                     <el-button autocomplete="off" size="small" type="primary" @click="login">登录</el-button>
-                    <el-button autocomplete="off" size="small" type="warning" @click="$router.push('/register')">注册
-                    </el-button>
+<!--                    <el-button autocomplete="off" size="small" type="warning" @click="$router.push('/register')">注册-->
+<!--                    </el-button>-->
                 </el-form-item>
             </el-form>
         </div>

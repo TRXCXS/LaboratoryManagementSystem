@@ -108,45 +108,6 @@ const routes = [
     },
     {
         path: '/',
-        name: 'Teacher',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Teach.vue'),
-        children: [
-            {
-                path: '/Teacher/home',
-                name: '主页',
-                component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Home.vue')
-            },
-            {
-                path: '/Teacher/Application',
-                name: '申请登记',
-                component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Application.vue')
-            },
-            {
-                path: '/Teacher/Warranty',
-                name: '设备报修',
-                component: () => import(/* webpackChunkName: "about" */ '@/views/Teacher/Warranty.vue')
-            },
-        ]
-    },
-    {
-        path: '/',
-        name: 'Tester',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Test.vue'),
-        children: [
-            {
-                path: '/Tester/home',
-                name: '主页',
-                component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Home.vue')
-            },
-            {
-                path: '/Tester/maintenance',
-                name: '设备维修',
-                component: () => import(/* webpackChunkName: "about" */ '@/views/Tester/Maintenance.vue')
-            },
-        ]
-    },
-    {
-        path: '/',
         name: 'TimeTable',
         component: () => import(/* webpackChunkName: "about" */ '@/views/TimeTable/Table.vue'),
         children: [
@@ -166,11 +127,6 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue')
-    },
-    {
-        path: '/timetable',
-        name: 'Timetable',
-        component: () => import(/* webpackChunkName: "about" */ '../views/SchoolTimetable.vue')
     },
 ]
 

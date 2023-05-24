@@ -194,7 +194,6 @@ export default {
         },
         handleSuccess(){
            this.$message.success("导入成功！")
-           this.load()
         },
         submitUpload(){
             if (this.fileList.length === 0) {
