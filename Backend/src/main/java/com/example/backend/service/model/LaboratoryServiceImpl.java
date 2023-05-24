@@ -220,18 +220,17 @@ public class LaboratoryServiceImpl implements LaboratoryService {
                             .name(lab.getName())
                             .labType(lab.getLabType())
                             .deviceCount(lab.getDeviceCount())
-                            .technicians(new ArrayList<String>())
                             .build());
         }
         for(LabData ld: ret) {
             List<ResponsibleFor> responsibleForList = responsibleForMapper.selectList(
                     new QueryWrapper<ResponsibleFor>().eq("labID", ld.getLabID()));
-
+            List<String> names = new ArrayList<>();
             for(ResponsibleFor rf: responsibleForList) {
-
+                names.add(technicianMapper.selectById(rf.getTechnicianID()).getName());
             }
-
+            ld.setTechnicians(names);
         }
-        return null;
+        return ret;
     }
 }
