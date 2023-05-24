@@ -52,6 +52,12 @@
                     <span slot="title">学生管理</span>
                 </el-menu-item>
             </el-submenu>
+            <el-menu-item index="/Management/allLab">
+                <template slot="title">
+                    <i class="el-icon-monitor"></i>
+                    <span slot="title">查看所有实验室</span>
+                </template>
+            </el-menu-item>
             <el-menu-item index="/Management/classScheduling">
                 <template slot="title">
                     <i class="el-icon-date"></i>

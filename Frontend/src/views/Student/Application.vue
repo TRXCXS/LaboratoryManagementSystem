@@ -310,19 +310,29 @@ export default {
             // console.log(this.addRequest)
             this.addRequest.studentID = this.user.userID
             this.addRequest.semesterID = this.$store.state.semester
-            this.request.post("/student-request", this.addRequest).then(res =>{
-                console.log(res)
-                if (res) {
-                    this.$message.success("申请成功")
-                    this.dialogFormVisible = false
-                    this.addRequest = {}
-                    this.load()
-                } else {
-                    this.$message.error("申请失败")
+
+            this.request.get(" /laboratory/labnum-to-labid", {
+                params:{
+                    labNumber:this.addRequest.labID
                 }
+            }).then(res =>{
+                console.log(res)
             }).catch(error => {
                 this.$message.error("申请失败!实验室不存在")
             })
+            // this.request.post("/student-request", this.addRequest).then(res =>{
+            //     console.log(res)
+            //     if (res) {
+            //         this.$message.success("申请成功")
+            //         this.dialogFormVisible = false
+            //         this.addRequest = {}
+            //         this.load()
+            //     } else {
+            //         this.$message.error("申请失败")
+            //     }
+            // }).catch(error => {
+            //     this.$message.error("申请失败!实验室不存在")
+            // })
         },
         save1() {
             if (this.status === "通过"){
