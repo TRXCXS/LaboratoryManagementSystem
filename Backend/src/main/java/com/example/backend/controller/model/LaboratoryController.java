@@ -1,6 +1,7 @@
 package com.example.backend.controller.model;
 
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
+import com.example.backend.controller.responsebody.LabData;
 import com.example.backend.entity.model.Laboratory;
 import com.example.backend.service.model.LaboratoryService;
 import com.example.backend.utils.enumClasses.model.LabType;
@@ -123,6 +124,7 @@ public class LaboratoryController {
                 .build();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/labnum-to-labid")
     public GeneralFormattedResponseBody<Integer>
     convertLabNumberToLabID(@RequestParam String labNumber) {
@@ -134,10 +136,11 @@ public class LaboratoryController {
     }
 
 
+    @Secured({"ROLE_ADMIN", "ROLE_INSTRUCTOR","ROLE_TECHNICIAN", "ROLE_STUDENT"})
     @GetMapping("/all")
-    public GeneralFormattedResponseBody<List<Laboratory>>
+    public GeneralFormattedResponseBody<List<LabData>>
     getAllLaboratories() {
-        return GeneralFormattedResponseBody.<List<Laboratory>>builder()
+        return GeneralFormattedResponseBody.<List<LabData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(laboratoryService.getAllLaboratories())

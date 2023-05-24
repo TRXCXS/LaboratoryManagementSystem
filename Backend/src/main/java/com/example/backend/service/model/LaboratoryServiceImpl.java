@@ -1,9 +1,11 @@
 package com.example.backend.service.model;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.backend.controller.responsebody.LabData;
 import com.example.backend.entity.arrangement.LongArrangement;
 import com.example.backend.entity.arrangement.ShortArrangement;
 import com.example.backend.entity.model.Laboratory;
+import com.example.backend.entity.model.ResponsibleFor;
 import com.example.backend.entity.request.InstructorRequest;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.exception.enumException.LabTypeNotExistException;
@@ -11,8 +13,10 @@ import com.example.backend.exception.otherException.NumberIllegalException;
 import com.example.backend.mapper.arrangement.LongArrangementMapper;
 import com.example.backend.mapper.arrangement.ShortArrangementMapper;
 import com.example.backend.mapper.model.LaboratoryMapper;
+import com.example.backend.mapper.model.ResponsibleForMapper;
 import com.example.backend.mapper.request.InstructorRequestMapper;
 import com.example.backend.mapper.request.StudentRequestMapper;
+import com.example.backend.mapper.user.TechnicianMapper;
 import com.example.backend.utils.enumClasses.model.LabType;
 import com.example.backend.utils.enumClasses.model.Slot;
 import com.example.backend.utils.enumClasses.model.Weekday;
@@ -37,6 +41,8 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     private final StudentRequestMapper studentRequestMapper;
     private final ExceptionUtil exceptionUtil;
     private final CurrentSemesterService currentSemesterService;
+    private final ResponsibleForMapper responsibleForMapper;
+    private final TechnicianMapper technicianMapper;
 
     @Override
     public boolean isLabArranged(Integer startWeek, Integer endWeek, Weekday weekday, Slot slot, Integer labID) {
@@ -203,7 +209,29 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     }
 
     @Override
-    public List<Laboratory> getAllLaboratories() {
-        return laboratoryMapper.selectList(null);
+    public List<LabData> getAllLaboratories() {
+        List<Laboratory> labs = laboratoryMapper.selectList(null);
+        List<LabData> ret = new ArrayList<>();
+        for(Laboratory lab: labs) {
+            ret.add(
+                    LabData.builder()
+                            .labID(lab.getLabID())
+                            .labNumber(lab.getLabNumber())
+                            .name(lab.getName())
+                            .labType(lab.getLabType())
+                            .deviceCount(lab.getDeviceCount())
+                            .technicians(new ArrayList<String>())
+                            .build());
+        }
+        for(LabData ld: ret) {
+            List<ResponsibleFor> responsibleForList = responsibleForMapper.selectList(
+                    new QueryWrapper<ResponsibleFor>().eq("labID", ld.getLabID()));
+
+            for(ResponsibleFor rf: responsibleForList) {
+
+            }
+
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.backend.service.model;
 
+import com.example.backend.controller.responsebody.LabData;
 import com.example.backend.entity.model.Laboratory;
 import com.example.backend.utils.enumClasses.model.LabType;
 import com.example.backend.utils.enumClasses.model.Slot;
@@ -35,5 +36,5 @@ public interface LaboratoryService {
 
     Integer convertLabNumberToLabID(String labNumber);
 
-    List<Laboratory> getAllLaboratories();
+    List<LabData> getAllLaboratories();
 }
