@@ -453,4 +453,58 @@ public class UserServiceImpl implements UserService {
                 .roleSpecificInfo(roleSpecificInfo)
                 .build();
     }
+
+    @Override
+    public void updateStudent(UserRequestBodyForUpdate userUpdate) {
+        if (!isEntityExists.isUserExists(Integer.valueOf(userUpdate.getUserID()))) {
+            throw new UserNotExistException("要更新信息的用户不存在！");
+        }
+
+        User user = userMapper.selectById(userUpdate.getUserID());
+        if (!user.getLoginID().equals(userUpdate.getLoginID())) {
+            // loginID不相同，需要更新
+
+            // loginID已存在，无法更新
+            if (isEntityExists.isUserExistsByLoginID(userUpdate.getLoginID())) {
+                throw new UserHasExistedException("loginID已存在，无法更新！");
+            }
+
+            // 更新loginID
+            UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("userID", userUpdate.getUserID());
+            updateWrapper.set("loginID", userUpdate.getLoginID());
+            userMapper.update(null, updateWrapper);
+        }
+
+        // 更新其他信息
+        List<Role> roles = userUpdate.getRoles();
+        Map<String, String> roleSpecificInfo = userUpdate.getRoleSpecificInfo();
+
+        // 调用这个方法时，默认是一定有Role.ROLE_TECHNICIAN这个角色Role
+        Student student = studentMapper.selectById(user.getUserID());
+
+        if ((roleSpecificInfo.containsKey("name")) && (!roleSpecificInfo.get("name").equals(student.getName()))) {
+            // 存在name且新的name不等于旧的name，则更新name
+            UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("studentID", user.getUserID());
+            updateWrapper.set("name", roleSpecificInfo.get("name"));
+            studentMapper.update(null, updateWrapper);
+        }
+
+        if ((roleSpecificInfo.containsKey("clazz")) && (!roleSpecificInfo.get("clazz").equals(student.getClazz()))) {
+            // 更新class
+            UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("studentID", user.getUserID());
+            updateWrapper.set("clazz", roleSpecificInfo.get("clazz"));
+            studentMapper.update(null, updateWrapper);
+        }
+
+        if ((roleSpecificInfo.containsKey("major")) && (!roleSpecificInfo.get("major").equals(student.getMajor()))) {
+            // 更新class
+            UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("studentID", user.getUserID());
+            updateWrapper.set("major", roleSpecificInfo.get("major"));
+            studentMapper.update(null, updateWrapper);
+        }
+    }
 }
