@@ -60,4 +60,13 @@ public class SemesterController {
                 .build();
     }
 
+    @GetMapping("/current")
+    public GeneralFormattedResponseBody<Semester>
+    getCurrentSemester() {
+        return GeneralFormattedResponseBody.<Semester>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(semesterService.getCurrentSemester())
+                .build();
+    }
 }

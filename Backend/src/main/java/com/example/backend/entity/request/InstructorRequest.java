@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 public class InstructorRequest {
     @TableId(value = "instructorRequestID", type = IdType.AUTO)
     private Integer instructorRequestID;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp requestTime;
 
     private LabType labType;
@@ -35,6 +36,7 @@ public class InstructorRequest {
     private String course;
 
     private InstructorRequestStatus status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp adminProcessTime;
     private String adminMessage;
 

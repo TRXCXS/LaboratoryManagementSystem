@@ -41,4 +41,9 @@ public class SemesterServiceImpl implements SemesterService {
         currentSemesterService.setNewCurrentSemester(semesterID);
 
     }
+
+    @Override
+    public Semester getCurrentSemester() {
+        return currentSemesterService.getCurrentSemester();
+    }
 }

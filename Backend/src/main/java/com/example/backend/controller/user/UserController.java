@@ -4,6 +4,7 @@ import com.example.backend.controller.requestbody.ResetPasswordRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
+import com.example.backend.controller.responsebody.UserData;
 import com.example.backend.entity.user.Instructor;
 import com.example.backend.entity.user.Student;
 import com.example.backend.entity.user.Technician;
@@ -368,5 +369,16 @@ public class UserController {
             System.err.println("Error reading file type: " + e.getMessage());
         }
         return ret;
+    }
+
+
+    @GetMapping
+    public GeneralFormattedResponseBody<UserData>
+    getUserByID(@RequestParam Integer userID) {
+        return GeneralFormattedResponseBody.<UserData>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(userService.getUserByID(userID))
+                .build();
     }
 }

@@ -3,6 +3,7 @@ package com.example.backend.service.user;
 import com.example.backend.controller.requestbody.ResetPasswordRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBody;
 import com.example.backend.controller.requestbody.UserRequestBodyForUpdate;
+import com.example.backend.controller.responsebody.UserData;
 import com.example.backend.entity.user.Instructor;
 import com.example.backend.entity.user.Student;
 import com.example.backend.entity.user.Technician;
@@ -120,4 +121,6 @@ public interface UserService {
     void batchImport(File table, boolean isXls, String userType) throws FileNotFoundException;
 
     Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID);
+
+    UserData getUserByID(Integer userID);
 }
