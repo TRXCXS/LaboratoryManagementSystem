@@ -405,6 +405,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Role[] getRolesByID(Integer userID) {
+        User u = userMapper.selectById(userID);
+        if(u == null) throw new UserNotExistException("用户不存在");
+        List<UserRole> userRoleList = userRoleMapper.selectList(new QueryWrapper<UserRole>()
+                .eq("userID", userID));
+        Role[] roles = new Role[userRoleList.size()];
+        for(int i = 0; i < userRoleList.size(); i++) roles[i] = userRoleList.get(i).getRole();
+        return roles;
+    }
+
+    @Override
     public Map<String, String> getRoleSpecificInfo(List<Role> roles, Integer userID) {
         Map<String, String> ret = new HashMap<>();
         if(roles.contains(Role.ROLE_ADMIN)) {

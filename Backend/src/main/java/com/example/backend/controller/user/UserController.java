@@ -236,10 +236,10 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/technician/all")
-    public GeneralFormattedResponseBody<List<Technician>>
+    public GeneralFormattedResponseBody<List<UserData>>
     getAllTechnicians() {
         return GeneralFormattedResponseBody
-                .<List<Technician>>builder()
+                .<List<UserData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getAllTechnicians())
@@ -248,10 +248,10 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/instructor/all")
-    public GeneralFormattedResponseBody<List<Instructor>>
+    public GeneralFormattedResponseBody<List<UserData>>
     getAllInstructors() {
         return GeneralFormattedResponseBody
-                .<List<Instructor>>builder()
+                .<List<UserData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getAllInstructors())
@@ -260,10 +260,10 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/student/all")
-    public GeneralFormattedResponseBody<List<Student>>
+    public GeneralFormattedResponseBody<List<UserData>>
     getAllStudents() {
         return GeneralFormattedResponseBody
-                .<List<Student>>builder()
+                .<List<UserData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getAllStudents())
@@ -272,10 +272,10 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/technician/name")
-    public GeneralFormattedResponseBody<List<Technician>>
+    public GeneralFormattedResponseBody<List<UserData>>
     getTechniciansByName(@RequestParam String name) {
         return GeneralFormattedResponseBody
-                .<List<Technician>>builder()
+                .<List<UserData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getTechniciansByName(name))
@@ -284,10 +284,10 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/instructor/name")
-    public GeneralFormattedResponseBody<List<Instructor>>
+    public GeneralFormattedResponseBody<List<UserData>>
     getInstructorsByName(@RequestParam String name) {
         return GeneralFormattedResponseBody
-                .<List<Instructor>>builder()
+                .<List<UserData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getInstructorsByName(name))
@@ -296,10 +296,10 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/student/name")
-    public GeneralFormattedResponseBody<List<Student>>
+    public GeneralFormattedResponseBody<List<UserData>>
     getStudentsByName(@RequestParam String name) {
         return GeneralFormattedResponseBody
-                .<List<Student>>builder()
+                .<List<UserData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getStudentsByName(name))
@@ -370,7 +370,6 @@ public class UserController {
         }
         return ret;
     }
-
 
     @GetMapping
     public GeneralFormattedResponseBody<UserData>
