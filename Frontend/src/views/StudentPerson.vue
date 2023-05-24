@@ -29,26 +29,26 @@
                         角色
                     </template>
                     <el-tag
-                        size="small"
-                        style="margin-right: 5px"
-                        v-for="item in items"
-                        :key="item.label"
-                        :type="item.type"
+                            size="small"
+                            style="margin-right: 5px"
+                            v-for="item in items"
+                            :key="item.label"
+                            :type="item.type"
                     >{{ item.label }}</el-tag>
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
-                        <i class="el-icon-mobile-phone"></i>
-                        职称
+                        <i class="el-icon-monitor"></i>
+                        专业
                     </template>
-                    {{ title }}
-                    <el-tag
-                        size="small"
-                        style="margin-right: 5px"
-                        v-for="title in titles"
-                        :key="title.label"
-                        :type="title.type"
-                    >{{ title.label }}</el-tag>
+                    {{ major }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-reading"></i>
+                        班级
+                    </template>
+                    {{ clazz }}
                 </el-descriptions-item>
             </el-descriptions>
         </el-card>
@@ -66,6 +66,8 @@ export default {
             role: "",
             loginID: "",
             title: "",
+            major:"",
+            clazz:"",
             items:[],
             titles:[],
         }
@@ -75,6 +77,8 @@ export default {
         this.userID = this.user.userID
         this.userName = this.user.roleSpecificInfo.name
         this.role = this.user.role
+        this.major = this.user.roleSpecificInfo.major
+        this.clazz = this.user.roleSpecificInfo.class
         for (let i = 0; i < this.user.role.length; i++) {
             let label = null
             let type = ""
@@ -99,17 +103,15 @@ export default {
         }
         this.loginID = this.user.loginID
         console.log(this.user.roleSpecificInfo)
-        if (this.user.roleSpecificInfo.instructorTitle!==undefined){
-            let label = this.user.roleSpecificInfo.instructorTitle
-            let type = "success"
-            this.titles.push({label:label,type:type})
-        }
-        if (this.user.roleSpecificInfo.technicianTitle!==undefined){
-            let label = this.user.roleSpecificInfo.technicianTitle
-            let type = "warning"
-            this.titles.push({label:label,type:type})
-        }
-        console.log(this.titles)
+        // if (this.user.roleSpecificInfo.length === 3){
+        //     let label = this.user.roleSpecificInfo.instructorTitle
+        //     let type = "primary"
+        //     this.titles.push({label:label,type:type})
+        //     label = this.user.roleSpecificInfo.technicianTitle
+        //     type = "warning"
+        //     this.titles.push({label:label,type:type})
+        // }
+        // console.log(this.titles)
 
     }
 }

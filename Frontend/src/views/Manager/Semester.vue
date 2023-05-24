@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div style="margin: 10px 0">
-            <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-select v-model.number="chooseSemester" placeholder="请选择学期" style="padding-left: 10px" @change="change">
+        <div style="margin: 10px 0;display: flex">
+            <h5 style="margin-top: 6px;margin-right: 10px">设置当前学期:</h5>
+            <el-select v-model.number="chooseSemester" :placeholder="currentSemester" style="margin-right: 10px" @change="change">
                 <el-option
                     v-for="option in options"
                     :key="option.value"
                     :label="option.label"
                     :value="option.value"
                 ></el-option>
-
             </el-select>
+            <el-button type="primary" @click="handleAdd" >新增学期 <i class="el-icon-circle-plus-outline"></i></el-button>
         </div>
 
         <el-table :data="tableData" :header-cell-class-name="headerBg" border stripe>
@@ -20,10 +20,10 @@
             </el-table-column>
             <el-table-column label="学期第二学年" prop="secondHalfYear">
             </el-table-column>
+            <el-table-column label="学期开始时间" prop="startDate">
+            </el-table-column>
             <el-table-column label="季度" prop="season">
             </el-table-column>
-<!--            <el-table-column label="学期开始时间" prop="startDate">-->
-<!--            </el-table-column>-->
             <el-table-column label="周数" prop="weekCount">
             </el-table-column>
         </el-table>
@@ -80,7 +80,7 @@ export default {
             isCollapse: false,
             sideWidth: 200,
             logoTextShow: true,
-
+            currentSemester:"请选择学期",
             chooseSemester: "",
 
             addSemester: {
@@ -122,6 +122,13 @@ export default {
         load() {
             this.request.get("/semester/all").then(res => {
                 console.log(res)
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].season === "FALL"){
+                        res.data[i].season = "秋季"
+                    }else {
+                        res.data[i].season = "春季"
+                    }
+                }
                 this.tableData = res.data
                 this.options=[]
                 for(let i = 0;i<res.data.length;i++){

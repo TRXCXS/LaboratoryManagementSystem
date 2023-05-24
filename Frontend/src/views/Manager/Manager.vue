@@ -17,6 +17,9 @@
                     <el-form-item label="登录ID">
                         <el-input v-model="addUser.loginID"></el-input>
                     </el-form-item>
+                    <el-form-item label="密码">
+                        <el-input v-model="addUser.password"></el-input>
+                    </el-form-item>
                     <el-form-item label="用户职称">
                         <el-input v-model="addUser.roleSpecificInfo.title" :disabled="titleDisabled"></el-input>
                     </el-form-item>
@@ -31,7 +34,7 @@
                     </el-form-item>
                 </el-form>
         </el-card>
-        <div style="margin: 10px 0; width: 175px" >
+        <div style="margin: 10px 0; width: 210px" >
             <el-upload
                     class="upload-demo"
                     ref="upload"
@@ -47,7 +50,7 @@
                     :limit="1"
                     name="table"
                     :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
+                <el-button slot="trigger" size="small" type="primary">批量导入管理员</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
             </el-upload>
 

@@ -78,6 +78,7 @@ export default {
             multipleSelection: [],
 
             checkStatus:"",
+            user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
         }
     },
     created() {
@@ -85,7 +86,11 @@ export default {
     },
     methods: {
         load() {
-            this.request.get("/repair-request/all").then(res => {
+            this.request.get("/repair-request/technician",{
+                params:{
+                    technicianID:this.user.userID
+                }
+            }).then(res => {
                 for (let i = 0; i < res.data.length; i++) {
                     // let origin_appeal_time = res[i].appeal_time
                     // let date1 = new Date(origin_appeal_time);

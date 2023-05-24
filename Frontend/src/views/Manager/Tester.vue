@@ -9,7 +9,7 @@
                 </div>
             </div>
         </el-card>
-        <div style="margin: 10px 0; width: 175px" >
+        <div style="margin: 10px 0; width: 210px" >
             <el-upload
                 class="upload-demo"
                 ref="upload"
@@ -25,7 +25,7 @@
                 :limit="1"
                 name="table"
                 :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
+                <el-button slot="trigger" size="small" type="primary">批量导入实验员</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
             </el-upload>
 
@@ -54,6 +54,8 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
+                    <el-button style="margin-right: 5px" type="primary" @click="handleUpdate(scope.row.technicianID)">修改 <i
+                            class="el-icon-edit"></i></el-button>
                     <el-popconfirm
                             title="是否确定重置密码？密码将被重置为“123456”"
                             @confirm="reset(scope.row.technicianID)"
@@ -77,6 +79,9 @@
                 <el-form-item label="登录ID">
                     <el-input v-model.number="addUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model.number="addUser.password" autocomplete="off"></el-input>
+                </el-form-item>
                 <el-form-item label="职称">
                     <el-input v-model="addUser.roleSpecificInfo.title" autocomplete="off"></el-input>
                 </el-form-item>
@@ -85,6 +90,31 @@
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancelAdd">取 消</el-button>
                 <el-button type="primary" @click="save">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog :visible.sync="ModifyDialogFormVisible" title="修改实验员信息" width="30%">
+            <el-form :label-width="formLabelWidth">
+                <!--                <el-form-item label="实验员ID">-->
+                <!--                    <el-input v-model.number="addUser.roleSpecificInfo.technicianID" autocomplete="off"></el-input>-->
+                <!--                </el-form-item>-->
+                <el-form-item label="姓名">
+                    <el-input v-model="modifyUser.roleSpecificInfo.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="登录ID">
+                    <el-input v-model.number="modifyUser.loginID" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model.number="modifyUser.password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="职称">
+                    <el-input v-model="modifyUser.roleSpecificInfo.title" autocomplete="off"></el-input>
+                </el-form-item>
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelModify">取 消</el-button>
+                <el-button type="primary" @click="saveModify">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -117,11 +147,14 @@ export default {
             logoTextShow: true,
             headerBg: 'headerBg',
 
+            technicianID:"",
+
             formLabelWidth: '80px',
             tester_id: "",
             tester_name: "",
             tester_title: "",
             dialogFormVisible: false,
+            ModifyDialogFormVisible: false,
             multipleSelection: [],
             resetPassword:{
                 newPassword:"123456",
@@ -138,6 +171,19 @@ export default {
                     title:""
                 },
                 password: "123456",
+                loginID: ""
+            },
+
+            modifyUser:{
+                roles: [
+                    "ROLE_TECHNICIAN"
+                ],
+                roleSpecificInfo: {
+                    technicianID: 0,
+                    name:"",
+                    title:""
+                },
+                password: "",
                 loginID: ""
             },
 
@@ -166,6 +212,28 @@ export default {
         resetDialog() {
             this.addUser.roleSpecificInfo.name = ""
             this.addUser.roleSpecificInfo.title = ""
+            this.addUser.password = ""
+        },
+        resetModifyDialog(){
+            this.modifyUser.roleSpecificInfo.name = ""
+            this.modifyUser.roleSpecificInfo.title = ""
+            this.modifyUser.password = ""
+        },
+        saveModify(){
+            console.log(this.modifyUser)
+            this.modifyUser.roleSpecificInfo.technicianID = this.technicianID
+            // this.request.put("/user/student",this.modifyUser).then(res =>{
+            //     if (res) {
+            //         this.$message.success("修改成功")
+            //         this.dialogFormVisible = false
+            //         this.resetDialog()
+            //         this.load()
+            //     } else {
+            //         this.$message.error("修改失败")
+            //     }
+            // }).catch(error=>{
+            //     this.$message.error("修改失败")
+            // })
         },
         save() {
             console.log(this.addUser)
@@ -183,6 +251,10 @@ export default {
         cancelAdd() {
             this.dialogFormVisible = false;
             this.resetDialog()
+        },
+        cancelModify() {
+            this.ModifyDialogFormVisible = false;
+            this.resetModifyDialog()
         },
         del(id) {
             console.log(id)
@@ -266,7 +338,19 @@ export default {
             if (e.keyCode === 13) {
                 this.save() // 需要执行的方法方法
             }
-        }
+        },
+        handleUpdate(technicianID){
+            // this.request.get("/student-request/student",{
+            //     params:{
+            //         studentID: studentID
+            //     }
+            // }).then(res=>{
+            //     console.log(res)
+            //     this.tableData = res.data
+            // })
+            this.ModifyDialogFormVisible = true;
+            this.technicianID = technicianID
+        },
     }
 }
 </script>

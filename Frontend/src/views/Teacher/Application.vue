@@ -356,6 +356,7 @@ export default {
         save() {
             // console.log(this.form)
             this.addApplication.instructorID = this.user.userID
+            this.addApplication.semesterID = this.$store.state.semester
             this.request.post("/instructor-request",this.addApplication).then(res =>{
                 console.log(res)
                 if(res){
@@ -366,6 +367,9 @@ export default {
                 }else {
                     this.$message.error("申请失败")
                 }
+            }).catch(error => {
+                console.log(error)
+                this.$message.error("申请失败")
             })
         },
         save1() {

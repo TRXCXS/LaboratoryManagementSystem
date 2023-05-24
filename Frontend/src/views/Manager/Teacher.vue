@@ -11,7 +11,7 @@
         </el-card>
 
 
-        <div style="margin: 10px 0; width: 175px" >
+        <div style="margin: 10px 0; width: 210px" >
             <el-upload
                 class="upload-demo"
                 ref="upload"
@@ -27,7 +27,7 @@
                 :limit="1"
                 name="table"
                 :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">批量导入</el-button>
+                <el-button slot="trigger" size="small" type="primary">批量导入教师</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确定上传</el-button>
             </el-upload>
         </div>
@@ -40,6 +40,8 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
+                    <el-button style="margin-right: 5px" type="primary" @click="handleUpdate(scope.row.instructorID)">修改 <i
+                            class="el-icon-edit"></i></el-button>
                     <el-popconfirm
                             title="是否确定重置密码？密码将被重置为“123456”"
                             @confirm="reset(scope.row.instructorID)"
@@ -63,6 +65,9 @@
                 <el-form-item label="登录ID">
                     <el-input v-model.number="addUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model.number="addUser.password" autocomplete="off"></el-input>
+                </el-form-item>
                 <el-form-item label="职称">
                     <el-input v-model="addUser.roleSpecificInfo.title" autocomplete="off"></el-input>
                 </el-form-item>
@@ -71,6 +76,31 @@
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancelAdd">取 消</el-button>
                 <el-button type="primary" @click="save">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog :visible.sync="ModifyDialogFormVisible" title="教师信息" width="30%">
+            <el-form :label-width="formLabelWidth">
+                <!--                <el-form-item label="教师ID">-->
+                <!--                    <el-input v-model="teacher_id" autocomplete="off"></el-input>-->
+                <!--                </el-form-item>-->
+                <el-form-item label="姓名">
+                    <el-input v-model="modifyUser.roleSpecificInfo.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="登录ID">
+                    <el-input v-model.number="modifyUser.loginID" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model.number="modifyUser.password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="职称">
+                    <el-input v-model="modifyUser.roleSpecificInfo.title" autocomplete="off"></el-input>
+                </el-form-item>
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelModify">取 消</el-button>
+                <el-button type="primary" @click="saveModify">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -107,6 +137,7 @@ export default {
             teacher_name: "",
             teacher_title: "",
             dialogFormVisible: false,
+            ModifyDialogFormVisible: false,
             multipleSelection: [],
 
             headerBg: 'headerBg',
@@ -114,6 +145,7 @@ export default {
                 newPassword:"123456",
                 userID:0
             },
+            instructorID:"",
             addUser:{
                 roles: [
                     "ROLE_INSTRUCTOR"
@@ -125,7 +157,19 @@ export default {
                 },
                 password: "123456",
                 loginID: ""
-            }
+            },
+            modifyUser:{
+                roles: [
+                    "ROLE_INSTRUCTOR"
+                ],
+                roleSpecificInfo: {
+                    instructorID: 0,
+                    name:"",
+                    title:""
+                },
+                password: "",
+                loginID: ""
+            },
         }
     },
     created() {
@@ -149,10 +193,20 @@ export default {
         resetDialog() {
             this.addUser.roleSpecificInfo.name = ""
             this.addUser.roleSpecificInfo.title = ""
+            this.addUser.password = ""
         },
         cancelAdd() {
             this.dialogFormVisible = false;
             this.resetDialog()
+        },
+        cancelModify() {
+            this.ModifyDialogFormVisible = false;
+            this.resetModifyDialog()
+        },
+        resetModifyDialog(){
+            this.modifyUser.roleSpecificInfo.name = ""
+            this.modifyUser.roleSpecificInfo.title = ""
+            this.modifyUser.password = ""
         },
         save() {
             this.request.post("/user/instructor", this.addUser).then(res => {
@@ -165,6 +219,22 @@ export default {
                     this.$message.error("添加失败")
                 }
             })
+        },
+        saveModify(){
+            console.log(this.modifyUser)
+            this.modifyUser.roleSpecificInfo.instructorID = this.instructorID
+            // this.request.put("/user/student",this.modifyUser).then(res =>{
+            //     if (res) {
+            //         this.$message.success("修改成功")
+            //         this.dialogFormVisible = false
+            //         this.resetDialog()
+            //         this.load()
+            //     } else {
+            //         this.$message.error("修改失败")
+            //     }
+            // }).catch(error=>{
+            //     this.$message.error("修改失败")
+            // })
         },
         handleAdd() {
             this.dialogFormVisible = true;
@@ -245,7 +315,19 @@ export default {
             if (e.keyCode === 13) {
                 this.save() // 需要执行的方法方法
             }
-        }
+        },
+        handleUpdate(instructorID){
+            // this.request.get("/student-request/student",{
+            //     params:{
+            //         studentID: studentID
+            //     }
+            // }).then(res=>{
+            //     console.log(res)
+            //     this.tableData = res.data
+            // })
+            this.ModifyDialogFormVisible = true;
+            this.instructorID = instructorID
+        },
     }
 }
 </script>
