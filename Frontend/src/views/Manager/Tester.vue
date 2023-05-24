@@ -104,11 +104,8 @@
                 <el-form-item label="登录ID">
                     <el-input v-model.number="modifyUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model.number="modifyUser.password" autocomplete="off"></el-input>
-                </el-form-item>
                 <el-form-item label="职称">
-                    <el-input v-model="modifyUser.roleSpecificInfo.title" autocomplete="off"></el-input>
+                    <el-input v-model="modifyUser.roleSpecificInfo.technicianTitle" autocomplete="off"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -179,12 +176,14 @@ export default {
                     "ROLE_TECHNICIAN"
                 ],
                 roleSpecificInfo: {
-                    technicianID: 0,
                     name:"",
-                    title:""
+                    technicianTitle:"",
+                    instructorTitle:"",
+                    major:"",
+                    clazz:"",
                 },
-                password: "",
-                loginID: ""
+                loginID: "",
+                userID:"",
             },
 
             userType:"Administrator",
@@ -221,19 +220,20 @@ export default {
         },
         saveModify(){
             console.log(this.modifyUser)
-            this.modifyUser.roleSpecificInfo.technicianID = this.technicianID
-            // this.request.put("/user/student",this.modifyUser).then(res =>{
-            //     if (res) {
-            //         this.$message.success("修改成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()
-            //     } else {
-            //         this.$message.error("修改失败")
-            //     }
-            // }).catch(error=>{
-            //     this.$message.error("修改失败")
-            // })
+            // this.modifyUser.roleSpecificInfo.technicianID = this.technicianID
+            this.request.put("/user/technician",this.modifyUser).then(res =>{
+                if (res) {
+                    this.$message.success("修改成功")
+                    this.dialogFormVisible = false
+                    this.resetDialog()
+                    this.load()
+                } else {
+                    this.$message.error("修改失败")
+                }
+            }).catch(error=>{
+                this.$message.error("修改失败")
+            })
+            this.ModifyDialogFormVisible = false
         },
         save() {
             console.log(this.addUser)
@@ -340,14 +340,18 @@ export default {
             }
         },
         handleUpdate(technicianID){
-            // this.request.get("/student-request/student",{
-            //     params:{
-            //         studentID: studentID
-            //     }
-            // }).then(res=>{
-            //     console.log(res)
-            //     this.tableData = res.data
-            // })
+            this.request.get("/user",{
+                params:{
+                    userID: technicianID
+                }
+            }).then(res=>{
+                console.log(res)
+                this.modifyUser.roleSpecificInfo.name = res.data.roleSpecificInfo.name
+                this.modifyUser.loginID = res.data.loginID
+                this.modifyUser.roleSpecificInfo.technicianTitle = res.data.roleSpecificInfo.technicianTitle
+                this.modifyUser.userID = technicianID
+                this.modifyUser.roles = res.data.role
+            })
             this.ModifyDialogFormVisible = true;
             this.technicianID = technicianID
         },

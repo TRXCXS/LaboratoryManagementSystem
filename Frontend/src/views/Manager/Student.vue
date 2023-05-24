@@ -93,9 +93,6 @@
                 <el-form-item label="登录ID">
                     <el-input v-model.number="modifyUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model.number="modifyUser.password" autocomplete="off"></el-input>
-                </el-form-item>
                 <el-form-item label="专业">
                     <el-input v-model="modifyUser.roleSpecificInfo.major" autocomplete="off"></el-input>
                 </el-form-item>
@@ -164,17 +161,18 @@ export default {
 
             modifyUser:{
                 roles: [
-                    "ROLE_STUDENT"
+                    "ROLE_TECHNICIAN"
                 ],
                 roleSpecificInfo: {
-                    studentID: 0,
                     name:"",
+                    technicianTitle:"",
+                    instructorTitle:"",
                     major:"",
-                    clazz:""
+                    clazz:"",
                 },
-                password: "",
-                loginID: ""
-            }
+                loginID: "",
+                userID:"",
+            },
 
         }
     },
@@ -215,7 +213,6 @@ export default {
             this.modifyUser.roleSpecificInfo.name = ""
             this.modifyUser.roleSpecificInfo.major = ""
             this.modifyUser.roleSpecificInfo.clazz = ""
-            this.modifyUser.password = ""
         },
         resetDialog() {
             this.addUser.roleSpecificInfo.name = ""
@@ -237,19 +234,19 @@ export default {
         },
         saveModify(){
             console.log(this.modifyUser)
-            this.modifyUser.roleSpecificInfo.studentID = this.studentID
-            // this.request.put("/user/student",this.modifyUser).then(res =>{
-            //     if (res) {
-            //         this.$message.success("修改成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()
-            //     } else {
-            //         this.$message.error("修改失败")
-            //     }
-            // }).catch(error=>{
-            //     this.$message.error("修改失败")
-            // })
+            // this.modifyUser.roleSpecificInfo.studentID = this.studentID
+            this.request.put("/user/student",this.modifyUser).then(res =>{
+                if (res) {
+                    this.$message.success("修改成功")
+                    this.ModifyDialogFormVisible = false
+                    this.resetDialog()
+                    this.load()
+                } else {
+                    this.$message.error("修改失败")
+                }
+            }).catch(error=>{
+                this.$message.error("修改失败")
+            })
         },
         handleAdd() {
             this.dialogFormVisible = true;
@@ -332,16 +329,21 @@ export default {
             }
         },
         handleUpdate(studentID){
-            // this.request.get("/student-request/student",{
-            //     params:{
-            //         studentID: studentID
-            //     }
-            // }).then(res=>{
-            //     console.log(res)
-            //     this.tableData = res.data
-            // })
+            this.request.get("/user",{
+                params:{
+                    userID: studentID
+                }
+            }).then(res=>{
+                console.log(res)
+                this.modifyUser.roleSpecificInfo.name = res.data.roleSpecificInfo.name
+                this.modifyUser.loginID = res.data.loginID
+                this.modifyUser.roleSpecificInfo.major = res.data.roleSpecificInfo.major
+                this.modifyUser.roleSpecificInfo.clazz = res.data.roleSpecificInfo.class
+                this.modifyUser.userID = studentID
+                this.modifyUser.roles = res.data.role
+            })
             this.ModifyDialogFormVisible = true;
-            this.studentID = studentID
+            this.technicianID = studentID
         },
     }
 }

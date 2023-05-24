@@ -178,7 +178,7 @@ export default {
                 startWeek: 1,
                 studentClass: "",
                 studentCount: -1,
-                semesterID: 1,
+                semesterID: this.$store.state.semester,
                 instructorID: 1,
                 instructorRequestID: 1,
                 endWeek: 18,
@@ -196,7 +196,7 @@ export default {
                 startWeek: 1,
                 studentClass: "",
                 studentCount: "",
-                semesterID: 1,
+                semesterID: this.$store.state.semester,
                 instructorID: 1,
                 instructorRequestID: 1,
                 endWeek: 18,
@@ -218,7 +218,7 @@ export default {
             adminProcessTime: "",
             adminMessage: "",
             instructorID: 0,
-            semesterID: 0,
+            semesterID: this.$store.state.semester,
 
 
             formLabelWidth: '80px',

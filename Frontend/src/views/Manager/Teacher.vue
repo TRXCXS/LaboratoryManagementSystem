@@ -90,11 +90,8 @@
                 <el-form-item label="登录ID">
                     <el-input v-model.number="modifyUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model.number="modifyUser.password" autocomplete="off"></el-input>
-                </el-form-item>
                 <el-form-item label="职称">
-                    <el-input v-model="modifyUser.roleSpecificInfo.title" autocomplete="off"></el-input>
+                    <el-input v-model="modifyUser.roleSpecificInfo.instructorTitle" autocomplete="off"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -160,15 +157,17 @@ export default {
             },
             modifyUser:{
                 roles: [
-                    "ROLE_INSTRUCTOR"
+                    "ROLE_TECHNICIAN"
                 ],
                 roleSpecificInfo: {
-                    instructorID: 0,
                     name:"",
-                    title:""
+                    technicianTitle:"",
+                    instructorTitle:"",
+                    major:"",
+                    clazz:"",
                 },
-                password: "",
-                loginID: ""
+                loginID: "",
+                userID:"",
             },
         }
     },
@@ -222,19 +221,18 @@ export default {
         },
         saveModify(){
             console.log(this.modifyUser)
-            this.modifyUser.roleSpecificInfo.instructorID = this.instructorID
-            // this.request.put("/user/student",this.modifyUser).then(res =>{
-            //     if (res) {
-            //         this.$message.success("修改成功")
-            //         this.dialogFormVisible = false
-            //         this.resetDialog()
-            //         this.load()
-            //     } else {
-            //         this.$message.error("修改失败")
-            //     }
-            // }).catch(error=>{
-            //     this.$message.error("修改失败")
-            // })
+            this.request.put("/user/instructor",this.modifyUser).then(res =>{
+                if (res) {
+                    this.$message.success("修改成功")
+                    this.ModifyDialogFormVisible = false
+                    this.resetDialog()
+                    this.load()
+                } else {
+                    this.$message.error("修改失败")
+                }
+            }).catch(error=>{
+                this.$message.error("修改失败")
+            })
         },
         handleAdd() {
             this.dialogFormVisible = true;
@@ -317,14 +315,18 @@ export default {
             }
         },
         handleUpdate(instructorID){
-            // this.request.get("/student-request/student",{
-            //     params:{
-            //         studentID: studentID
-            //     }
-            // }).then(res=>{
-            //     console.log(res)
-            //     this.tableData = res.data
-            // })
+            this.request.get("/user",{
+                params:{
+                    userID: instructorID
+                }
+            }).then(res=>{
+                console.log(res)
+                this.modifyUser.roleSpecificInfo.name = res.data.roleSpecificInfo.name
+                this.modifyUser.loginID = res.data.loginID
+                this.modifyUser.roleSpecificInfo.instructorTitle = res.data.roleSpecificInfo.instructorTitle
+                this.modifyUser.userID = instructorID
+                this.modifyUser.roles = res.data.role
+            })
             this.ModifyDialogFormVisible = true;
             this.instructorID = instructorID
         },
