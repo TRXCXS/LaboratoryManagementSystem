@@ -101,7 +101,7 @@ export default {
             adminMessage: "",
             useCompleteTime: "",
             labID: 0,
-            semesterID: 0,
+            semesterID: this.$store.state.semester,
             studentID: 0,
 
             shortArrangement:{

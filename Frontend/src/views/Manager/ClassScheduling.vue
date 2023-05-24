@@ -101,7 +101,7 @@ export default {
             adminProcessTime: "",
             adminMessage: "",
             instructorID: 0,
-            semesterID: 0,
+            semesterID: this.$store.state.semester,
 
             handledState:""
 

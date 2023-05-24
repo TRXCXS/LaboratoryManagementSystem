@@ -84,7 +84,7 @@ export default {
             chooseSemester: "",
 
             addSemester: {
-                semesterID: 1,
+                semesterID: this.$store.state.semester,
                 firstHalfYear: "",
                 secondHalfYear: "",
                 season: "",
@@ -92,7 +92,7 @@ export default {
                 weekCount: 18,
             },
 
-            semesterID: "",
+            semesterID: this.$store.state.semester,
             firstHalfYear: "",
             secondHalfYear: "",
             season: "",
@@ -109,6 +109,17 @@ export default {
     },
     created() {
         this.load()
+        this.request.get("/semester/current").then(res => {
+            let temp = ""
+            let first = res.data.firstHalfYear
+            let second = res.data.secondHalfYear
+            if (res.data.season === "SPRING"){
+                temp = "2"
+            }else {
+                temp = "1"
+            }
+            this.currentSemester = first + "-" + second + "-" + temp
+        })
     },
     // 绑定监听事件
     mounted() {
@@ -134,11 +145,11 @@ export default {
                 for(let i = 0;i<res.data.length;i++){
                     let label =""
                     let value = ""
-                    if (res.data[i].season === "FALL"){
-                        label = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-2"
+                    if (res.data[i].season === "秋季"){
+                        label = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-1"
                         value = res.data[i].semesterID
                     }else {
-                        label = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-1"
+                        label = res.data[i].firstHalfYear+"-"+res.data[i].secondHalfYear+"-2"
                         value = res.data[i].semesterID
                     }
                     this.options.push({label:label,value:value})

@@ -158,7 +158,7 @@ export default {
                 adminMessage: "",
                 useCompleteTime: "",
                 labID: "",
-                semesterID: 0,
+                semesterID: this.$store.state.semester,
                 studentID: 0,
             },
 
@@ -169,7 +169,7 @@ export default {
                 slot: "",
                 reason: "",
                 labID: "",
-                semesterID: 1,
+                semesterID: this.$store.state.semester,
                 studentID: 0,
             },
 
@@ -180,7 +180,7 @@ export default {
                 slot: "",
                 reason: "",
                 labID: "",
-                semesterID: 1,
+                semesterID: this.$store.state.semester,
                 studentID: 0,
             },
 
@@ -195,7 +195,7 @@ export default {
             adminMessage: "",
             useCompleteTime: "",
             labID: "",
-            semesterID: 0,
+            semesterID: this.$store.state.semester,
             studentID: 0,
 
 
@@ -213,6 +213,7 @@ export default {
     created() {
         this.load()
         // this.form.app_name = this.user.username
+        // console.log(this.modifyRequest.semesterID)
     },
     methods: {
         load() {
