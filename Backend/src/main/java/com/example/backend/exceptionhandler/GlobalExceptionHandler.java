@@ -44,6 +44,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.TooManyListenersException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler
         extends ResponseEntityExceptionHandler {
@@ -171,7 +173,8 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(value = {
-            BatchImportUsersException.class
+            BatchImportUsersException.class,
+            TooManyListenersException.class
     })
     protected ResponseEntity<GeneralFormattedResponseBody<Object>>
     handleInternalServerError(RuntimeException ex, WebRequest request) {

@@ -122,4 +122,25 @@ public class LaboratoryController {
                 ))
                 .build();
     }
+
+    @GetMapping("/labnum-to-labid")
+    public GeneralFormattedResponseBody<Integer>
+    convertLabNumberToLabID(@RequestParam String labNumber) {
+        return GeneralFormattedResponseBody.<Integer>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(laboratoryService.convertLabNumberToLabID(labNumber))
+                .build();
+    }
+
+
+    @GetMapping("/all")
+    public GeneralFormattedResponseBody<List<Laboratory>>
+    getAllLaboratories() {
+        return GeneralFormattedResponseBody.<List<Laboratory>>builder()
+                .status(HttpStatus.OK.value())
+                .message("success")
+                .data(laboratoryService.getAllLaboratories())
+                .build();
+    }
 }
