@@ -17,7 +17,7 @@
             </el-table-column>
             <el-table-column label="维修结束时间" prop="repairEndTime">
             </el-table-column>
-            <el-table-column label="实验员信息" prop="technicianMessage">
+            <el-table-column label="实验员留言" prop="technicianMessage">
             </el-table-column>
             <el-table-column label="状态" prop="status" width="100px">
 <!--                <el-popover>-->
