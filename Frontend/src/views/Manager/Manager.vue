@@ -20,8 +20,11 @@
                     <el-form-item label="密码">
                         <el-input v-model="addUser.password"></el-input>
                     </el-form-item>
-                    <el-form-item label="用户职称">
-                        <el-input v-model="addUser.roleSpecificInfo.title" :disabled="titleDisabled"></el-input>
+                    <el-form-item label="实验员职称">
+                        <el-input v-model="addUser.roleSpecificInfo.technicianTitle" :disabled="titleDisabled"></el-input>
+                    </el-form-item>
+                    <el-form-item label="教师职称">
+                        <el-input v-model="addUser.roleSpecificInfo.instructorTitle" :disabled="titleDisabled"></el-input>
                     </el-form-item>
                     <el-form-item label="学生专业">
                         <el-input v-model="addUser.roleSpecificInfo.major" :disabled="majorDisabled"></el-input>

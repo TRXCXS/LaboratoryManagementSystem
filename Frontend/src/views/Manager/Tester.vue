@@ -56,15 +56,15 @@
             </el-table-column>
             <el-table-column align="center" label="操作" width="300px">
                 <template slot-scope="scope">
-                    <el-button style="margin-right: 5px" type="primary" @click="handleUpdate(scope.row.technicianID)">修改 <i
+                    <el-button style="margin-right: 5px" type="primary" @click="handleUpdate(scope.row.userID)">修改 <i
                             class="el-icon-edit"></i></el-button>
                     <el-popconfirm
                             title="是否确定重置密码？密码将被重置为“123456”"
-                            @confirm="reset(scope.row.technicianID)"
+                            @confirm="reset(scope.row.userID)"
                     >
                         <el-button slot="reference" type="warning">重置密码 <i class="el-icon-edit"></i></el-button>
                     </el-popconfirm>
-                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.technicianID)">删除 <i
+                    <el-button style="margin-left: 5px" type="danger" @click="del(scope.row.userID)">删除 <i
                             class="el-icon-remove-outline"></i></el-button>
                 </template>
             </el-table-column>
