@@ -198,6 +198,7 @@ export default {
             semesterID: this.$store.state.semester,
             studentID: 0,
 
+            tempLabNumber:"",
 
             formLabelWidth: '80px',
 
@@ -206,6 +207,10 @@ export default {
             dialogFormVisible1: false,
             multipleSelection: [],
             checkStatus:"",
+
+            temp:{
+                labID:3,
+            }
 
 
         }
@@ -307,32 +312,34 @@ export default {
             // this.addRequest = {}
         },
         save() {
-            // console.log(this.addRequest)
             this.addRequest.studentID = this.user.userID
             this.addRequest.semesterID = this.$store.state.semester
-
-            this.request.get(" /laboratory/labnum-to-labid", {
+            this.request.get("/laboratory/labnum-to-labid", {
                 params:{
                     labNumber:this.addRequest.labID
                 }
             }).then(res =>{
-                console.log(res)
+                console.log(res.data)
+                this.tempLabNumber = this.addRequest.labID
+                this.addRequest.labID = res.data
             }).catch(error => {
                 this.$message.error("申请失败!实验室不存在")
+            }).then(() =>{
+                this.request.post("/student-request",this.addRequest).then(res =>{
+                    console.log(res)
+                    if (res) {
+                        this.$message.success("申请成功")
+                        this.dialogFormVisible = false
+                        this.addRequest = {}
+                        this.load()
+                    } else {
+                        this.$message.error("申请失败")
+                    }
+                }).catch(error => {
+                    this.$message.error("申请失败!实验室不存在")
+                })
             })
-            // this.request.post("/student-request", this.addRequest).then(res =>{
-            //     console.log(res)
-            //     if (res) {
-            //         this.$message.success("申请成功")
-            //         this.dialogFormVisible = false
-            //         this.addRequest = {}
-            //         this.load()
-            //     } else {
-            //         this.$message.error("申请失败")
-            //     }
-            // }).catch(error => {
-            //     this.$message.error("申请失败!实验室不存在")
-            // })
+
         },
         save1() {
             if (this.status === "通过"){
@@ -345,17 +352,30 @@ export default {
                 this.modifyRequest.studentID = this.user.userID
                 this.modifyRequest.semesterID = this.$store.state.semester
                 console.log(this.modifyRequest)
-                this.request.put("/student-request", this.modifyRequest).then(res =>{
-                    console.log(res)
-                    if (res) {
-                        this.$message.success("修改成功")
-                        this.dialogFormVisible1 = false
-                        this.load()
-                    } else {
-                        this.$message.error("修改失败")
+
+                this.request.get("/laboratory/labnum-to-labid", {
+                    params:{
+                        labNumber:this.modifyRequest.labID
                     }
+                }).then(res =>{
+                    console.log(res.data)
+                    this.tempLabNumber = this.addRequest.labID
+                    this.modifyRequest.labID = res.data
                 }).catch(error => {
                     this.$message.error("修改失败!实验室不存在")
+                }).then(()=>{
+                    this.request.put("/student-request", this.modifyRequest).then(res =>{
+                        console.log(res)
+                        if (res) {
+                            this.$message.success("修改成功")
+                            this.dialogFormVisible1 = false
+                            this.load()
+                        } else {
+                            this.$message.error("修改失败")
+                        }
+                    }).catch(error => {
+                        this.$message.error("修改失败!实验室不存在")
+                    })
                 })
             }
 

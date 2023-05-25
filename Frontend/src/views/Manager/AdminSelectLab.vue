@@ -287,21 +287,32 @@ export default {
             // console.log(this.createLongArrangement)
             // console.log(this.BeingArrangedTableData[0])
             // console.log(name)
-            if (name === this.BeingArrangedTableData[0].labType && this.BeingArrangedTableData[0].studentCount === deviceCount){
-                this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
-                    if (res) {
-                        this.$message.success("排课成功")
-                        this.dialogFormVisible = false
-                        this.resetDialog()
-                        this.load()
-                        this.$router.push("/Management/classScheduling")
-                    } else {
-                        this.$message.error("排课失败")
-                    }
-                })
-            }else{
-                this.$message.error("排课失败,请检查排课")
-            }
+            this.$confirm('确认排课?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                if (name === this.BeingArrangedTableData[0].labType && this.BeingArrangedTableData[0].studentCount <= deviceCount){
+                    this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
+                        if (res) {
+                            this.$message.success("排课成功")
+                            this.dialogFormVisible = false
+                            this.resetDialog()
+                            this.load()
+                            this.$router.push("/Management/classScheduling")
+                        } else {
+                            this.$message.error("排课失败")
+                        }
+                    })
+                }else{
+                    this.$message.error("排课失败,请检查排课")
+                }
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
 
         },
         checkByTimeAndType(){

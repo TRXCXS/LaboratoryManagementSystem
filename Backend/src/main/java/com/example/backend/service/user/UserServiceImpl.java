@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (roles.contains(Role.ROLE_TECHNICIAN) && !roleSpecificInfo.containsKey("instructorTitle")) {
-            throw new NoTitleException("缺少title，无法创建！");
+            throw new NoTitleException("缺少instructorTitle，无法创建！");
         }
 
         if (roles.contains(Role.ROLE_STUDENT)) {
