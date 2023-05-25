@@ -18,7 +18,7 @@
             </el-table-column>
             <el-table-column label="申请节次" prop="slot" width="100px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="labID" >
+            <el-table-column label="申请实验室编号" prop="labNumber" >
             </el-table-column>
             <el-table-column label="申请原因" prop="reason" width="150px">
             </el-table-column>
