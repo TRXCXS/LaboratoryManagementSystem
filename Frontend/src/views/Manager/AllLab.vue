@@ -11,6 +11,8 @@
             </el-table-column>
             <el-table-column label="设备数量" prop="deviceCount">
             </el-table-column>
+            <el-table-column label="负责人" prop="technicians">
+            </el-table-column>
         </el-table>
     </div>
 </template>
@@ -31,6 +33,8 @@ export default {
 
             formLabelWidth: '80px',
 
+            technicians:"sss"
+
         }
     },
     created() {
@@ -39,6 +43,11 @@ export default {
     methods: {
         load() {
             this.request.get("/laboratory/all").then(res => {
+                for (let i = 0; i < res.data.length; i++) {
+                    if(res.data[i].technicians.length === 0){
+                        res.data[i].technicians.push("无")
+                    }
+                }
                 console.log(res)
                 this.tableData = res.data
             })
