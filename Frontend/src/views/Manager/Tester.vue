@@ -240,14 +240,12 @@ export default {
         save() {
             console.log(this.addUser)
             this.request.post("/user/technician",this.addUser).then(res => {
-                if (res) {
-                    this.$message.success("添加成功")
-                    this.dialogFormVisible = false
-                    this.resetDialog()
-                    this.load()
-                } else {
-                    this.$message.error("添加失败")
-                }
+                this.$message.success("添加成功")
+                this.dialogFormVisible = false
+                this.resetDialog()
+                this.load()
+            }).catch(res => {
+                this.$message.error(res.response.data.message)
             })
         },
         cancelAdd() {
