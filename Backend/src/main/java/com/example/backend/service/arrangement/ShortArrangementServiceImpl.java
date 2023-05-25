@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +48,7 @@ public class ShortArrangementServiceImpl implements ShortArrangementService {
         UpdateWrapper<StudentRequest> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("studentRequestID", newShortArrangement.getStudentRequestID());
         updateWrapper.set("status", StudentRequestStatus.APPROVED);
+        updateWrapper.set("adminProcessTime", new Timestamp(System.currentTimeMillis()));
         studentRequestMapper.update(null, updateWrapper);
     }
 
