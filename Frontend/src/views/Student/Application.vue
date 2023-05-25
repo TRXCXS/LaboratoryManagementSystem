@@ -366,6 +366,7 @@ export default {
                 this.tempDataAddRequest.labID = res.data
             }).catch(res => {
                 // this.$message.error(res.response.data.message)
+                this.tempDataAddRequest.labID = 0
             }).then(() =>{
                 this.request.post("/student-request",this.tempDataAddRequest).then(res =>{
                     console.log(res)
@@ -374,7 +375,11 @@ export default {
                     this.addRequest = {}
                     this.load()
                 }).catch(res => {
-                    this.$message.error(res.response.data.message)
+                    if(res.response.data.message === undefined){
+                        this.$message.error("实验室不存在！")
+                    }else {
+                        this.$message.error(res.response.data.message)
+                    }
                 })
             })
 
@@ -402,15 +407,20 @@ export default {
                     this.tempDataModifyRequest.labID = res.data
                 }).catch(error => {
                     // this.$message.error("修改失败!实验室不存在")
+                    this.tempDataModifyRequest.labID = -1
                 }).then(()=>{
-                    console.log(this.tempDataModifyRequest)
+                    console.log(this.tempDataModifyRequest,"222")
                     this.request.put("/student-request", this.tempDataModifyRequest).then(res =>{
                         console.log(res)
                         this.$message.success("修改成功")
                         this.dialogFormVisible1 = false
                         this.load()
                     }).catch(res => {
-                        this.$message.error(res.response.data.message)
+                        if(res.response.data.message === undefined){
+                            this.$message.error("实验室不存在！")
+                        }else {
+                            this.$message.error(res.response.data.message)
+                        }
                     })
                 })
             }
