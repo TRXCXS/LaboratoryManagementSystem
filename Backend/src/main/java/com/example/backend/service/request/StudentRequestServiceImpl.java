@@ -3,6 +3,7 @@ package com.example.backend.service.request;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.controller.requestbody.StudentRequestRequestBody;
+import com.example.backend.controller.responsebody.StudentRequestResponseData;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.exception.model.semesterException.SemesterIDNotMatchException;
 import com.example.backend.exception.model.semesterException.SemesterNotExistedException;
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +34,7 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     private final CurrentSemesterService currentSemesterService;
 
     @Override
-    public List<StudentRequest> getStudentRequestsByStudent(Integer studentID) {
+    public List<StudentRequestResponseData> getStudentRequestsByStudent(Integer studentID) {
         int semesterID = currentSemesterService.getCurrentSemester().getSemesterID();
 
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
@@ -145,7 +147,7 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     }
 
     @Override
-    public List<StudentRequest> getAllStudentRequests() {
+    public List<StudentRequestResponseData> getAllStudentRequests() {
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", currentSemesterService.getCurrentSemester().getSemesterID());
         List<StudentRequest> studentRequests = studentRequestMapper.selectList(queryWrapper);
@@ -153,7 +155,7 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     }
 
     @Override
-    public List<StudentRequest> getUnhandledStudentRequests() {
+    public List<StudentRequestResponseData> getUnhandledStudentRequests() {
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", currentSemesterService.getCurrentSemester().getSemesterID());
         queryWrapper.eq("status", StudentRequestStatus.NOT_VIEWED);

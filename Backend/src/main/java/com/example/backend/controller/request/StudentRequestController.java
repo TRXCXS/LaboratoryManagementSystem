@@ -2,6 +2,7 @@ package com.example.backend.controller.request;
 
 import com.example.backend.controller.requestbody.StudentRequestRequestBody;
 import com.example.backend.controller.responsebody.GeneralFormattedResponseBody;
+import com.example.backend.controller.responsebody.StudentRequestResponseData;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.service.request.StudentRequestService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,10 +22,10 @@ public class StudentRequestController {
 
     @Secured({"ROLE_STUDENT"})
     @GetMapping("/student")
-    public GeneralFormattedResponseBody<List<StudentRequest>>
+    public GeneralFormattedResponseBody<List<StudentRequestResponseData>>
     getStudentRequestsByStudent(@RequestParam Integer studentID) {
         return GeneralFormattedResponseBody
-                .<List<StudentRequest>>builder()
+                .<List<StudentRequestResponseData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(studentRequestService
@@ -82,10 +83,10 @@ public class StudentRequestController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/all")
-    public GeneralFormattedResponseBody<List<StudentRequest>>
+    public GeneralFormattedResponseBody<List<StudentRequestResponseData>>
     getAllStudentRequests() {
         return GeneralFormattedResponseBody
-                .<List<StudentRequest>>builder()
+                .<List<StudentRequestResponseData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(studentRequestService
@@ -95,10 +96,10 @@ public class StudentRequestController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/unhandled")
-    public GeneralFormattedResponseBody<List<StudentRequest>>
+    public GeneralFormattedResponseBody<List<StudentRequestResponseData>>
     getUnhandledStudentRequests() {
         return GeneralFormattedResponseBody
-                .<List<StudentRequest>>builder()
+                .<List<StudentRequestResponseData>>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(studentRequestService
