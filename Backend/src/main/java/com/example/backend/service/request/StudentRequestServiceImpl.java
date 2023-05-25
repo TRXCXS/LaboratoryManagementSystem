@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.backend.controller.requestbody.StudentRequestRequestBody;
 import com.example.backend.controller.responsebody.StudentRequestResponseData;
+import com.example.backend.entity.model.Laboratory;
 import com.example.backend.entity.request.StudentRequest;
 import com.example.backend.exception.model.semesterException.SemesterIDNotMatchException;
 import com.example.backend.exception.model.semesterException.SemesterNotExistedException;
@@ -12,6 +13,7 @@ import com.example.backend.exception.request.studentRequestException.AdminMessag
 import com.example.backend.exception.request.studentRequestException.StudentRequestHasExistedException;
 import com.example.backend.exception.request.studentRequestException.StudentRequestNotExistException;
 import com.example.backend.exception.user.studentException.StudentNotExistException;
+import com.example.backend.mapper.model.LaboratoryMapper;
 import com.example.backend.mapper.request.StudentRequestMapper;
 import com.example.backend.service.model.CurrentSemesterService;
 import com.example.backend.utils.enumClasses.requestStatus.StudentRequestStatus;
@@ -32,6 +34,7 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     private final IsEntityExists isEntityExists;
     private final ExceptionUtil exceptionUtil;
     private final CurrentSemesterService currentSemesterService;
+    private final LaboratoryMapper laboratoryMapper;
 
     @Override
     public List<StudentRequestResponseData> getStudentRequestsByStudent(Integer studentID) {
@@ -40,7 +43,37 @@ public class StudentRequestServiceImpl implements StudentRequestService {
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("studentID", studentID);
         queryWrapper.eq("semesterID", semesterID);
-        return studentRequestMapper.selectList(queryWrapper);
+
+        List<StudentRequest> studentRequestList=studentRequestMapper.selectList(queryWrapper);
+        List<StudentRequestResponseData> list=new ArrayList<>();
+
+        for (StudentRequest studentRequest:studentRequestList){
+            StudentRequestResponseData studentRequestResponseData=new StudentRequestResponseData();
+
+            studentRequestResponseData.setStudentRequestID(studentRequest.getStudentRequestID());
+
+            studentRequestResponseData.setWeek(studentRequest.getWeek());
+            studentRequestResponseData.setWeekday(studentRequest.getWeekday());
+            studentRequestResponseData.setSlot(studentRequest.getSlot());
+
+            studentRequestResponseData.setReason(studentRequest.getReason());
+            studentRequestResponseData.setRequestTime(studentRequest.getRequestTime());
+            studentRequestResponseData.setStatus(studentRequest.getStatus());
+
+            studentRequestResponseData.setAdminProcessTime(studentRequest.getAdminProcessTime());
+            studentRequestResponseData.setAdminMessage(studentRequest.getAdminMessage());
+            studentRequestResponseData.setUseCompleteTime(studentRequest.getUseCompleteTime());
+
+            Laboratory laboratory=laboratoryMapper.selectById(studentRequest.getLabID());
+
+            studentRequestResponseData.setLabNumber(laboratory.getLabNumber());
+            studentRequestResponseData.setSemesterID(studentRequest.getSemesterID());
+            studentRequestResponseData.setStudentID(studentRequest.getStudentID());
+
+            list.add(studentRequestResponseData);
+        }
+
+        return list;
     }
 
     @Override
@@ -150,8 +183,37 @@ public class StudentRequestServiceImpl implements StudentRequestService {
     public List<StudentRequestResponseData> getAllStudentRequests() {
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", currentSemesterService.getCurrentSemester().getSemesterID());
-        List<StudentRequest> studentRequests = studentRequestMapper.selectList(queryWrapper);
-        return studentRequests;
+
+        List<StudentRequest> studentRequestList=studentRequestMapper.selectList(queryWrapper);
+        List<StudentRequestResponseData> list=new ArrayList<>();
+
+        for (StudentRequest studentRequest:studentRequestList){
+            StudentRequestResponseData studentRequestResponseData=new StudentRequestResponseData();
+
+            studentRequestResponseData.setStudentRequestID(studentRequest.getStudentRequestID());
+
+            studentRequestResponseData.setWeek(studentRequest.getWeek());
+            studentRequestResponseData.setWeekday(studentRequest.getWeekday());
+            studentRequestResponseData.setSlot(studentRequest.getSlot());
+
+            studentRequestResponseData.setReason(studentRequest.getReason());
+            studentRequestResponseData.setRequestTime(studentRequest.getRequestTime());
+            studentRequestResponseData.setStatus(studentRequest.getStatus());
+
+            studentRequestResponseData.setAdminProcessTime(studentRequest.getAdminProcessTime());
+            studentRequestResponseData.setAdminMessage(studentRequest.getAdminMessage());
+            studentRequestResponseData.setUseCompleteTime(studentRequest.getUseCompleteTime());
+
+            Laboratory laboratory=laboratoryMapper.selectById(studentRequest.getLabID());
+
+            studentRequestResponseData.setLabNumber(laboratory.getLabNumber());
+            studentRequestResponseData.setSemesterID(studentRequest.getSemesterID());
+            studentRequestResponseData.setStudentID(studentRequest.getStudentID());
+
+            list.add(studentRequestResponseData);
+        }
+
+        return list;
     }
 
     @Override
@@ -159,8 +221,37 @@ public class StudentRequestServiceImpl implements StudentRequestService {
         QueryWrapper<StudentRequest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("semesterID", currentSemesterService.getCurrentSemester().getSemesterID());
         queryWrapper.eq("status", StudentRequestStatus.NOT_VIEWED);
-        List<StudentRequest> studentRequests = studentRequestMapper.selectList(queryWrapper);
-        return studentRequests;
+
+        List<StudentRequest> studentRequestList=studentRequestMapper.selectList(queryWrapper);
+        List<StudentRequestResponseData> list=new ArrayList<>();
+
+        for (StudentRequest studentRequest:studentRequestList){
+            StudentRequestResponseData studentRequestResponseData=new StudentRequestResponseData();
+
+            studentRequestResponseData.setStudentRequestID(studentRequest.getStudentRequestID());
+
+            studentRequestResponseData.setWeek(studentRequest.getWeek());
+            studentRequestResponseData.setWeekday(studentRequest.getWeekday());
+            studentRequestResponseData.setSlot(studentRequest.getSlot());
+
+            studentRequestResponseData.setReason(studentRequest.getReason());
+            studentRequestResponseData.setRequestTime(studentRequest.getRequestTime());
+            studentRequestResponseData.setStatus(studentRequest.getStatus());
+
+            studentRequestResponseData.setAdminProcessTime(studentRequest.getAdminProcessTime());
+            studentRequestResponseData.setAdminMessage(studentRequest.getAdminMessage());
+            studentRequestResponseData.setUseCompleteTime(studentRequest.getUseCompleteTime());
+
+            Laboratory laboratory=laboratoryMapper.selectById(studentRequest.getLabID());
+
+            studentRequestResponseData.setLabNumber(laboratory.getLabNumber());
+            studentRequestResponseData.setSemesterID(studentRequest.getSemesterID());
+            studentRequestResponseData.setStudentID(studentRequest.getStudentID());
+
+            list.add(studentRequestResponseData);
+        }
+
+        return list;
     }
 
     @Override
