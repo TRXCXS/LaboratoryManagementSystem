@@ -17,7 +17,7 @@
             </el-table-column>
             <el-table-column label="申请节次" prop="slot" width="80px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="labID" >
+            <el-table-column label="申请实验室门牌号" prop="labNumber" >
             </el-table-column>
             <el-table-column label="申请原因" prop="reason" width="150px">
             </el-table-column>
@@ -185,6 +185,17 @@ export default {
             },
 
             modifyRequest:{
+                studentRequestID: 2,
+                week: 0,
+                weekday: "",
+                slot: "",
+                reason: "",
+                labID: "",
+                semesterID: this.$store.state.semester,
+                studentID: 0,
+            },
+
+            tempDataModifyRequest:{
                 studentRequestID: 2,
                 week: 0,
                 weekday: "",
@@ -380,7 +391,7 @@ export default {
                     }
                 }).then(res =>{
                     console.log(res.data)
-                    this.tempLabNumber = this.addRequest.labID
+                    this.tempLabNumber = this.modifyRequest.labID
                     this.modifyRequest.labID = res.data
                 }).catch(error => {
                     this.$message.error("修改失败!实验室不存在")
@@ -432,7 +443,7 @@ export default {
                         this.modifyRequest.week = res.data[i].week
                         this.modifyRequest.slot = res.data[i].slot
                         this.modifyRequest.reason = res.data[i].reason
-                        this.modifyRequest.labID = res.data[i].labID
+                        this.modifyRequest.labID = res.data[i].labNumber
                         this.modifyRequest.studentRequestID = res.data[i].studentRequestID
                         this.modifyRequest.semesterID = res.data[i].semesterID
                         break
