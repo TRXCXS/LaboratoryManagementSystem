@@ -56,9 +56,11 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
         QueryWrapper<LongArrangement> queryWrapper = new QueryWrapper<>();
         queryWrapper.and(Wrapper -> Wrapper
-                .lt("startWeek", endWeek)
+                .le("startWeek", endWeek)
+                .ge("endWeek", endWeek)
                 .or()
-                .gt("endWeek", startWeek)
+                .le("startWeek", startWeek)
+                .ge("endWeek", startWeek)
                 .or()
                 .ge("startWeek", startWeek)
                 .le("endWeek", endWeek)
