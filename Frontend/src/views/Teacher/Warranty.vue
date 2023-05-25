@@ -84,18 +84,25 @@ export default {
                 status: "",
                 requestTime: "",
                 requestDescription: "",
-                repairRequestID: 1,
+                repairRequestID: 0,
                 repairEndTime: "",
-                labID: 1,
+                labID: 0,
                 repairStartTime: "",
                 technicianMessage: "",
-                instructorID: 1
+                instructorID: 0
             },
 
             addRepairRequest:{
                 repairRequestID: 0,
                 requestDescription: "",
-                instructorID: 1,
+                instructorID: 0,
+                labID: "",
+            },
+
+            tempDataAddRepairRequest:{
+                repairRequestID: 0,
+                requestDescription: "",
+                instructorID: 0,
                 labID: "",
             }
 
@@ -105,6 +112,12 @@ export default {
         this.load()
     },
     methods: {
+        setData() {
+            this.tempDataAddRepairRequest.repairRequestID = this.addRepairRequest.repairRequestID
+            this.tempDataAddRepairRequest.requestDescription = this.addRepairRequest.requestDescription
+            this.tempDataAddRepairRequest.instructorID = this.addRepairRequest.instructorID
+            this.tempDataAddRepairRequest.labID = this.addRepairRequest.labID
+        },
         load() {
             this.request.get("/repair-request/instructor",{
                 params:{
@@ -140,19 +153,18 @@ export default {
         save() {
             this.addRepairRequest.instructorID = this.user.userID
             console.log(this.addRepairRequest)
-
             this.request.get("/laboratory/labnum-to-labid", {
                 params:{
                     labNumber:this.addRepairRequest.labID
                 }
             }).then(res =>{
-                console.log(res.data)
+                this.setData()
                 this.tempLabNumber = this.addRepairRequest.labID
-                this.addRepairRequest.labID = res.data
+                this.tempDataAddRepairRequest.labID = res.data
             }).catch(error => {
                 this.$message.error("申请失败!实验室不存在或已处于维修状态")
             }).then(() =>{
-                this.request.post("/repair-request",this.addRepairRequest).then(res => {
+                this.request.post("/repair-request",this.tempDataAddRepairRequest).then(res => {
                     if (res) {
                         this.$message.success("申请成功")
                         this.dialogFormVisible = false

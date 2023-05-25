@@ -163,7 +163,18 @@ export default {
             },
 
             addRequest:{
-                studentRequestID: 2,
+                studentRequestID: 0,
+                week: 0,
+                weekday: "",
+                slot: "",
+                reason: "",
+                labID: "",
+                semesterID: this.$store.state.semester,
+                studentID: 0,
+            },
+
+            tempDataAddRequest:{
+                studentRequestID: 0,
                 week: 0,
                 weekday: "",
                 slot: "",
@@ -221,6 +232,16 @@ export default {
         // console.log(this.modifyRequest.semesterID)
     },
     methods: {
+        setData(){
+            this.tempDataAddRequest.studentRequestID = this.addRequest.studentRequestID
+            this.tempDataAddRequest.week = this.addRequest.week
+            this.tempDataAddRequest.weekday = this.addRequest.weekday
+            this.tempDataAddRequest.slot = this.addRequest.slot
+            this.tempDataAddRequest.reason = this.addRequest.reason
+            this.tempDataAddRequest.labID = this.addRequest.labID
+            this.tempDataAddRequest.semesterID = this.addRequest.semesterID
+            this.tempDataAddRequest.studentID = this.addRequest.studentID
+        },
         load() {
             this.request.get("/student-request/student",{
                 params:{
@@ -319,13 +340,13 @@ export default {
                     labNumber:this.addRequest.labID
                 }
             }).then(res =>{
-                console.log(res.data)
-                this.tempLabNumber = this.addRequest.labID
-                this.addRequest.labID = res.data
+                this.setData()
+                console.log(this.tempDataAddRequest)
+                this.tempDataAddRequest.labID = res.data
             }).catch(error => {
                 this.$message.error("申请失败!实验室不存在")
             }).then(() =>{
-                this.request.post("/student-request",this.addRequest).then(res =>{
+                this.request.post("/student-request",this.tempDataAddRequest).then(res =>{
                     console.log(res)
                     if (res) {
                         this.$message.success("申请成功")
