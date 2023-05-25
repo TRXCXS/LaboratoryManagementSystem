@@ -19,6 +19,7 @@ public interface CurrentSemesterService {
 
     /**
      * @param newCurrentSemesterID 想要设置为当前学期的学期的ID
+     * 会同时更新数据库记录和后端Bean
      */
     void setNewCurrentSemester(Integer newCurrentSemesterID);
 

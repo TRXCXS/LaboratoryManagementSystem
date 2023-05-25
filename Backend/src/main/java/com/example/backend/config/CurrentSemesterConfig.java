@@ -68,7 +68,7 @@ public class CurrentSemesterConfig {
                 currentSemesterMapper,
                 semesterMapper,
                 currentSemesterEndDate(),
-                queryID()
+                queryID()   // 静态数据，固定为1
         );
         return csService;
     }

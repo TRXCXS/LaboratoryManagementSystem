@@ -374,7 +374,8 @@ public class UserController {
     @GetMapping
     public GeneralFormattedResponseBody<UserData>
     getUserByID(@RequestParam Integer userID) {
-        return GeneralFormattedResponseBody.<UserData>builder()
+        return GeneralFormattedResponseBody
+                .<UserData>builder()
                 .status(HttpStatus.OK.value())
                 .message("success")
                 .data(userService.getUserByID(userID))
