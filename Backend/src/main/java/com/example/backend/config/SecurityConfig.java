@@ -54,6 +54,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/long-arrangement/table")
                 .permitAll()
+                .requestMatchers("/semester/current")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
