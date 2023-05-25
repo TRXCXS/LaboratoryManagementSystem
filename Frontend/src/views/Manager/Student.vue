@@ -68,10 +68,10 @@
                     <el-input v-model="addUser.roleSpecificInfo.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="登录ID">
-                    <el-input v-model.number="addUser.loginID" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model.number="addUser.password" autocomplete="off"></el-input>
+                    <el-input v-model="addUser.password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="专业">
                     <el-input v-model="addUser.roleSpecificInfo.major" autocomplete="off"></el-input>
@@ -93,7 +93,7 @@
                     <el-input v-model="modifyUser.roleSpecificInfo.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="登录ID">
-                    <el-input v-model.number="modifyUser.loginID" autocomplete="off"></el-input>
+                    <el-input v-model="modifyUser.loginID" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="专业">
                     <el-input v-model="modifyUser.roleSpecificInfo.major" autocomplete="off"></el-input>

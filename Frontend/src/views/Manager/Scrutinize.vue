@@ -28,8 +28,8 @@
 
             <el-table-column align="center" label="操作" width="190px">
                 <template slot-scope="scope">
-                    <el-button type="primary" @click="checkByTimeAndID(scope.row.weekday,scope.row.slot,scope.row.labID,scope.row.week,scope.row.status)" style="margin-bottom: 5px">查询可用实验室</el-button>
-                    <el-button type="success" @click="approve(scope.row.studentRequestID,scope.row.status,scope.row.labID,scope.row.weekday,scope.row.week,scope.row.slot)" style="margin-bottom: 5px">通过 <i class="el-icon-edit"></i>
+                    <el-button type="primary" @click="checkByTimeAndID(scope.row.weekday,scope.row.slot,scope.row.labNumber,scope.row.week,scope.row.status)" style="margin-bottom: 5px">查询可用实验室</el-button>
+                    <el-button type="success" @click="approve(scope.row.studentRequestID,scope.row.status,scope.row.labNumber,scope.row.weekday,scope.row.week,scope.row.slot)" style="margin-bottom: 5px" :disabled="passDisable">通过 <i class="el-icon-edit"></i>
                     </el-button>
                     <el-button type="danger" @click="disapprove(scope.row.studentRequestID,scope.row.status)">不通过 <i
                             class="el-icon-remove-outline"></i></el-button>
@@ -113,17 +113,34 @@ export default {
                 shortArrangementID: 0
             },
 
+            tempShortArrangement:{
+                slot: "",
+                studentRequestID: 0,
+                week: 0,
+                labID: 0,
+                weekday: "",
+                shortArrangementID: 0
+            },
+
             message:"",
-            disapproveID:-1
+            disapproveID:-1,
+            tempLabID:"",
 
-
-
+            passDisable:false,
         }
     },
     created() {
         this.load()
     },
     methods: {
+        setData(){
+            this.tempShortArrangement.slot = this.shortArrangement.slot
+            this.tempShortArrangement.studentRequestID = this.shortArrangement.studentRequestID
+            this.tempShortArrangement.week = this.shortArrangement.week
+            this.tempShortArrangement.labID = this.shortArrangement.labID
+            this.tempShortArrangement.weekday = this.shortArrangement.weekday
+            this.tempShortArrangement.shortArrangementID = this.shortArrangement.shortArrangementID
+        },
         resetDialog() {
             this.dialogFormVisible = false
             this.disapproveID = -1
@@ -287,17 +304,31 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    console.log(this.shortArrangement)
-                    this.request.post("/short-arrangement", this.shortArrangement).then(res=>{
-                        if (res) {
-                            this.$message({
-                                type: 'success',
-                                message: '已通过学生申请!'
-                            });
-                            this.load()
-                        } else {
-                            this.$message.error("处理失败")
+                    // console.log(this.shortArrangement)
+
+
+                    this.request.get("/laboratory/labnum-to-labid", {
+                        params:{
+                            labNumber:this.shortArrangement.labID
                         }
+                    }).then(res =>{
+                        console.log(res.data)
+                        this.setData()
+                        this.tempShortArrangement.labID = res.data
+                    }).catch(error => {
+                        // this.$message.error("修改失败!实验室不存在")
+                    }).then(()=>{
+                        this.request.post("/short-arrangement", this.tempShortArrangement).then(res=>{
+                            if (res) {
+                                this.$message({
+                                    type: 'success',
+                                    message: '已通过学生申请!'
+                                });
+                                this.load()
+                            } else {
+                                this.$message.error("处理失败")
+                            }
+                        })
                     })
                 }).catch(() => {
                     this.$message({
@@ -308,10 +339,6 @@ export default {
             }else {
                 this.$message.error("已经处理过啦！")
             }
-
-
-
-
         },
         disapprove(id,status) {
             if (status === "未审核"){
@@ -353,18 +380,33 @@ export default {
             }
             // console.log(weekday,slot,labID,week)
             if (status === "未审核"){
-                this.request.get("/laboratory/for-student-requests/time-and-id",{
+
+                this.request.get("/laboratory/labnum-to-labid", {
                     params:{
-                        weekday:weekday,
-                        slot:slot,
-                        labID:labID,
-                        week:week,
+                        labNumber:labID
                     }
-                }).then(res => {
-                    let temp = []
-                    temp.push(res.data)
-                    this.checkAvailableTableData = temp
-                    console.log(res)
+                }).then(res =>{
+                    console.log(res.data)
+                    this.tempLabID = res.data
+                }).catch(error => {
+                    // this.$message.error("修改失败!实验室不存在")
+                }).then(()=>{
+                    this.request.get("/laboratory/for-student-requests/time-and-id",{
+                        params:{
+                            weekday:weekday,
+                            slot:slot,
+                            labID:this.tempLabID,
+                            week:week,
+                        }
+                    }).then(res => {
+                        let temp = []
+                        temp.push(res.data)
+                        this.checkAvailableTableData = temp
+                        console.log(res)
+                        if (res.data === null){
+                            this.passDisable = true
+                        }
+                    })
                 })
             }else {
                 this.$message.error("已经处理过啦！")

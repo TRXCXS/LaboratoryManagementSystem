@@ -5,57 +5,58 @@
         </el-card>
         <span class="demonstration"></span>
 
+
         <el-table
-                :cell-class-name="setTextWeight"
-                :data="tableData"
-                :span-method="objectSpanMethod"
-                class="no-header-only"
+            :cell-class-name="setTextWeight"
+            :data="tableData"
+            :span-method="objectSpanMethod"
+            class="no-header-only"
         >
             <el-table-column align="center" :label="label">
                 <el-table-column
-                        align="center"
-                        lable=""
-                        prop="day"
+                    align="center"
+                    lable=""
+                    prop="day"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="实验室"
-                        prop="room"
+                    align="center"
+                    label="实验室"
+                    prop="room"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="机房"
-                        prop="room_num"
+                    align="center"
+                    label="机房"
+                    prop="room_num"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="1-2"
-                        prop="section1_2"
+                    align="center"
+                    label="1-2"
+                    prop="section1_2"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="3-5"
-                        prop="section3_5"
+                    align="center"
+                    label="3-5"
+                    prop="section3_5"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="6-7"
-                        prop="section6_7"
+                    align="center"
+                    label="6-7"
+                    prop="section6_7"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="8-9"
-                        prop="section8_9"
+                    align="center"
+                    label="8-9"
+                    prop="section8_9"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="10-12"
-                        prop="section10_12"
+                    align="center"
+                    label="10-12"
+                    prop="section10_12"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        label="13-15"
-                        prop="section13_15"
+                    align="center"
+                    label="13-15"
+                    prop="section13_15"
                 ></el-table-column>
             </el-table-column>
         </el-table>
@@ -68,7 +69,8 @@ export default {
     name: "Home",
     data() {
         return {
-            label:"",
+            label:"??",
+
             // section的空格不能删！！用来区分每个单元格，全是一样的话他会自动合并
 
             tableData: [
@@ -76,7 +78,7 @@ export default {
                     day: "星期一",
                     room: "软件实验室",
                     room_num: 732,
-                    section1_2: "",
+                    section1_2: " ",
                     section3_5: "",
                     section6_7: "",
                     section8_9: "",
@@ -1676,7 +1678,7 @@ export default {
                     section6_7: "                    ",
                     section8_9: "                    ",
                     section10_12: "                    ",
-                    section13_15: "                     ",
+                    section13_15: "                    ",
                 },
                 {
                     day: "星期日",
@@ -1751,7 +1753,6 @@ export default {
             this.label = first + "-" + second + "-" + temp +"实验排课表"
             this.$store.state.semester = res.data.semesterID
         })
-        console.log(this.label)
     },
     mounted() {
         this.getSpanArr(this.tableData);
@@ -1762,7 +1763,7 @@ export default {
                 for (let i = 0; i < res.data.length; i++) {
                     if(res.data[i].slot === "ONE_TO_TWO"){
                         res.data[i].slot = "1-2"
-                    }else if (res.data[i].slot === "THERE_TO_FIVE"){
+                    }else if (res.data[i].slot === "THREE_TO_FIVE"){
                         res.data[i].slot = "3-5"
                     }else if (res.data[i].slot === "SIX_TO_SEVEN"){
                         res.data[i].slot = "6-7"

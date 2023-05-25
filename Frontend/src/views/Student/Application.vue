@@ -253,6 +253,16 @@ export default {
             this.tempDataAddRequest.semesterID = this.addRequest.semesterID
             this.tempDataAddRequest.studentID = this.addRequest.studentID
         },
+        setModifyData(){
+            this.tempDataModifyRequest.studentRequestID = this.modifyRequest.studentRequestID
+            this.tempDataModifyRequest.week = this.modifyRequest.week
+            this.tempDataModifyRequest.weekday = this.modifyRequest.weekday
+            this.tempDataModifyRequest.slot = this.modifyRequest.slot
+            this.tempDataModifyRequest.reason = this.modifyRequest.reason
+            this.tempDataModifyRequest.labID = this.modifyRequest.labID
+            this.tempDataModifyRequest.semesterID = this.modifyRequest.semesterID
+            this.tempDataModifyRequest.studentID = this.modifyRequest.studentID
+        },
         load() {
             this.request.get("/student-request/student",{
                 params:{
@@ -383,7 +393,7 @@ export default {
             }else {
                 this.modifyRequest.studentID = this.user.userID
                 this.modifyRequest.semesterID = this.$store.state.semester
-                console.log(this.modifyRequest)
+                // console.log(this.modifyRequest)
 
                 this.request.get("/laboratory/labnum-to-labid", {
                     params:{
@@ -392,19 +402,17 @@ export default {
                 }).then(res =>{
                     console.log(res.data)
                     this.tempLabNumber = this.modifyRequest.labID
-                    this.modifyRequest.labID = res.data
+                    this.setModifyData()
+                    this.tempDataModifyRequest.labID = res.data
                 }).catch(error => {
-                    this.$message.error("修改失败!实验室不存在")
+                    // this.$message.error("修改失败!实验室不存在")
                 }).then(()=>{
-                    this.request.put("/student-request", this.modifyRequest).then(res =>{
+                    console.log(this.tempDataModifyRequest)
+                    this.request.put("/student-request", this.tempDataModifyRequest).then(res =>{
                         console.log(res)
-                        if (res) {
-                            this.$message.success("修改成功")
-                            this.dialogFormVisible1 = false
-                            this.load()
-                        } else {
-                            this.$message.error("修改失败")
-                        }
+                        this.$message.success("修改成功")
+                        this.dialogFormVisible1 = false
+                        this.load()
                     }).catch(error => {
                         this.$message.error("修改失败!实验室不存在")
                     })
