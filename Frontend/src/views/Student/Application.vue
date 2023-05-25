@@ -17,7 +17,7 @@
             </el-table-column>
             <el-table-column label="申请节次" prop="slot" width="80px">
             </el-table-column>
-            <el-table-column label="申请实验室编号" prop="labNumber" >
+            <el-table-column label="申请实验室编号" prop="labID" >
             </el-table-column>
             <el-table-column label="申请原因" prop="reason" width="150px">
             </el-table-column>
@@ -352,17 +352,30 @@ export default {
                 this.modifyRequest.studentID = this.user.userID
                 this.modifyRequest.semesterID = this.$store.state.semester
                 console.log(this.modifyRequest)
-                this.request.put("/student-request", this.modifyRequest).then(res =>{
-                    console.log(res)
-                    if (res) {
-                        this.$message.success("修改成功")
-                        this.dialogFormVisible1 = false
-                        this.load()
-                    } else {
-                        this.$message.error("修改失败")
+
+                this.request.get("/laboratory/labnum-to-labid", {
+                    params:{
+                        labNumber:this.modifyRequest.labID
                     }
+                }).then(res =>{
+                    console.log(res.data)
+                    this.tempLabNumber = this.addRequest.labID
+                    this.modifyRequest.labID = res.data
                 }).catch(error => {
                     this.$message.error("修改失败!实验室不存在")
+                }).then(()=>{
+                    this.request.put("/student-request", this.modifyRequest).then(res =>{
+                        console.log(res)
+                        if (res) {
+                            this.$message.success("修改成功")
+                            this.dialogFormVisible1 = false
+                            this.load()
+                        } else {
+                            this.$message.error("修改失败")
+                        }
+                    }).catch(error => {
+                        this.$message.error("修改失败!实验室不存在")
+                    })
                 })
             }
 

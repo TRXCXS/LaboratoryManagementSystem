@@ -11,7 +11,7 @@
                 :span-method="objectSpanMethod"
                 class="no-header-only"
         >
-            <el-table-column align="center" label="2022-2023-2 实验室排课表">
+            <el-table-column align="center" :label="label">
                 <el-table-column
                         align="center"
                         lable=""
@@ -68,6 +68,7 @@ export default {
     name: "Home",
     data() {
         return {
+            label:"",
             // section的空格不能删！！用来区分每个单元格，全是一样的话他会自动合并
 
             tableData: [
@@ -1738,6 +1739,19 @@ export default {
     },
     created() {
         this.load()
+        this.request.get("/semester/current").then(res => {
+            let temp = ""
+            let first = res.data.firstHalfYear
+            let second = res.data.secondHalfYear
+            if (res.data.season === "SPRING"){
+                temp = "2"
+            }else {
+                temp = "1"
+            }
+            this.label = first + "-" + second + "-" + temp +"实验排课表"
+            this.$store.state.semester = res.data.semesterID
+        })
+        console.log(this.label)
     },
     mounted() {
         this.getSpanArr(this.tableData);

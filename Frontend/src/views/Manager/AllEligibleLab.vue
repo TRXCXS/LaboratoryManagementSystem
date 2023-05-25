@@ -270,17 +270,29 @@ export default {
             this.createLongArrangement.labID = labID
             console.log(this.createLongArrangement)
             console.log(this.BeingArrangedTableData)
-            this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
-                if (res) {
-                    this.$message.success("排课成功")
-                    this.dialogFormVisible = false
-                    this.resetDialog()
-                    this.load()
-                    this.$router.push("/Management/classScheduling")
-                } else {
-                    this.$message.error("排课失败")
-                }
-            })
+
+            this.$confirm('确认排课?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.request.post("/long-arrangement",this.createLongArrangement).then(res => {
+                    if (res) {
+                        this.$message.success("排课成功")
+                        this.dialogFormVisible = false
+                        this.resetDialog()
+                        this.load()
+                        this.$router.push("/Management/classScheduling")
+                    } else {
+                        this.$message.error("排课失败")
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
         },
     }
 }

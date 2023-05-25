@@ -79,6 +79,7 @@ export default {
             dialogFormVisible: false,
             multipleSelection: [],
             user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
+            tempLabNumber:"",
             repair:{
                 status: "",
                 requestTime: "",
@@ -139,19 +140,34 @@ export default {
         save() {
             this.addRepairRequest.instructorID = this.user.userID
             console.log(this.addRepairRequest)
-            this.request.post("/repair-request",this.addRepairRequest).then(res => {
-                if (res) {
-                    this.$message.success("申请成功")
-                    this.dialogFormVisible = false
-                    this.resetDialog()
-                    this.load()
-                } else {
-                    this.$message.error("申请失败")
+
+            this.request.get("/laboratory/labnum-to-labid", {
+                params:{
+                    labNumber:this.addRepairRequest.labID
                 }
+            }).then(res =>{
+                console.log(res.data)
+                this.tempLabNumber = this.addRepairRequest.labID
+                this.addRepairRequest.labID = res.data
             }).catch(error => {
-                // console.log(error)
-                this.$message.error("实验室编号不存在！")
+                this.$message.error("申请失败!实验室不存在或已处于维修状态")
+            }).then(() =>{
+                this.request.post("/repair-request",this.addRepairRequest).then(res => {
+                    if (res) {
+                        this.$message.success("申请成功")
+                        this.dialogFormVisible = false
+                        this.resetDialog()
+                        this.load()
+                    } else {
+                        this.$message.error("申请失败")
+                    }
+                }).catch(error => {
+                    // console.log(error)
+                    this.$message.error("实验室不存在或已处于维修状态！")
+                })
             })
+
+
         },
         del(id) {
             console.log(id)
